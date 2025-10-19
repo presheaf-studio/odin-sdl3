@@ -5,6 +5,8 @@ import SDL "vendor:sdl3"
 
 when ODIN_OS == .Windows {
 	foreign import lib "SDL3_image.lib"
+} else when ODIN_OS == .Darwin {
+	foreign import lib "SDL3_image.a"
 } else {
 	foreign import lib "system:SDL3_image"
 }
