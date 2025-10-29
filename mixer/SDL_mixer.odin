@@ -1,5 +1,5 @@
 /*
-SDL_mixer: An audio mixer library based on the SDL library
+sdl_mixer: An audio mixer library based on the sdl library
 Copyright (C) 1997-2025 Sam Lantinga <slouken@libsdl.org>
 
 This software is provided 'as-is', without any express or implied
@@ -18,11 +18,11 @@ appreciated but is not required.
 misrepresented as being the original software.
 3. This notice may not be removed or altered from any source distribution.
 */
-/* WIKI CATEGORY: SDLMixer */
+/* WIKI CATEGORY: sdlMixer */
 /**
-* # CategorySDLMixer
+* # CategorysdlMixer
 *
-* SDL_mixer is a library to make complicated audio processing tasks easier.
+* sdl_mixer is a library to make complicated audio processing tasks easier.
 *
 * It offers audio file decoding, mixing multiple sounds together, basic 3D
 * positional audio, and various audio effects.
@@ -38,7 +38,7 @@ misrepresented as being the original software.
 * MIX_LoadAudio_IO(), or MIX_LoadAudioWithProperties(). Data gets loaded once
 * and can be played over and over.
 *
-* When loading audio, SDL_mixer can parse out several metadata tag formats,
+* When loading audio, sdl_mixer can parse out several metadata tag formats,
 * such as ID3 and APE tags, and exposes this information through the
 * MIX_GetAudioProperties() function.
 *
@@ -48,9 +48,9 @@ misrepresented as being the original software.
 * audio files, but you probably only have a handful of tracks that you assign
 * those loaded files to when they are ready to play, and reuse those tracks
 * with different audio later. Tracks take their input from a MIX_Audio
-* (static data to be played multiple times) or an SDL.AudioStream (streaming
+* (static data to be played multiple times) or an sdl.AudioStream (streaming
 * PCM audio the app supplies, possibly as needed). A third option is to
-* supply an SDL.IOStream, to load and decode on the fly, which might be more
+* supply an sdl.IOStream, to load and decode on the fly, which might be more
 * efficient for background music that is only used once, etc.
 *
 * Assign input to a MIX_Track with MIX_SetTrackAudio(),
@@ -76,8 +76,8 @@ misrepresented as being the original software.
 * other tracks. All of this is optional, but allows for powerful access and
 * control of the mixing process.
 *
-* SDL_mixer can also be used for decoding audio files without actually
-* rendering a mix. This is done with MIX_AudioDecoder. Even though SDL_mixer
+* sdl_mixer can also be used for decoding audio files without actually
+* rendering a mix. This is done with MIX_AudioDecoder. Even though sdl_mixer
 * handles decoding transparently when used as the audio engine for an app,
 * and probably won't need this interface in that normal scenario, this can be
 * useful when using a different audio library to access many file formats.
@@ -89,9 +89,9 @@ misrepresented as being the original software.
 * can also be applied per-track, to change what speaker a given channel of
 * audio is output to.
 *
-* Almost all timing in SDL_mixer is in _sample frames_. Stereo PCM audio data
+* Almost all timing in sdl_mixer is in _sample frames_. Stereo PCM audio data
 * in Sint16 format takes 4 bytes per sample frame (2 bytes per sample times 2
-* channels), for example. This allows everything in SDL_mixer to run at
+* channels), for example. This allows everything in sdl_mixer to run at
 * sample-perfect accuracy, and it lets it run without concern for wall clock
 * time--you can produce audio faster than real-time, if desired. The problem,
 * though, is different pieces of audio at different _sample rates_ will
@@ -101,14 +101,14 @@ misrepresented as being the original software.
 * once will deal with time in milliseconds, so it can do these conversions
 * internally; be sure to read the documentation for these small quirks!
 *
-* SDL_mixer offers basic positional audio: a simple 3D positioning API
+* sdl_mixer offers basic positional audio: a simple 3D positioning API
 * through MIX_SetTrack3DPosition() and MIX_SetTrackStereo(). The former will
 * do simple distance attenuation and spatialization--on a stereo setup, you
 * will hear sounds move from left to right--and on a surround-sound
 * configuration, individual tracks can move around the user. The latter,
 * MIX_SetTrackStereo(), will force a sound to the Front Left and Front Right
 * speakers and let the app pan it left and right as desired. Either effect
-* can be useful for different situations. SDL_mixer is not meant to be a full
+* can be useful for different situations. sdl_mixer is not meant to be a full
 * 3D audio engine, but rather Good Enough for many purposes; if something
 * more powerful in terms of 3D audio is needed, consider a proper 3D library
 * like OpenAL.
@@ -120,66 +120,62 @@ import "core:c"
 _ :: c
 
 when ODIN_OS == .Windows {
-	foreign import lib "SDL3_mixer.lib"
+    foreign import lib "sdl3_mixer.lib"
 } else when ODIN_OS == .Darwin {
-	  foreign import lib "SDL3_mixer.a"
+    foreign import lib "sdl3_mixer.darwin.a"
 } else {
-	  foreign import lib "system:SDL3_mixer"
+    foreign import lib "system:sdl3_mixer"
 }
 
-import SDL "../"
+import sdl "../"
 
-Mixer :: struct {
-}
+Mixer :: struct {}
 
-Audio :: struct {
-}
+Audio :: struct {}
 
-Track :: struct {
-}
+Track :: struct {}
 
-Group :: struct {
-}
+Group :: struct {}
 
-SDL_MIXER_MAJOR_VERSION   :: 3
+sdl_MIXER_MAJOR_VERSION :: 3
 
-SDL_MIXER_MINOR_VERSION   :: 1
+sdl_MIXER_MINOR_VERSION :: 1
 
-SDL_MIXER_MICRO_VERSION   :: 0
+sdl_MIXER_MICRO_VERSION :: 0
 
-SDL_MIXER_VERSION :: (SDL_MIXER_MAJOR_VERSION) * 1000000 + (SDL_MIXER_MINOR_VERSION) * 1000 + (SDL_MIXER_MICRO_VERSION)
+sdl_MIXER_VERSION :: (sdl_MIXER_MAJOR_VERSION) * 1000000 + (sdl_MIXER_MINOR_VERSION) * 1000 + (sdl_MIXER_MICRO_VERSION)
 
-PROP_AUDIO_LOAD_IOSTREAM_POINTER :: "SDL_mixer.audio.load.iostream"
-PROP_AUDIO_LOAD_CLOSEIO_BOOLEAN :: "SDL_mixer.audio.load.closeio"
-PROP_AUDIO_LOAD_PREDECODE_BOOLEAN :: "SDL_mixer.audio.load.predecode"
-PROP_AUDIO_LOAD_PREFERRED_MIXER_POINTER :: "SDL_mixer.audio.load.preferred_mixer"
-PROP_AUDIO_LOAD_SKIP_METADATA_TAGS_BOOLEAN :: "SDL_mixer.audio.load.skip_metadata_tags"
-PROP_AUDIO_DECODER_STRING :: "SDL_mixer.audio.decoder"
+PROP_AUDIO_LOAD_IOSTREAM_POINTER :: "sdl_mixer.audio.load.iostream"
+PROP_AUDIO_LOAD_CLOSEIO_BOOLEAN :: "sdl_mixer.audio.load.closeio"
+PROP_AUDIO_LOAD_PREDECODE_BOOLEAN :: "sdl_mixer.audio.load.predecode"
+PROP_AUDIO_LOAD_PREFERRED_MIXER_POINTER :: "sdl_mixer.audio.load.preferred_mixer"
+PROP_AUDIO_LOAD_SKIP_METADATA_TAGS_BOOLEAN :: "sdl_mixer.audio.load.skip_metadata_tags"
+PROP_AUDIO_DECODER_STRING :: "sdl_mixer.audio.decoder"
 
-PROP_METADATA_TITLE_STRING :: "SDL_mixer.metadata.title"
-PROP_METADATA_ARTIST_STRING :: "SDL_mixer.metadata.artist"
-PROP_METADATA_ALBUM_STRING :: "SDL_mixer.metadata.album"
-PROP_METADATA_COPYRIGHT_STRING :: "SDL_mixer.metadata.copyright"
-PROP_METADATA_TRACK_NUMBER :: "SDL_mixer.metadata.track"
-PROP_METADATA_TOTAL_TRACKS_NUMBER :: "SDL_mixer.metadata.total_tracks"
-PROP_METADATA_YEAR_NUMBER :: "SDL_mixer.metadata.year"
-PROP_METADATA_DURATION_FRAMES_NUMBER :: "SDL_mixer.metadata.duration_frames"
-PROP_METADATA_DURATION_INFINITE_BOOLEAN :: "SDL_mixer.metadata.duration_infinite"
+PROP_METADATA_TITLE_STRING :: "sdl_mixer.metadata.title"
+PROP_METADATA_ARTIST_STRING :: "sdl_mixer.metadata.artist"
+PROP_METADATA_ALBUM_STRING :: "sdl_mixer.metadata.album"
+PROP_METADATA_COPYRIGHT_STRING :: "sdl_mixer.metadata.copyright"
+PROP_METADATA_TRACK_NUMBER :: "sdl_mixer.metadata.track"
+PROP_METADATA_TOTAL_TRACKS_NUMBER :: "sdl_mixer.metadata.total_tracks"
+PROP_METADATA_YEAR_NUMBER :: "sdl_mixer.metadata.year"
+PROP_METADATA_DURATION_FRAMES_NUMBER :: "sdl_mixer.metadata.duration_frames"
+PROP_METADATA_DURATION_INFINITE_BOOLEAN :: "sdl_mixer.metadata.duration_infinite"
 
 DURATION_UNKNOWN :: -1
 DURATION_INFINITE :: -2
 
-PROP_PLAY_LOOPS_NUMBER :: "SDL_mixer.play.loops"
-PROP_PLAY_MAX_FRAME_NUMBER :: "SDL_mixer.play.max_frame"
-PROP_PLAY_MAX_MILLISECONDS_NUMBER :: "SDL_mixer.play.max_milliseconds"
-PROP_PLAY_START_FRAME_NUMBER :: "SDL_mixer.play.start_frame"
-PROP_PLAY_START_MILLISECOND_NUMBER :: "SDL_mixer.play.start_millisecond"
-PROP_PLAY_LOOP_START_FRAME_NUMBER :: "SDL_mixer.play.loop_start_frame"
-PROP_PLAY_LOOP_START_MILLISECOND_NUMBER :: "SDL_mixer.play.loop_start_millisecond"
-PROP_PLAY_FADE_IN_FRAMES_NUMBER :: "SDL_mixer.play.fade_in_frames"
-PROP_PLAY_FADE_IN_MILLISECONDS_NUMBER :: "SDL_mixer.play.fade_in_milliseconds"
-PROP_PLAY_APPEND_SILENCE_FRAMES_NUMBER :: "SDL_mixer.play.append_silence_frames"
-PROP_PLAY_APPEND_SILENCE_MILLISECONDS_NUMBER :: "SDL_mixer.play.append_silence_milliseconds"
+PROP_PLAY_LOOPS_NUMBER :: "sdl_mixer.play.loops"
+PROP_PLAY_MAX_FRAME_NUMBER :: "sdl_mixer.play.max_frame"
+PROP_PLAY_MAX_MILLISECONDS_NUMBER :: "sdl_mixer.play.max_milliseconds"
+PROP_PLAY_START_FRAME_NUMBER :: "sdl_mixer.play.start_frame"
+PROP_PLAY_START_MILLISECOND_NUMBER :: "sdl_mixer.play.start_millisecond"
+PROP_PLAY_LOOP_START_FRAME_NUMBER :: "sdl_mixer.play.loop_start_frame"
+PROP_PLAY_LOOP_START_MILLISECOND_NUMBER :: "sdl_mixer.play.loop_start_millisecond"
+PROP_PLAY_FADE_IN_FRAMES_NUMBER :: "sdl_mixer.play.fade_in_frames"
+PROP_PLAY_FADE_IN_MILLISECONDS_NUMBER :: "sdl_mixer.play.fade_in_milliseconds"
+PROP_PLAY_APPEND_SILENCE_FRAMES_NUMBER :: "sdl_mixer.play.append_silence_frames"
+PROP_PLAY_APPEND_SILENCE_MILLISECONDS_NUMBER :: "sdl_mixer.play.append_silence_milliseconds"
 
 /**
 * A set of per-channel gains for tracks using MIX_SetTrackStereo().
@@ -193,13 +189,13 @@ PROP_PLAY_APPEND_SILENCE_MILLISECONDS_NUMBER :: "SDL_mixer.play.append_silence_m
 * A simple panning effect would be to set `left` to the desired value and
 * `right` to `1.0f - left`.
 *
-* \since This struct is available since SDL_mixer 3.0.0.
+* \since This struct is available since sdl_mixer 3.0.0.
 *
 * \sa MIX_SetTrackStereo
 */
 StereoGains :: struct {
-	left:  f32, /**< left channel gain */
-	right: f32, /**< right channel gain */
+    left:  f32, /**< left channel gain */
+    right: f32, /**< right channel gain */
 }
 
 /**
@@ -208,14 +204,14 @@ StereoGains :: struct {
 * The coordinates use a "right-handed" coordinate system, like OpenGL and
 * OpenAL.
 *
-* \since This struct is available since SDL_mixer 3.0.0.
+* \since This struct is available since sdl_mixer 3.0.0.
 *
 * \sa MIX_SetTrack3DPosition
 */
 Point3D :: struct {
-	x: f32, /**< X coordinate (negative left, positive right). */
-	y: f32, /**< Y coordinate (negative down, positive up). */
-	z: f32, /**< Z coordinate (negative forward, positive back). */
+    x: f32, /**< X coordinate (negative left, positive right). */
+    y: f32, /**< Y coordinate (negative down, positive up). */
+    z: f32, /**< Z coordinate (negative forward, positive back). */
 }
 
 /**
@@ -235,11 +231,11 @@ Point3D :: struct {
 * \param userdata an opaque pointer provided by the app for its personal use.
 * \param track the track that has stopped.
 *
-* \since This datatype is available since SDL_mixer 3.0.0.
+* \since This datatype is available since sdl_mixer 3.0.0.
 *
 * \sa MIX_SetTrackStoppedCallback
 */
-TrackStoppedCallback :: proc "c" (rawptr, ^Track)
+TrackStoppedCallback :: proc "c" (_: rawptr, _: ^Track)
 
 /**
 * A callback that fires when a MIX_Track is mixing at various stages.
@@ -253,9 +249,9 @@ TrackStoppedCallback :: proc "c" (rawptr, ^Track)
 * propagate through the mixing pipeline.
 *
 * An audiospec is provided. Different tracks might be in different formats,
-* and an app needs to be able to handle that, but SDL_mixer always does its
+* and an app needs to be able to handle that, but sdl_mixer always does its
 * mixing work in 32-bit float samples, even if the inputs or final output are
-* not floating point. As such, `spec->format` will always be `SDL_AUDIO_F32`
+* not floating point. As such, `spec->format` will always be `sdl_AUDIO_F32`
 * and `pcm` hardcoded to be a float pointer.
 *
 * `samples` is the number of float values pointed to by `pcm`: samples, not
@@ -272,12 +268,12 @@ TrackStoppedCallback :: proc "c" (rawptr, ^Track)
 * \param pcm the raw PCM data in float32 format.
 * \param samples the number of float values pointed to by `pcm`.
 *
-* \since This datatype is available since SDL_mixer 3.0.0.
+* \since This datatype is available since sdl_mixer 3.0.0.
 *
 * \sa MIX_SetTrackRawCallback
 * \sa MIX_SetTrackCookedCallback
 */
-TrackMixCallback :: proc "c" (rawptr, ^Track, ^SDL.AudioSpec, ^f32, i32)
+TrackMixCallback :: proc "c" (_: rawptr, _: ^Track, _: ^sdl.AudioSpec, _: ^f32, _: i32)
 
 /**
 * A callback that fires when a MIX_Group has completed mixing.
@@ -291,9 +287,9 @@ TrackMixCallback :: proc "c" (rawptr, ^Track, ^SDL.AudioSpec, ^f32, i32)
 * propagate through the mixing pipeline.
 *
 * An audiospec is provided. Different groups might be in different formats,
-* and an app needs to be able to handle that, but SDL_mixer always does its
+* and an app needs to be able to handle that, but sdl_mixer always does its
 * mixing work in 32-bit float samples, even if the inputs or final output are
-* not floating point. As such, `spec->format` will always be `SDL_AUDIO_F32`
+* not floating point. As such, `spec->format` will always be `sdl_AUDIO_F32`
 * and `pcm` hardcoded to be a float pointer.
 *
 * `samples` is the number of float values pointed to by `pcm`: samples, not
@@ -307,11 +303,11 @@ TrackMixCallback :: proc "c" (rawptr, ^Track, ^SDL.AudioSpec, ^f32, i32)
 * \param pcm the raw PCM data in float32 format.
 * \param samples the number of float values pointed to by `pcm`.
 *
-* \since This datatype is available since SDL_mixer 3.0.0.
+* \since This datatype is available since sdl_mixer 3.0.0.
 *
 * \sa MIX_SetGroupPostMixCallback
 */
-GroupMixCallback :: proc "c" (rawptr, ^Group, ^SDL.AudioSpec, ^f32, i32)
+GroupMixCallback :: proc "c" (_: rawptr, _: ^Group, _: ^sdl.AudioSpec, _: ^f32, _: i32)
 
 /**
 * A callback that fires when all mixing has completed.
@@ -327,9 +323,9 @@ GroupMixCallback :: proc "c" (rawptr, ^Group, ^SDL.AudioSpec, ^f32, i32)
 * permitted to change it in any way it likes, and those changes will replace
 * the final mixer pipeline output.
 *
-* An audiospec is provided. SDL_mixer always does its mixing work in 32-bit
+* An audiospec is provided. sdl_mixer always does its mixing work in 32-bit
 * float samples, even if the inputs or final output are not floating point.
-* As such, `spec->format` will always be `SDL_AUDIO_F32` and `pcm` hardcoded
+* As such, `spec->format` will always be `sdl_AUDIO_F32` and `pcm` hardcoded
 * to be a float pointer.
 *
 * `samples` is the number of float values pointed to by `pcm`: samples, not
@@ -343,57 +339,56 @@ GroupMixCallback :: proc "c" (rawptr, ^Group, ^SDL.AudioSpec, ^f32, i32)
 * \param pcm the raw PCM data in float32 format.
 * \param samples the number of float values pointed to by `pcm`.
 *
-* \since This datatype is available since SDL_mixer 3.0.0.
+* \since This datatype is available since sdl_mixer 3.0.0.
 *
 * \sa MIX_SetPostMixCallback
 */
-PostMixCallback :: proc "c" (rawptr, ^Mixer, ^SDL.AudioSpec, ^f32, i32)
+PostMixCallback :: proc "c" (_: rawptr, _: ^Mixer, _: ^sdl.AudioSpec, _: ^f32, _: i32)
 
-AudioDecoder :: struct {
-}
+AudioDecoder :: struct {}
 
-@(default_calling_convention="c", link_prefix="MIX_")
+@(default_calling_convention = "c", link_prefix = "MIX_")
 foreign lib {
-	/**
-	* Get the version of SDL_mixer that is linked against your program.
+    /**
+	* Get the version of sdl_mixer that is linked against your program.
 	*
-	* If you are linking to SDL_mixer dynamically, then it is possible that the
+	* If you are linking to sdl_mixer dynamically, then it is possible that the
 	* current version will be different than the version you compiled against.
-	* This function returns the current version, while SDL_MIXER_VERSION is the
+	* This function returns the current version, while sdl_MIXER_VERSION is the
 	* version you compiled with.
 	*
 	* This function may be called safely at any time, even before MIX_Init().
 	*
 	* \returns the version of the linked library.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
-	* \sa SDL_MIXER_VERSION
+	* \sa sdl_MIXER_VERSION
 	*/
-	Version :: proc() -> i32 ---
+    Version :: proc() -> i32 ---
 
-	/**
-	* Initialize the SDL_mixer library.
+    /**
+	* Initialize the sdl_mixer library.
 	*
-	* This must be successfully called once before (almost) any other SDL_mixer
+	* This must be successfully called once before (almost) any other sdl_mixer
 	* function can be used.
 	*
 	* It is safe to call this multiple times; the library will only initialize
 	* once, and won't deinitialize until MIX_Quit() has been called a matching
 	* number of times. Extra attempts to init report success.
 	*
-	* \returns true on success, false on error; call SDL_GetError() for details.
+	* \returns true on success, false on error; call sdl_GetError() for details.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_Quit
 	*/
-	Init :: proc() -> bool ---
+    Init :: proc() -> bool ---
 
-	/**
-	* Deinitialize the SDL_mixer library.
+    /**
+	* Deinitialize the sdl_mixer library.
 	*
 	* This must be called when done with the library, probably at the end of your
 	* program.
@@ -405,7 +400,7 @@ foreign lib {
 	* Once you have successfully deinitialized the library, it is safe to call
 	* MIX_Init to reinitialize it for further use.
 	*
-	* On successful deinitialization, SDL_mixer will destroy almost all created
+	* On successful deinitialization, sdl_mixer will destroy almost all created
 	* objects, including objects of type:
 	*
 	* - MIX_Mixer
@@ -422,18 +417,18 @@ foreign lib {
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_Init
 	*/
-	Quit :: proc() ---
+    Quit :: proc() ---
 
-	/**
+    /**
 	* Report the number of audio decoders available for use.
 	*
 	* An audio decoder is what turns specific audio file formats into usable PCM
 	* data. For example, there might be an MP3 decoder, or a WAV decoder, etc.
-	* SDL_mixer probably has several decoders built in.
+	* sdl_mixer probably has several decoders built in.
 	*
 	* The return value can be used to call MIX_GetAudioDecoder() in a loop.
 	*
@@ -444,18 +439,18 @@ foreign lib {
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_GetAudioDecoder
 	*/
-	GetNumAudioDecoders :: proc() -> i32 ---
+    GetNumAudioDecoders :: proc() -> i32 ---
 
-	/**
+    /**
 	* Report the name of a specific audio decoders.
 	*
 	* An audio decoder is what turns specific audio file formats into usable PCM
 	* data. For example, there might be an MP3 decoder, or a WAV decoder, etc.
-	* SDL_mixer probably has several decoders built in.
+	* sdl_mixer probably has several decoders built in.
 	*
 	* The names are capital English letters and numbers, low-ASCII. They don't
 	* necessarily map to a specific file format; Some decoders, like "XMP"
@@ -467,7 +462,7 @@ foreign lib {
 	* change until the library is deinitialized. Valid indices are between zero
 	* and the return value of MIX_GetNumAudioDecoders().
 	*
-	* The returned pointer is const memory owned by SDL_mixer; do not free it.
+	* The returned pointer is const memory owned by sdl_mixer; do not free it.
 	*
 	* \param index the index of the decoder to query.
 	* \returns a UTF-8 (really, ASCII) string of the decoder's name, or NULL if
@@ -475,32 +470,32 @@ foreign lib {
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_GetNumAudioDecoders
 	*/
-	GetAudioDecoder :: proc(index: i32) -> cstring ---
+    GetAudioDecoder :: proc(index: i32) -> cstring ---
 
-	/**
+    /**
 	* Create a mixer that plays sound directly to an audio device.
 	*
 	* This is usually the function you want, vs MIX_CreateMixer().
 	*
-	* You can choose a specific device ID to open, following SDL's usual rules,
+	* You can choose a specific device ID to open, following sdl's usual rules,
 	* but often the correct choice is to specify
-	* SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK and let SDL figure out what device to use
+	* sdl_AUDIO_DEVICE_DEFAULT_PLAYBACK and let sdl figure out what device to use
 	* (and seamlessly transition you to new hardware if the default changes).
 	*
 	* Only playback devices make sense here. Attempting to open a recording
 	* device will fail.
 	*
-	* This will call SDL_Init(SDL_INIT_AUDIO) internally; it's safe to call
-	* SDL_Init() before this call, too, if you intend to enumerate audio devices
+	* This will call sdl_Init(sdl_INIT_AUDIO) internally; it's safe to call
+	* sdl_Init() before this call, too, if you intend to enumerate audio devices
 	* to choose one to open here.
 	*
 	* An audio format can be requested, and the system will try to set the
 	* hardware to those specifications, or as close as possible, but this is just
-	* a hint. SDL_mixer will handle all data conversion behind the scenes in any
+	* a hint. sdl_mixer will handle all data conversion behind the scenes in any
 	* case, and specifying a NULL spec is a reasonable choice. The best reason to
 	* specify a format is because you know all your data is in that format and it
 	* might save some unnecessary CPU time on conversion.
@@ -514,21 +509,21 @@ foreign lib {
 	* When done with the mixer, it can be destroyed with MIX_DestroyMixer().
 	*
 	* \param devid the device to open for playback, or
-	*              SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK for the default.
+	*              sdl_AUDIO_DEVICE_DEFAULT_PLAYBACK for the default.
 	* \param spec the audio format request from the device. May be NULL.
 	* \returns a mixer that can be used to play audio, or NULL on failure; call
-	*          SDL_GetError() for more information.
+	*          sdl_GetError() for more information.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_CreateMixer
 	* \sa MIX_DestroyMixer
 	*/
-	CreateMixerDevice :: proc(devid: SDL.AudioDeviceID, spec: ^SDL.AudioSpec) -> ^Mixer ---
+    CreateMixerDevice :: proc(devid: sdl.AudioDeviceID, spec: ^sdl.AudioSpec) -> ^Mixer ---
 
-	/**
+    /**
 	* Create a mixer that generates audio to a memory buffer.
 	*
 	* Usually you want MIX_CreateMixerDevice() instead of this function. The
@@ -546,22 +541,22 @@ foreign lib {
 	*
 	* \param spec the audio format that mixer will generate.
 	* \returns a mixer that can be used to generate audio, or NULL on failure;
-	*          call SDL_GetError() for more information.
+	*          call sdl_GetError() for more information.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_CreateMixerDevice
 	* \sa MIX_DestroyMixer
 	*/
-	CreateMixer :: proc(spec: ^SDL.AudioSpec) -> ^Mixer ---
+    CreateMixer :: proc(spec: ^sdl.AudioSpec) -> ^Mixer ---
 
-	/**
+    /**
 	* Free a mixer.
 	*
 	* If this mixer was created with MIX_CreateMixerDevice(), this function will
-	* also close the audio device and call SDL_QuitSubSystem(SDL_INIT_AUDIO).
+	* also close the audio device and call sdl_QuitSubSystem(sdl_INIT_AUDIO).
 	*
 	* Any MIX_Group or MIX_Track created for this mixer will also be destroyed.
 	* Do not access them again or attempt to destroy them after the device is
@@ -572,65 +567,65 @@ foreign lib {
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_CreateMixerDevice
 	* \sa MIX_CreateMixer
 	*/
-	DestroyMixer :: proc(mixer: ^Mixer) ---
+    DestroyMixer :: proc(mixer: ^Mixer) ---
 
-	/**
+    /**
 	* Get the properties associated with a mixer.
 	*
-	* Currently SDL_mixer assigns no properties of its own to a mixer, but this
+	* Currently sdl_mixer assigns no properties of its own to a mixer, but this
 	* can be a convenient place to store app-specific data.
 	*
-	* A SDL.PropertiesID is created the first time this function is called for a
+	* A sdl.PropertiesID is created the first time this function is called for a
 	* given mixer.
 	*
 	* \param mixer the mixer to query.
 	* \returns a valid property ID on success or 0 on failure; call
-	*          SDL_GetError() for more information.
+	*          sdl_GetError() for more information.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-	GetMixerProperties :: proc(mixer: ^Mixer) -> SDL.PropertiesID ---
+    GetMixerProperties :: proc(mixer: ^Mixer) -> sdl.PropertiesID ---
 
-	/**
+    /**
 	* Get the audio format a mixer is generating.
 	*
-	* Generally you don't need this information, as SDL_mixer will convert data
+	* Generally you don't need this information, as sdl_mixer will convert data
 	* as necessary between inputs you provide and its output format, but it might
 	* be useful if trying to match your inputs to reduce conversion and
 	* resampling costs.
 	*
 	* For mixers created with MIX_CreateMixerDevice(), this is the format of the
-	* audio device (and may change later if the device itself changes; SDL_mixer
+	* audio device (and may change later if the device itself changes; sdl_mixer
 	* will seamlessly handle this change internally, though).
 	*
 	* For mixers created with MIX_CreateMixer(), this is the format that
 	* MIX_Generate() will produce, as requested at create time, and does not
 	* change.
 	*
-	* Note that internally, SDL_mixer will work in SDL_AUDIO_F32 format before
+	* Note that internally, sdl_mixer will work in sdl_AUDIO_F32 format before
 	* outputting the format specified here, so it would be more efficient to
 	* match input data to that, not the final output format.
 	*
 	* \param mixer the mixer to query.
 	* \param spec where to store the mixer audio format.
-	* \returns true on success or false on failure; call SDL_GetError() for more
+	* \returns true on success or false on failure; call sdl_GetError() for more
 	*          information.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-	GetMixerFormat :: proc(mixer: ^Mixer, spec: ^SDL.AudioSpec) -> bool ---
+    GetMixerFormat :: proc(mixer: ^Mixer, spec: ^sdl.AudioSpec) -> bool ---
 
-	/**
-	* Load audio for playback from an SDL.IOStream.
+    /**
+	* Load audio for playback from an sdl.IOStream.
 	*
 	* In normal usage, apps should load audio once, maybe at startup, then play
 	* it multiple times.
@@ -652,7 +647,7 @@ foreign lib {
 	* MIX_Audio objects can be shared between mixers. This function takes a
 	* MIX_Mixer, to imply this is the most likely place it will be used and
 	* loading should try to match its audio format, but the resulting audio can
-	* be used elsewhere. If `mixer` is NULL, SDL_mixer will set reasonable
+	* be used elsewhere. If `mixer` is NULL, sdl_mixer will set reasonable
 	* defaults.
 	*
 	* Once a MIX_Audio is created, it can be assigned to a MIX_Track with
@@ -660,65 +655,65 @@ foreign lib {
 	*
 	* When done with a MIX_Audio, it can be freed with MIX_DestroyAudio().
 	*
-	* This function loads data from an SDL.IOStream. There is also a version that
+	* This function loads data from an sdl.IOStream. There is also a version that
 	* loads from a path on the filesystem (MIX_LoadAudio()), and one that accepts
 	* properties for ultimate control (MIX_LoadAudioWithProperties()).
 	*
-	* The SDL.IOStream provided must be able to seek, or loading will fail. If
+	* The sdl.IOStream provided must be able to seek, or loading will fail. If
 	* the stream can't seek (data is coming from an HTTP connection, etc),
 	* consider caching the data to memory or disk first and creating a new stream
 	* to read from there.
 	*
 	* \param mixer a mixer this audio is intended to be used with. May be NULL.
-	* \param io the SDL.IOStream to load data from.
+	* \param io the sdl.IOStream to load data from.
 	* \param predecode if true, data will be fully uncompressed before returning.
-	* \param closeio true if SDL_mixer should close `io` before returning
+	* \param closeio true if sdl_mixer should close `io` before returning
 	*                (success or failure).
 	* \returns an audio object that can be used to make sound on a mixer, or NULL
-	*          on failure; call SDL_GetError() for more information.
+	*          on failure; call sdl_GetError() for more information.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_DestroyAudio
 	* \sa MIX_SetTrackAudio
 	* \sa MIX_LoadAudio_IO
 	* \sa MIX_LoadAudioWithProperties
 	*/
-	LoadAudio_IO :: proc(mixer: ^Mixer, io: ^SDL.IOStream, predecode: bool, closeio: bool) -> ^Audio ---
+    LoadAudio_IO :: proc(mixer: ^Mixer, io: ^sdl.IOStream, predecode: bool, closeio: bool) -> ^Audio ---
 
-	/**
+    /**
 	* Load audio for playback from a file.
 	*
 	* This is equivalent to calling:
 	*
 	* ```c
-	* MIX_LoadAudio_IO(mixer, SDL_IOFromFile(path, "rb"), predecode, true);
+	* MIX_LoadAudio_IO(mixer, sdl_IOFromFile(path, "rb"), predecode, true);
 	* ```
 	*
 	* This function loads data from a path on the filesystem. There is also a
-	* version that loads from an SDL.IOStream (MIX_LoadAudio_IO()), and one that
+	* version that loads from an sdl.IOStream (MIX_LoadAudio_IO()), and one that
 	* accepts properties for ultimate control (MIX_LoadAudioWithProperties()).
 	*
 	* \param mixer a mixer this audio is intended to be used with. May be NULL.
 	* \param path the path on the filesystem to load data from.
 	* \param predecode if true, data will be fully uncompressed before returning.
 	* \returns an audio object that can be used to make sound on a mixer, or NULL
-	*          on failure; call SDL_GetError() for more information.
+	*          on failure; call sdl_GetError() for more information.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_DestroyAudio
 	* \sa MIX_SetTrackAudio
 	* \sa MIX_LoadAudio_IO
 	* \sa MIX_LoadAudioWithProperties
 	*/
-	LoadAudio :: proc(mixer: ^Mixer, path: cstring, predecode: bool) -> ^Audio ---
+    LoadAudio :: proc(mixer: ^Mixer, path: cstring, predecode: bool) -> ^Audio ---
 
-	/**
+    /**
 	* Load audio for playback through a collection of properties.
 	*
 	* Please see MIX_LoadAudio_IO() for a description of what the various
@@ -727,11 +722,11 @@ foreign lib {
 	*
 	* These are the supported properties:
 	*
-	* - `MIX_PROP_AUDIO_LOAD_IOSTREAM_POINTER`: a pointer to an SDL.IOStream to
+	* - `MIX_PROP_AUDIO_LOAD_IOSTREAM_POINTER`: a pointer to an sdl.IOStream to
 	*   be used to load audio data. Required. This stream must be able to seek!
-	* - `MIX_PROP_AUDIO_LOAD_CLOSEIO_BOOLEAN`: true if SDL_mixer should close the
-	*   SDL.IOStream before returning (success or failure).
-	* - `MIX_PROP_AUDIO_LOAD_PREDECODE_BOOLEAN`: true if SDL_mixer should fully
+	* - `MIX_PROP_AUDIO_LOAD_CLOSEIO_BOOLEAN`: true if sdl_mixer should close the
+	*   sdl.IOStream before returning (success or failure).
+	* - `MIX_PROP_AUDIO_LOAD_PREDECODE_BOOLEAN`: true if sdl_mixer should fully
 	*   decode and decompress the data before returning. Otherwise it will be
 	*   stored in its original state and decompressed on demand.
 	* - `MIX_PROP_AUDIO_LOAD_PREFERRED_MIXER_POINTER`: a pointer to a MIX_Mixer,
@@ -741,7 +736,7 @@ foreign lib {
 	*   loading _if the data definitely doesn't have these tags_. Some decoders
 	*   will fail if these tags are present when this property is true.
 	* - `MIX_PROP_AUDIO_DECODER_STRING`: the name of the decoder to use for this
-	*   data. Optional. If not specified, SDL_mixer will examine the data and
+	*   data. Optional. If not specified, sdl_mixer will examine the data and
 	*   choose the best decoder. These names are the same returned from
 	*   MIX_GetAudioDecoder().
 	*
@@ -750,24 +745,24 @@ foreign lib {
 	*
 	* \param props a set of properties on how to load audio.
 	* \returns an audio object that can be used to make sound on a mixer, or NULL
-	*          on failure; call SDL_GetError() for more information.
+	*          on failure; call sdl_GetError() for more information.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_DestroyAudio
 	* \sa MIX_SetTrackAudio
 	* \sa MIX_LoadAudio
 	* \sa MIX_LoadAudio_IO
 	*/
-	LoadAudioWithProperties :: proc(props: SDL.PropertiesID) -> ^Audio ---
+    LoadAudioWithProperties :: proc(props: sdl.PropertiesID) -> ^Audio ---
 
-	/**
-	* Load raw PCM data from an SDL.IOStream.
+    /**
+	* Load raw PCM data from an sdl.IOStream.
 	*
-	* There are other options for _streaming_ raw PCM: an SDL.AudioStream can be
-	* connected to a track, as can an SDL.IOStream, and will read from those
+	* There are other options for _streaming_ raw PCM: an sdl.AudioStream can be
+	* connected to a track, as can an sdl.IOStream, and will read from those
 	* sources on-demand when it is time to mix the audio. This function is useful
 	* for loading static audio data that is meant to be played multiple times.
 	*
@@ -779,16 +774,16 @@ foreign lib {
 	* mixer may be specified.
 	*
 	* \param mixer a mixer this audio is intended to be used with. May be NULL.
-	* \param io the SDL.IOStream to load data from.
+	* \param io the sdl.IOStream to load data from.
 	* \param spec what format the raw data is in.
-	* \param closeio true if SDL_mixer should close `io` before returning
+	* \param closeio true if sdl_mixer should close `io` before returning
 	*                (success or failure).
 	* \returns an audio object that can be used to make sound on a mixer, or NULL
-	*          on failure; call SDL_GetError() for more information.
+	*          on failure; call sdl_GetError() for more information.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_DestroyAudio
 	* \sa MIX_SetTrackAudio
@@ -796,13 +791,13 @@ foreign lib {
 	* \sa MIX_LoadRawAudioNoCopy
 	* \sa MIX_LoadAudio_IO
 	*/
-	LoadRawAudio_IO :: proc(mixer: ^Mixer, io: ^SDL.IOStream, spec: ^SDL.AudioSpec, closeio: bool) -> ^Audio ---
+    LoadRawAudio_IO :: proc(mixer: ^Mixer, io: ^sdl.IOStream, spec: ^sdl.AudioSpec, closeio: bool) -> ^Audio ---
 
-	/**
+    /**
 	* Load raw PCM data from a memory buffer.
 	*
-	* There are other options for _streaming_ raw PCM: an SDL.AudioStream can be
-	* connected to a track, as can an SDL.IOStream, and will read from those
+	* There are other options for _streaming_ raw PCM: an sdl.AudioStream can be
+	* connected to a track, as can an sdl.IOStream, and will read from those
 	* sources on-demand when it is time to mix the audio. This function is useful
 	* for loading static audio data that is meant to be played multiple times.
 	*
@@ -820,11 +815,11 @@ foreign lib {
 	* \param datalen the size, in bytes, of the raw PCM data.
 	* \param spec what format the raw data is in.
 	* \returns an audio object that can be used to make sound on a mixer, or NULL
-	*          on failure; call SDL_GetError() for more information.
+	*          on failure; call sdl_GetError() for more information.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_DestroyAudio
 	* \sa MIX_SetTrackAudio
@@ -832,9 +827,9 @@ foreign lib {
 	* \sa MIX_LoadRawAudioNoCopy
 	* \sa MIX_LoadAudio_IO
 	*/
-	LoadRawAudio :: proc(mixer: ^Mixer, data: rawptr, datalen: uint, spec: ^SDL.AudioSpec) -> ^Audio ---
+    LoadRawAudio :: proc(mixer: ^Mixer, data: rawptr, datalen: uint, spec: ^sdl.AudioSpec) -> ^Audio ---
 
-	/**
+    /**
 	* Load raw PCM data from a memory buffer without making a copy.
 	*
 	* This buffer must live for the entire time the returned MIX_Audio lives, as
@@ -850,7 +845,7 @@ foreign lib {
 	* some optimization might be applied, but this is not required, and a NULL
 	* mixer may be specified.
 	*
-	* If `free_when_done` is true, SDL_mixer will call `SDL_free(data)` when the
+	* If `free_when_done` is true, sdl_mixer will call `sdl_free(data)` when the
 	* returned MIX_Audio is eventually destroyed. This can be useful when the
 	* data is not static, but rather composed dynamically for this specific
 	* MIX_Audio and simply wants to avoid the extra copy.
@@ -859,14 +854,14 @@ foreign lib {
 	* \param data the buffer where the raw PCM data lives.
 	* \param datalen the size, in bytes, of the buffer.
 	* \param spec what format the raw data is in.
-	* \param free_when_done if true, `data` will be given to SDL_free() when the
+	* \param free_when_done if true, `data` will be given to sdl_free() when the
 	*                       MIX_Audio is destroyed.
 	* \returns an audio object that can be used to make sound on a mixer, or NULL
-	*          on failure; call SDL_GetError() for more information.
+	*          on failure; call sdl_GetError() for more information.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_DestroyAudio
 	* \sa MIX_SetTrackAudio
@@ -874,9 +869,9 @@ foreign lib {
 	* \sa MIX_LoadRawAudio_IO
 	* \sa MIX_LoadAudio_IO
 	*/
-	LoadRawAudioNoCopy :: proc(mixer: ^Mixer, data: rawptr, datalen: uint, spec: ^SDL.AudioSpec, free_when_done: bool) -> ^Audio ---
+    LoadRawAudioNoCopy :: proc(mixer: ^Mixer, data: rawptr, datalen: uint, spec: ^sdl.AudioSpec, free_when_done: bool) -> ^Audio ---
 
-	/**
+    /**
 	* Create a MIX_Audio that generates a sinewave.
 	*
 	* This is useful just to have _something_ to play, perhaps for testing or
@@ -898,28 +893,28 @@ foreign lib {
 	* \param hz the sinewave's frequency in Hz.
 	* \param amplitude the sinewave's amplitude from 0.0f to 1.0f.
 	* \returns an audio object that can be used to make sound on a mixer, or NULL
-	*          on failure; call SDL_GetError() for more information.
+	*          on failure; call sdl_GetError() for more information.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_DestroyAudio
 	* \sa MIX_SetTrackAudio
 	* \sa MIX_LoadAudio_IO
 	*/
-	CreateSineWaveAudio :: proc(mixer: ^Mixer, hz: i32, amplitude: f32) -> ^Audio ---
+    CreateSineWaveAudio :: proc(mixer: ^Mixer, hz: i32, amplitude: f32) -> ^Audio ---
 
-	/**
+    /**
 	* Get the properties associated with a MIX_Audio.
 	*
-	* SDL_mixer offers some properties of its own, but this can also be a
+	* sdl_mixer offers some properties of its own, but this can also be a
 	* convenient place to store app-specific data.
 	*
-	* A SDL.PropertiesID is created the first time this function is called for a
+	* A sdl.PropertiesID is created the first time this function is called for a
 	* given MIX_Audio, if necessary.
 	*
-	* The following read-only properties are provided by SDL_mixer:
+	* The following read-only properties are provided by sdl_mixer:
 	*
 	* - `MIX_PROP_METADATA_TITLE_STRING`: the audio's title ("Smells Like Teen
 	*   Spirit").
@@ -937,27 +932,27 @@ foreign lib {
 	*   decoder only knows the duration as a unit of time.
 	* - `MIX_PROP_METADATA_DURATION_INFINITE_BOOLEAN`: if true, audio never runs
 	*   out of sound to generate. This isn't necessarily always known to
-	*   SDL_mixer, though.
+	*   sdl_mixer, though.
 	*
 	* Other properties, documented with MIX_LoadAudioWithProperties(), may also
 	* be present.
 	*
-	* Note that the metadata properties are whatever SDL_mixer finds in things
+	* Note that the metadata properties are whatever sdl_mixer finds in things
 	* like ID3 tags, and they often have very little standardized formatting, may
 	* be missing, and can be completely wrong if the original data is
 	* untrustworthy (like an MP3 from a P2P file sharing service).
 	*
 	* \param audio the audio to query.
 	* \returns a valid property ID on success or 0 on failure; call
-	*          SDL_GetError() for more information.
+	*          sdl_GetError() for more information.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-	GetAudioProperties :: proc(audio: ^Audio) -> SDL.PropertiesID ---
+    GetAudioProperties :: proc(audio: ^Audio) -> sdl.PropertiesID ---
 
-	/**
+    /**
 	* Get the length of a MIX_Audio's playback in sample frames.
 	*
 	* This information is also available via the
@@ -974,7 +969,7 @@ foreign lib {
 	* infinite audio.
 	*
 	* Also, some file formats can only report duration as a unit of time, which
-	* means SDL_mixer might have to estimate sample frames from that information.
+	* means sdl_mixer might have to estimate sample frames from that information.
 	* With less precision, the reported duration might be off by a few sample
 	* frames in either direction.
 	*
@@ -987,30 +982,30 @@ foreign lib {
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-	GetAudioDuration :: proc(audio: ^Audio) -> SDL.Sint64 ---
+    GetAudioDuration :: proc(audio: ^Audio) -> sdl.Sint64 ---
 
-	/**
+    /**
 	* Query the initial audio format of a MIX_Audio.
 	*
 	* Note that some audio files can change format in the middle; some explicitly
 	* support this, but a more common example is two MP3 files concatenated
-	* together. In many cases, SDL_mixer will correctly handle these sort of
+	* together. In many cases, sdl_mixer will correctly handle these sort of
 	* files, but this function will only report the initial format a file uses.
 	*
 	* \param audio the audio to query.
 	* \param spec on success, audio format details will be stored here.
-	* \returns true on success or false on failure; call SDL_GetError() for more
+	* \returns true on success or false on failure; call sdl_GetError() for more
 	*          information.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-	GetAudioFormat :: proc(audio: ^Audio, spec: ^SDL.AudioSpec) -> bool ---
+    GetAudioFormat :: proc(audio: ^Audio, spec: ^sdl.AudioSpec) -> bool ---
 
-	/**
+    /**
 	* Destroy the specified audio.
 	*
 	* MIX_Audio is reference-counted internally, so this function only unrefs it.
@@ -1028,11 +1023,11 @@ foreign lib {
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-	DestroyAudio :: proc(audio: ^Audio) ---
+    DestroyAudio :: proc(audio: ^Audio) ---
 
-	/**
+    /**
 	* Create a new track on a mixer.
 	*
 	* A track provides a single source of audio. All currently-playing tracks
@@ -1047,18 +1042,18 @@ foreign lib {
 	* them.
 	*
 	* \param mixer the mixer on which to create this track.
-	* \returns a new MIX_Track on success, NULL on error; call SDL_GetError() for
+	* \returns a new MIX_Track on success, NULL on error; call sdl_GetError() for
 	*          more informations.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_DestroyTrack
 	*/
-	CreateTrack :: proc(mixer: ^Mixer) -> ^Track ---
+    CreateTrack :: proc(mixer: ^Mixer) -> ^Track ---
 
-	/**
+    /**
 	* Destroy the specified track.
 	*
 	* If the track is currently playing, it will be stopped immediately, without
@@ -1074,45 +1069,45 @@ foreign lib {
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-	DestroyTrack :: proc(track: ^Track) ---
+    DestroyTrack :: proc(track: ^Track) ---
 
-	/**
+    /**
 	* Get the properties associated with a track.
 	*
-	* Currently SDL_mixer assigns no properties of its own to a track, but this
+	* Currently sdl_mixer assigns no properties of its own to a track, but this
 	* can be a convenient place to store app-specific data.
 	*
-	* A SDL.PropertiesID is created the first time this function is called for a
+	* A sdl.PropertiesID is created the first time this function is called for a
 	* given track.
 	*
 	* \param track the track to query.
 	* \returns a valid property ID on success or 0 on failure; call
-	*          SDL_GetError() for more information.
+	*          sdl_GetError() for more information.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-	GetTrackProperties :: proc(track: ^Track) -> SDL.PropertiesID ---
+    GetTrackProperties :: proc(track: ^Track) -> sdl.PropertiesID ---
 
-	/**
+    /**
 	* Get the MIX_Mixer that owns a MIX_Track.
 	*
 	* This is the mixer pointer that was passed to MIX_CreateTrack().
 	*
 	* \param track the track to query.
 	* \returns the mixer associated with the track, or NULL on error; call
-	*          SDL_GetError() for more information.
+	*          sdl_GetError() for more information.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-	GetTrackMixer :: proc(track: ^Track) -> ^Mixer ---
+    GetTrackMixer :: proc(track: ^Track) -> ^Mixer ---
 
-	/**
+    /**
 	* Set a MIX_Track's input to a MIX_Audio.
 	*
 	* A MIX_Audio is audio data stored in RAM (possibly still in a compressed
@@ -1137,25 +1132,25 @@ foreign lib {
 	*
 	* \param track the track on which to set a new audio input.
 	* \param audio the new audio input to set. May be NULL.
-	* \returns true on success, false on error; call SDL_GetError() for details.
+	* \returns true on success, false on error; call sdl_GetError() for details.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-	SetTrackAudio :: proc(track: ^Track, audio: ^Audio) -> bool ---
+    SetTrackAudio :: proc(track: ^Track, audio: ^Audio) -> bool ---
 
-	/**
-	* Set a MIX_Track's input to an SDL.AudioStream.
+    /**
+	* Set a MIX_Track's input to an sdl.AudioStream.
 	*
 	* Using an audio stream allows the application to generate any type of audio,
 	* in any format, possibly procedurally or on-demand, and mix in with all
 	* other tracks.
 	*
-	* When a track uses an audio stream, it will call SDL_GetAudioStreamData as
+	* When a track uses an audio stream, it will call sdl_GetAudioStreamData as
 	* it needs more audio to mix. The app can either buffer data to the stream
 	* ahead of time, or set a callback on the stream to provide data as needed.
-	* Please refer to SDL's documentation for details.
+	* Please refer to sdl's documentation for details.
 	*
 	* A given audio stream may only be assigned to a single track at a time;
 	* duplicate assignments won't return an error, but assigning a stream to
@@ -1179,16 +1174,16 @@ foreign lib {
 	*
 	* \param track the track on which to set a new audio input.
 	* \param stream the audio stream to use as the track's input.
-	* \returns true on success, false on error; call SDL_GetError() for details.
+	* \returns true on success, false on error; call sdl_GetError() for details.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-	SetTrackAudioStream :: proc(track: ^Track, stream: ^SDL.AudioStream) -> bool ---
+    SetTrackAudioStream :: proc(track: ^Track, stream: ^sdl.AudioStream) -> bool ---
 
-	/**
-	* Set a MIX_Track's input to an SDL.IOStream.
+    /**
+	* Set a MIX_Track's input to an sdl.IOStream.
 	*
 	* This is not the recommended way to set a track's input, but this can be
 	* useful for a very specific scenario: a large file, to be played once, that
@@ -1197,7 +1192,7 @@ foreign lib {
 	* MIX_SetTrackAudio() instead.
 	*
 	* The stream supplied here should provide an audio file in a supported
-	* format. SDL_mixer will parse it during this call to make sure it's valid,
+	* format. sdl_mixer will parse it during this call to make sure it's valid,
 	* and then will read file data from the stream as it needs to decode more
 	* during mixing.
 	*
@@ -1227,15 +1222,15 @@ foreign lib {
 	* \param track the track on which to set a new audio input.
 	* \param io the new i/o stream to use as the track's input.
 	* \param closeio if true, close the stream when done with it.
-	* \returns true on success, false on error; call SDL_GetError() for details.
+	* \returns true on success, false on error; call sdl_GetError() for details.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-	SetTrackIOStream :: proc(track: ^Track, io: ^SDL.IOStream, closeio: bool) -> bool ---
+    SetTrackIOStream :: proc(track: ^Track, io: ^sdl.IOStream, closeio: bool) -> bool ---
 
-	/**
+    /**
 	* Assign an arbitrary tag to a track.
 	*
 	* A tag can be any valid C string in UTF-8 encoding. It can be useful to
@@ -1254,17 +1249,17 @@ foreign lib {
 	*
 	* \param track the track to add a tag to.
 	* \param tag the tag to add.
-	* \returns true on success, false on error; call SDL_GetError() for details.
+	* \returns true on success, false on error; call sdl_GetError() for details.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_UntagTrack
 	*/
-	TagTrack :: proc(track: ^Track, tag: cstring) -> bool ---
+    TagTrack :: proc(track: ^Track, tag: cstring) -> bool ---
 
-	/**
+    /**
 	* Remove an arbitrary tag from a track.
 	*
 	* A tag can be any valid C string in UTF-8 encoding. It can be useful to
@@ -1281,13 +1276,13 @@ foreign lib {
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_TagTrack
 	*/
-	UntagTrack :: proc(track: ^Track, tag: cstring) ---
+    UntagTrack :: proc(track: ^Track, tag: cstring) ---
 
-	/**
+    /**
 	* Seek a playing track to a new position in its input.
 	*
 	* (Not to be confused with MIX_SetTrack3DPosition(), which is positioning of
@@ -1303,7 +1298,7 @@ foreign lib {
 	*
 	* This function requires an input that can seek (so it can not be used if the
 	* input was set with MIX_SetTrackAudioStream()), and a audio file format that
-	* allows seeking. SDL_mixer's decoders for some file formats do not offer
+	* allows seeking. sdl_mixer's decoders for some file formats do not offer
 	* seeking, or can only seek to times, not exact sample frames, in which case
 	* the final position may be off by some amount of sample frames. Please check
 	* your audio data and file bug reports if appropriate.
@@ -1314,17 +1309,17 @@ foreign lib {
 	*
 	* \param track the track to change.
 	* \param frames the sample frame position to seek to.
-	* \returns true on success, false on error; call SDL_GetError() for details.
+	* \returns true on success, false on error; call sdl_GetError() for details.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_GetTrackPlaybackPosition
 	*/
-	SetTrackPlaybackPosition :: proc(track: ^Track, frames: SDL.Sint64) -> bool ---
+    SetTrackPlaybackPosition :: proc(track: ^Track, frames: sdl.Sint64) -> bool ---
 
-	/**
+    /**
 	* Get the current input position of a playing track.
 	*
 	* (Not to be confused with MIX_GetTrack3DPosition(), which is positioning of
@@ -1341,17 +1336,17 @@ foreign lib {
 	*
 	* \param track the track to change.
 	* \returns the track's current sample frame position, or -1 on error; call
-	*          SDL_GetError() for details.
+	*          sdl_GetError() for details.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_SetTrackPlaybackPosition
 	*/
-	GetTrackPlaybackPosition :: proc(track: ^Track) -> SDL.Sint64 ---
+    GetTrackPlaybackPosition :: proc(track: ^Track) -> sdl.Sint64 ---
 
-	/**
+    /**
 	* Query whether a given track is looping.
 	*
 	* This specifically checks if the track is _not stopped_ (paused or playing),
@@ -1367,16 +1362,16 @@ foreign lib {
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-	TrackLooping :: proc(track: ^Track) -> bool ---
+    TrackLooping :: proc(track: ^Track) -> bool ---
 
-	/**
+    /**
 	* Query the MIX_Audio assigned to a track.
 	*
 	* This returns the MIX_Audio object currently assigned to `track` through a
 	* call to MIX_SetTrackAudio(). If there is none assigned, or the track has an
-	* input that isn't a MIX_Audio (such as an SDL.AudioStream or SDL.IOStream),
+	* input that isn't a MIX_Audio (such as an sdl.AudioStream or sdl.IOStream),
 	* this will return NULL.
 	*
 	* On various errors (MIX_Init() was not called, the track is NULL), this
@@ -1388,36 +1383,36 @@ foreign lib {
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_GetTrackAudioStream
 	*/
-	GetTrackAudio :: proc(track: ^Track) -> ^Audio ---
+    GetTrackAudio :: proc(track: ^Track) -> ^Audio ---
 
-	/**
-	* Query the SDL.AudioStream assigned to a track.
+    /**
+	* Query the sdl.AudioStream assigned to a track.
 	*
-	* This returns the SDL.AudioStream object currently assigned to `track`
+	* This returns the sdl.AudioStream object currently assigned to `track`
 	* through a call to MIX_SetTrackAudioStream(). If there is none assigned, or
-	* the track has an input that isn't an SDL.AudioStream (such as a MIX_Audio
-	* or SDL.IOStream), this will return NULL.
+	* the track has an input that isn't an sdl.AudioStream (such as a MIX_Audio
+	* or sdl.IOStream), this will return NULL.
 	*
 	* On various errors (MIX_Init() was not called, the track is NULL), this
 	* returns NULL, but there is no mechanism to distinguish errors from tracks
 	* without a valid input.
 	*
 	* \param track the track to query.
-	* \returns an SDL.AudioStream if available, NULL if not.
+	* \returns an sdl.AudioStream if available, NULL if not.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_GetTrackAudio
 	*/
-	GetTrackAudioStream :: proc(track: ^Track) -> ^SDL.AudioStream ---
+    GetTrackAudioStream :: proc(track: ^Track) -> ^sdl.AudioStream ---
 
-	/**
+    /**
 	* Return the number of sample frames remaining to be mixed in a track.
 	*
 	* If the track is playing or paused, and its total duration is known, this
@@ -1440,11 +1435,11 @@ foreign lib {
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-	GetTrackRemaining :: proc(track: ^Track) -> SDL.Sint64 ---
+    GetTrackRemaining :: proc(track: ^Track) -> sdl.Sint64 ---
 
-	/**
+    /**
 	* Convert milliseconds to sample frames for a track's current format.
 	*
 	* This calculates time based on the track's current input format, which can
@@ -1459,17 +1454,17 @@ foreign lib {
 	* \param track the track to query.
 	* \param ms the milliseconds to convert to track-specific sample frames.
 	* \returns Converted number of sample frames, or -1 for errors/no input; call
-	*          SDL_GetError() for details.
+	*          sdl_GetError() for details.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_TrackFramesToMS
 	*/
-	TrackMSToFrames :: proc(track: ^Track, ms: SDL.Sint64) -> SDL.Sint64 ---
+    TrackMSToFrames :: proc(track: ^Track, ms: sdl.Sint64) -> sdl.Sint64 ---
 
-	/**
+    /**
 	* Convert sample frames for a track's current format to milliseconds.
 	*
 	* This calculates time based on the track's current input format, which can
@@ -1487,17 +1482,17 @@ foreign lib {
 	* \param track the track to query.
 	* \param frames the track-specific sample frames to convert to milliseconds.
 	* \returns Converted number of milliseconds, or -1 for errors/no input; call
-	*          SDL_GetError() for details.
+	*          sdl_GetError() for details.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_TrackMSToFrames
 	*/
-	TrackFramesToMS :: proc(track: ^Track, frames: SDL.Sint64) -> SDL.Sint64 ---
+    TrackFramesToMS :: proc(track: ^Track, frames: sdl.Sint64) -> sdl.Sint64 ---
 
-	/**
+    /**
 	* Convert milliseconds to sample frames for a MIX_Audio's format.
 	*
 	* This calculates time based on the audio's initial format, even if the
@@ -1508,17 +1503,17 @@ foreign lib {
 	* \param audio the audio to query.
 	* \param ms the milliseconds to convert to audio-specific sample frames.
 	* \returns Converted number of sample frames, or -1 for errors/no input; call
-	*          SDL_GetError() for details.
+	*          sdl_GetError() for details.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_AudioFramesToMS
 	*/
-	AudioMSToFrames :: proc(audio: ^Audio, ms: SDL.Sint64) -> SDL.Sint64 ---
+    AudioMSToFrames :: proc(audio: ^Audio, ms: sdl.Sint64) -> sdl.Sint64 ---
 
-	/**
+    /**
 	* Convert sample frames for a MIX_Audio's format to milliseconds.
 	*
 	* This calculates time based on the audio's initial format, even if the
@@ -1532,17 +1527,17 @@ foreign lib {
 	* \param audio the audio to query.
 	* \param frames the audio-specific sample frames to convert to milliseconds.
 	* \returns Converted number of milliseconds, or -1 for errors/no input; call
-	*          SDL_GetError() for details.
+	*          sdl_GetError() for details.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_AudioMSToFrames
 	*/
-	AudioFramesToMS :: proc(audio: ^Audio, frames: SDL.Sint64) -> SDL.Sint64 ---
+    AudioFramesToMS :: proc(audio: ^Audio, frames: sdl.Sint64) -> sdl.Sint64 ---
 
-	/**
+    /**
 	* Convert milliseconds to sample frames at a specific sample rate.
 	*
 	* If `sample_rate` is <= 0, this returns -1. If `ms` is < 0, this returns -1.
@@ -1550,17 +1545,17 @@ foreign lib {
 	* \param sample_rate the sample rate to use for conversion.
 	* \param ms the milliseconds to convert to rate-specific sample frames.
 	* \returns Converted number of sample frames, or -1 for errors; call
-	*          SDL_GetError() for details.
+	*          sdl_GetError() for details.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_FramesToMS
 	*/
-	MSToFrames :: proc(sample_rate: i32, ms: SDL.Sint64) -> SDL.Sint64 ---
+    MSToFrames :: proc(sample_rate: i32, ms: sdl.Sint64) -> sdl.Sint64 ---
 
-	/**
+    /**
 	* Convert sample frames, at a specific sample rate, to milliseconds.
 	*
 	* Sample frames are more precise than milliseconds, so out of necessity, this
@@ -1572,17 +1567,17 @@ foreign lib {
 	* \param sample_rate the sample rate to use for conversion.
 	* \param frames the rate-specific sample frames to convert to milliseconds.
 	* \returns Converted number of milliseconds, or -1 for errors; call
-	*          SDL_GetError() for details.
+	*          sdl_GetError() for details.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_MSToFrames
 	*/
-	FramesToMS :: proc(sample_rate: i32, frames: SDL.Sint64) -> SDL.Sint64 ---
+    FramesToMS :: proc(sample_rate: i32, frames: sdl.Sint64) -> sdl.Sint64 ---
 
-	/**
+    /**
 	* Start (or restart) mixing a track for playback.
 	*
 	* The track will use whatever input was last assigned to it when playing; an
@@ -1594,7 +1589,7 @@ foreign lib {
 	* with the newly-specified parameters.
 	*
 	* As there are several parameters, and more may be added in the future, they
-	* are specified with an SDL.PropertiesID. The parameters have reasonable
+	* are specified with an sdl.PropertiesID. The parameters have reasonable
 	* defaults, and specifying a 0 for `options` will choose defaults for
 	* everything.
 	*
@@ -1658,11 +1653,11 @@ foreign lib {
 	*
 	* \param track the track to start (or restart) mixing.
 	* \param options a set of properties that control playback. May be zero.
-	* \returns true on success, false on error; call SDL_GetError() for details.
+	* \returns true on success, false on error; call sdl_GetError() for details.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_PlayTag
 	* \sa MIX_PlayAudio
@@ -1670,9 +1665,9 @@ foreign lib {
 	* \sa MIX_PauseTrack
 	* \sa MIX_TrackPlaying
 	*/
-	PlayTrack :: proc(track: ^Track, options: SDL.PropertiesID) -> bool ---
+    PlayTrack :: proc(track: ^Track, options: sdl.PropertiesID) -> bool ---
 
-	/**
+    /**
 	* Start (or restart) mixing all tracks with a specific tag for playback.
 	*
 	* This function follows all the same rules as MIX_PlayTrack(); please refer
@@ -1682,7 +1677,7 @@ foreign lib {
 	*
 	* If all of your tagged tracks have different sample rates, it would make
 	* sense to use the `*_MILLISECONDS_NUMBER` properties in your `options`,
-	* instead of `*_FRAMES_NUMBER`, and let SDL_mixer figure out how to apply it
+	* instead of `*_FRAMES_NUMBER`, and let sdl_mixer figure out how to apply it
 	* to each track.
 	*
 	* This function returns true if all tagged tracks are started (or restarted).
@@ -1695,11 +1690,11 @@ foreign lib {
 	* \param mixer the mixer on which to look for tagged tracks.
 	* \param tag the tag to use when searching for tracks.
 	* \param options the set of options that will be applied to each track.
-	* \returns true on success, false on error; call SDL_GetError() for details.
+	* \returns true on success, false on error; call sdl_GetError() for details.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_PlayTrack
 	* \sa MIX_TagTrack
@@ -1707,12 +1702,12 @@ foreign lib {
 	* \sa MIX_PauseTrack
 	* \sa MIX_TrackPlaying
 	*/
-	PlayTag :: proc(mixer: ^Mixer, tag: cstring, options: SDL.PropertiesID) -> bool ---
+    PlayTag :: proc(mixer: ^Mixer, tag: cstring, options: sdl.PropertiesID) -> bool ---
 
-	/**
+    /**
 	* Play a MIX_Audio from start to finish without any management.
 	*
-	* This is what we term a "fire-and-forget" sound. Internally, SDL_mixer will
+	* This is what we term a "fire-and-forget" sound. Internally, sdl_mixer will
 	* manage a temporary track to mix the specified MIX_Audio, cleaning it up
 	* when complete. No options can be provided for how to do the mixing, like
 	* MIX_PlayTrack() offers, and since the track is not available to the caller,
@@ -1724,24 +1719,24 @@ foreign lib {
 	* unpausable endgame sequence.
 	*
 	* There are no limits to the number of fire-and-forget sounds that can mix at
-	* once (short of running out of memory), and SDL_mixer keeps an internal pool
+	* once (short of running out of memory), and sdl_mixer keeps an internal pool
 	* of temporary tracks it creates as needed and reuses when available.
 	*
 	* \param mixer the mixer on which to play this audio.
 	* \param audio the audio input to play.
 	* \returns true if the track has begun mixing, false on error; call
-	*          SDL_GetError() for details.
+	*          sdl_GetError() for details.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_PlayTrack
 	* \sa MIX_LoadAudio
 	*/
-	PlayAudio :: proc(mixer: ^Mixer, audio: ^Audio) -> bool ---
+    PlayAudio :: proc(mixer: ^Mixer, audio: ^Audio) -> bool ---
 
-	/**
+    /**
 	* Halt a currently-playing track, possibly fading out over time.
 	*
 	* If `fade_out_frames` is > 0, the track does not stop mixing immediately,
@@ -1764,18 +1759,18 @@ foreign lib {
 	* \param track the track to halt.
 	* \param fade_out_frames the number of sample frames to spend fading out to
 	*                        silence before halting. 0 to stop immediately.
-	* \returns true if the track has stopped, false on error; call SDL_GetError()
+	* \returns true if the track has stopped, false on error; call sdl_GetError()
 	*          for details.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_PlayTrack
 	*/
-	StopTrack :: proc(track: ^Track, fade_out_frames: SDL.Sint64) -> bool ---
+    StopTrack :: proc(track: ^Track, fade_out_frames: sdl.Sint64) -> bool ---
 
-	/**
+    /**
 	* Halt all currently-playing tracks, possibly fading out over time.
 	*
 	* If `fade_out_ms` is > 0, the tracks do not stop mixing immediately, but
@@ -1796,17 +1791,17 @@ foreign lib {
 	* \param mixer the mixer on which to stop all tracks.
 	* \param fade_out_ms the number of milliseconds to spend fading out to
 	*                    silence before halting. 0 to stop immediately.
-	* \returns true on success, false on error; call SDL_GetError() for details.
+	* \returns true on success, false on error; call sdl_GetError() for details.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_StopTrack
 	*/
-	StopAllTracks :: proc(mixer: ^Mixer, fade_out_ms: SDL.Sint64) -> bool ---
+    StopAllTracks :: proc(mixer: ^Mixer, fade_out_ms: sdl.Sint64) -> bool ---
 
-	/**
+    /**
 	* Halt all tracks with a specific tag, possibly fading out over time.
 	*
 	* If `fade_out_ms` is > 0, the tracks do not stop mixing immediately, but
@@ -1828,18 +1823,18 @@ foreign lib {
 	* \param tag the tag to use when searching for tracks.
 	* \param fade_out_ms the number of milliseconds to spend fading out to
 	*                    silence before halting. 0 to stop immediately.
-	* \returns true on success, false on error; call SDL_GetError() for details.
+	* \returns true on success, false on error; call sdl_GetError() for details.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_StopTrack
 	* \sa MIX_TagTrack
 	*/
-	StopTag :: proc(mixer: ^Mixer, tag: cstring, fade_out_ms: SDL.Sint64) -> bool ---
+    StopTag :: proc(mixer: ^Mixer, tag: cstring, fade_out_ms: sdl.Sint64) -> bool ---
 
-	/**
+    /**
 	* Pause a currently-playing track.
 	*
 	* A paused track is not considered "stopped," so its MIX_TrackStoppedCallback
@@ -1852,18 +1847,18 @@ foreign lib {
 	* as MIX_Init not being called or `track` being NULL).
 	*
 	* \param track the track to pause.
-	* \returns true if the track has paused, false on error; call SDL_GetError()
+	* \returns true if the track has paused, false on error; call sdl_GetError()
 	*          for details.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_ResumeTrack
 	*/
-	PauseTrack :: proc(track: ^Track) -> bool ---
+    PauseTrack :: proc(track: ^Track) -> bool ---
 
-	/**
+    /**
 	* Pause all currently-playing tracks.
 	*
 	* A paused track is not considered "stopped," so its MIX_TrackStoppedCallback
@@ -1874,18 +1869,18 @@ foreign lib {
 	* playing move to a paused state. They can later be resumed.
 	*
 	* \param mixer the mixer on which to pause all tracks.
-	* \returns true on success, false on error; call SDL_GetError() for details.
+	* \returns true on success, false on error; call sdl_GetError() for details.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_ResumeTrack
 	* \sa MIX_ResumeAllTracks
 	*/
-	PauseAllTracks :: proc(mixer: ^Mixer) -> bool ---
+    PauseAllTracks :: proc(mixer: ^Mixer) -> bool ---
 
-	/**
+    /**
 	* Pause all tracks with a specific tag.
 	*
 	* A paused track is not considered "stopped," so its MIX_TrackStoppedCallback
@@ -1900,20 +1895,20 @@ foreign lib {
 	*
 	* \param mixer the mixer on which to pause tracks.
 	* \param tag the tag to use when searching for tracks.
-	* \returns true on success, false on error; call SDL_GetError() for details.
+	* \returns true on success, false on error; call sdl_GetError() for details.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_PauseTrack
 	* \sa MIX_ResumeTrack
 	* \sa MIX_ResumeTag
 	* \sa MIX_TagTrack
 	*/
-	PauseTag :: proc(mixer: ^Mixer, tag: cstring) -> bool ---
+    PauseTag :: proc(mixer: ^Mixer, tag: cstring) -> bool ---
 
-	/**
+    /**
 	* Resume a currently-paused track.
 	*
 	* A paused track is not considered "stopped," so its MIX_TrackStoppedCallback
@@ -1926,18 +1921,18 @@ foreign lib {
 	* MIX_Init not being called or `track` being NULL).
 	*
 	* \param track the track to resume.
-	* \returns true if the track has resumed, false on error; call SDL_GetError()
+	* \returns true if the track has resumed, false on error; call sdl_GetError()
 	*          for details.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_PauseTrack
 	*/
-	ResumeTrack :: proc(track: ^Track) -> bool ---
+    ResumeTrack :: proc(track: ^Track) -> bool ---
 
-	/**
+    /**
 	* Resume all currently-paused tracks.
 	*
 	* A paused track is not considered "stopped," so its MIX_TrackStoppedCallback
@@ -1948,18 +1943,18 @@ foreign lib {
 	* paused move to a playing state.
 	*
 	* \param mixer the mixer on which to resume all tracks.
-	* \returns true on success, false on error; call SDL_GetError() for details.
+	* \returns true on success, false on error; call sdl_GetError() for details.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_PauseTrack
 	* \sa MIX_PauseAllTracks
 	*/
-	ResumeAllTracks :: proc(mixer: ^Mixer) -> bool ---
+    ResumeAllTracks :: proc(mixer: ^Mixer) -> bool ---
 
-	/**
+    /**
 	* Resume all tracks with a specific tag.
 	*
 	* A paused track is not considered "stopped," so its MIX_TrackStoppedCallback
@@ -1974,20 +1969,20 @@ foreign lib {
 	*
 	* \param mixer the mixer on which to resume tracks.
 	* \param tag the tag to use when searching for tracks.
-	* \returns true on success, false on error; call SDL_GetError() for details.
+	* \returns true on success, false on error; call sdl_GetError() for details.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_ResumeTrack
 	* \sa MIX_PauseTrack
 	* \sa MIX_PauseTag
 	* \sa MIX_TagTrack
 	*/
-	ResumeTag :: proc(mixer: ^Mixer, tag: cstring) -> bool ---
+    ResumeTag :: proc(mixer: ^Mixer, tag: cstring) -> bool ---
 
-	/**
+    /**
 	* Query if a track is currently playing.
 	*
 	* If this returns true, the track is currently contributing to the mixer's
@@ -2002,7 +1997,7 @@ foreign lib {
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_PlayTrack
 	* \sa MIX_PauseTrack
@@ -2010,9 +2005,9 @@ foreign lib {
 	* \sa MIX_StopTrack
 	* \sa MIX_TrackPaused
 	*/
-	TrackPlaying :: proc(track: ^Track) -> bool ---
+    TrackPlaying :: proc(track: ^Track) -> bool ---
 
-	/**
+    /**
 	* Query if a track is currently paused.
 	*
 	* If this returns true, the track is not currently contributing to the
@@ -2028,7 +2023,7 @@ foreign lib {
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_PlayTrack
 	* \sa MIX_PauseTrack
@@ -2036,9 +2031,9 @@ foreign lib {
 	* \sa MIX_StopTrack
 	* \sa MIX_TrackPlaying
 	*/
-	TrackPaused :: proc(track: ^Track) -> bool ---
+    TrackPaused :: proc(track: ^Track) -> bool ---
 
-	/**
+    /**
 	* Set a mixer's master gain control.
 	*
 	* Each mixer has a master gain, to adjust the volume of the entire mix. Each
@@ -2054,19 +2049,19 @@ foreign lib {
 	*
 	* \param mixer the mixer to adjust.
 	* \param gain the new gain value.
-	* \returns true on success or false on failure; call SDL_GetError() for more
+	* \returns true on success or false on failure; call sdl_GetError() for more
 	*          information.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_GetMasterGain
 	* \sa MIX_SetTrackGain
 	*/
-	SetMasterGain :: proc(mixer: ^Mixer, gain: f32) -> bool ---
+    SetMasterGain :: proc(mixer: ^Mixer, gain: f32) -> bool ---
 
-	/**
+    /**
 	* Get a mixer's master gain control.
 	*
 	* This returns the last value set through MIX_SetMasterGain(), or 1.0f if no
@@ -2077,14 +2072,14 @@ foreign lib {
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_SetMasterGain
 	* \sa MIX_GetTrackGain
 	*/
-	GetMasterGain :: proc(mixer: ^Mixer) -> f32 ---
+    GetMasterGain :: proc(mixer: ^Mixer) -> f32 ---
 
-	/**
+    /**
 	* Set a track's gain control.
 	*
 	* Each track has its own gain, to adjust its overall volume. Each sample from
@@ -2100,19 +2095,19 @@ foreign lib {
 	*
 	* \param track the track to adjust.
 	* \param gain the new gain value.
-	* \returns true on success or false on failure; call SDL_GetError() for more
+	* \returns true on success or false on failure; call sdl_GetError() for more
 	*          information.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_GetTrackGain
 	* \sa MIX_SetMasterGain
 	*/
-	SetTrackGain :: proc(track: ^Track, gain: f32) -> bool ---
+    SetTrackGain :: proc(track: ^Track, gain: f32) -> bool ---
 
-	/**
+    /**
 	* Get a track's gain control.
 	*
 	* This returns the last value set through MIX_SetTrackGain(), or 1.0f if no
@@ -2123,14 +2118,14 @@ foreign lib {
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_SetTrackGain
 	* \sa MIX_GetMasterGain
 	*/
-	GetTrackGain :: proc(track: ^Track) -> f32 ---
+    GetTrackGain :: proc(track: ^Track) -> f32 ---
 
-	/**
+    /**
 	* Set the gain control of all tracks with a specific tag.
 	*
 	* Each track has its own gain, to adjust its overall volume. Each sample from
@@ -2153,21 +2148,21 @@ foreign lib {
 	* \param mixer the mixer on which to look for tagged tracks.
 	* \param tag the tag to use when searching for tracks.
 	* \param gain the new gain value.
-	* \returns true on success or false on failure; call SDL_GetError() for more
+	* \returns true on success or false on failure; call sdl_GetError() for more
 	*          information.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_GetTrackGain
 	* \sa MIX_SetTrackGain
 	* \sa MIX_SetMasterGain
 	* \sa MIX_TagTrack
 	*/
-	SetTagGain :: proc(mixer: ^Mixer, tag: cstring, gain: f32) -> bool ---
+    SetTagGain :: proc(mixer: ^Mixer, tag: cstring, gain: f32) -> bool ---
 
-	/**
+    /**
 	* Change the frequency ratio of a track.
 	*
 	* The frequency ratio is used to adjust the rate at which audio data is
@@ -2182,18 +2177,18 @@ foreign lib {
 	*
 	* \param track the track on which to change the frequency ratio.
 	* \param ratio the frequency ratio. Must be between 0.01f and 100.0f.
-	* \returns true on success or false on failure; call SDL_GetError() for more
+	* \returns true on success or false on failure; call sdl_GetError() for more
 	*          information.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_GetTrackFrequencyRatio
 	*/
-	SetTrackFrequencyRatio :: proc(track: ^Track, ratio: f32) -> bool ---
+    SetTrackFrequencyRatio :: proc(track: ^Track, ratio: f32) -> bool ---
 
-	/**
+    /**
 	* Query the frequency ratio of a track.
 	*
 	* The frequency ratio is used to adjust the rate at which audio data is
@@ -2210,21 +2205,21 @@ foreign lib {
 	*
 	* \param track the track on which to query the frequency ratio.
 	* \returns the current frequency ratio, or 0.0f on failure; call
-	*          SDL_GetError() for more information.
+	*          sdl_GetError() for more information.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_GetTrackFrequencyRatio
 	*/
-	GetTrackFrequencyRatio :: proc(track: ^Track) -> f32 ---
+    GetTrackFrequencyRatio :: proc(track: ^Track) -> f32 ---
 
-	/**
+    /**
 	* Set the current output channel map of a track.
 	*
 	* Channel maps are optional; most things do not need them, instead passing
-	* data in the order that SDL expects.
+	* data in the order that sdl expects.
 	*
 	* The output channel map reorders track data after transformations and before
 	* it is mixed into a mixer group. This can be useful for reversing stereo
@@ -2244,22 +2239,22 @@ foreign lib {
 	* Tracks default to no remapping applied. Passing a NULL channel map is
 	* legal, and turns off remapping.
 	*
-	* SDL_mixer will copy the channel map; the caller does not have to save this
+	* sdl_mixer will copy the channel map; the caller does not have to save this
 	* array after this call.
 	*
 	* \param track the track to change.
 	* \param chmap the new channel map, NULL to reset to default.
 	* \param count The number of channels in the map.
-	* \returns true on success or false on failure; call SDL_GetError() for more
+	* \returns true on success or false on failure; call sdl_GetError() for more
 	*          information.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-	SetTrackOutputChannelMap :: proc(track: ^Track, chmap: ^i32, count: i32) -> bool ---
+    SetTrackOutputChannelMap :: proc(track: ^Track, chmap: ^i32, count: i32) -> bool ---
 
-	/**
+    /**
 	* Force a track to stereo output, with optionally left/right panning.
 	*
 	* This will cause the output of the track to convert to stereo, and then mix
@@ -2281,21 +2276,21 @@ foreign lib {
 	*
 	* \param track the track to adjust.
 	* \param gains the per-channel gains, or NULL to disable spatialization.
-	* \returns true on success or false on failure; call SDL_GetError() for more
+	* \returns true on success or false on failure; call sdl_GetError() for more
 	*          information.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_SetTrack3DPosition
 	*/
-	SetTrackStereo :: proc(track: ^Track, gains: ^StereoGains) -> bool ---
+    SetTrackStereo :: proc(track: ^Track, gains: ^StereoGains) -> bool ---
 
-	/**
+    /**
 	* Set a track's position in 3D space.
 	*
-	* (Please note that SDL_mixer is not intended to be a extremely powerful 3D
+	* (Please note that sdl_mixer is not intended to be a extremely powerful 3D
 	* API. It lacks 3D features that other APIs like OpenAL offer: there's no
 	* doppler effect, distance models, rolloff, etc. This is meant to be Good
 	* Enough for games that can use some positional sounds and can even take
@@ -2306,7 +2301,7 @@ foreign lib {
 	* full 3D spatialization of this function and forced-stereo mode of
 	* MIX_SetTrackStereo()).
 	*
-	* In 3D positional mode, SDL_mixer will mix this track as if it were
+	* In 3D positional mode, sdl_mixer will mix this track as if it were
 	* positioned in 3D space, including distance attenuation (quieter as it gets
 	* further from the listener) and spatialization (positioned on the correct
 	* speakers to suggest direction, either with stereo outputs or full surround
@@ -2326,19 +2321,19 @@ foreign lib {
 	*
 	* \param track the track for which to set 3D position.
 	* \param position the new 3D position for the track. May be NULL.
-	* \returns true on success or false on failure; call SDL_GetError() for more
+	* \returns true on success or false on failure; call sdl_GetError() for more
 	*          information.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_GetTrack3DPosition
 	* \sa MIX_SetTrackStereo
 	*/
-	SetTrack3DPosition :: proc(track: ^Track, position: ^Point3D) -> bool ---
+    SetTrack3DPosition :: proc(track: ^Track, position: ^Point3D) -> bool ---
 
-	/**
+    /**
 	* Get a track's current position in 3D space.
 	*
 	* If 3D positioning isn't enabled for this track, through a call to
@@ -2346,18 +2341,18 @@ foreign lib {
 	*
 	* \param track the track to query.
 	* \param position on successful return, will contain the track's position.
-	* \returns true on success or false on failure; call SDL_GetError() for more
+	* \returns true on success or false on failure; call sdl_GetError() for more
 	*          information.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_SetTrack3DPosition
 	*/
-	GetTrack3DPosition :: proc(track: ^Track, position: ^Point3D) -> bool ---
+    GetTrack3DPosition :: proc(track: ^Track, position: ^Point3D) -> bool ---
 
-	/**
+    /**
 	* Create a mixing group.
 	*
 	* Tracks are assigned to a mixing group (or if unassigned, they live in a
@@ -2366,7 +2361,7 @@ foreign lib {
 	* groups to produce the final output.
 	*
 	* This can be a useful feature, but is completely optional; apps can ignore
-	* mixing groups entirely and still have a full experience with SDL_mixer.
+	* mixing groups entirely and still have a full experience with sdl_mixer.
 	*
 	* After creating a group, assign tracks to it with MIX_SetTrackGroup(). Use
 	* MIX_SetGroupPostMixCallback() to access the group's mixed data.
@@ -2377,19 +2372,19 @@ foreign lib {
 	*
 	* \param mixer the mixer on which to create a mixing group.
 	* \returns a newly-created mixing group, or NULL on error; call
-	*          SDL_GetError() for more information.
+	*          sdl_GetError() for more information.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_DestroyGroup
 	* \sa MIX_SetTrackGroup
 	* \sa MIX_SetGroupPostMixCallback
 	*/
-	CreateGroup :: proc(mixer: ^Mixer) -> ^Group ---
+    CreateGroup :: proc(mixer: ^Mixer) -> ^Group ---
 
-	/**
+    /**
 	* Destroy a mixing group.
 	*
 	* Any tracks currently assigned to this group will be reassigned to the
@@ -2399,47 +2394,47 @@ foreign lib {
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_CreateGroup
 	*/
-	DestroyGroup :: proc(group: ^Group) ---
+    DestroyGroup :: proc(group: ^Group) ---
 
-	/**
+    /**
 	* Get the properties associated with a group.
 	*
-	* Currently SDL_mixer assigns no properties of its own to a group, but this
+	* Currently sdl_mixer assigns no properties of its own to a group, but this
 	* can be a convenient place to store app-specific data.
 	*
-	* A SDL.PropertiesID is created the first time this function is called for a
+	* A sdl.PropertiesID is created the first time this function is called for a
 	* given group.
 	*
 	* \param group the group to query.
 	* \returns a valid property ID on success or 0 on failure; call
-	*          SDL_GetError() for more information.
+	*          sdl_GetError() for more information.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-	GetGroupProperties :: proc(group: ^Group) -> SDL.PropertiesID ---
+    GetGroupProperties :: proc(group: ^Group) -> sdl.PropertiesID ---
 
-	/**
+    /**
 	* Get the MIX_Mixer that owns a MIX_Group.
 	*
 	* This is the mixer pointer that was passed to MIX_CreateGroup().
 	*
 	* \param group the group to query.
 	* \returns the mixer associated with the group, or NULL on error; call
-	*          SDL_GetError() for more information.
+	*          sdl_GetError() for more information.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-	GetGroupMixer :: proc(group: ^Group) -> ^Mixer ---
+    GetGroupMixer :: proc(group: ^Group) -> ^Mixer ---
 
-	/**
+    /**
 	* Assign a track to a mixing group.
 	*
 	* All tracks in a group are mixed together, and that output is made available
@@ -2453,19 +2448,19 @@ foreign lib {
 	*
 	* \param track the track to set mixing group assignment.
 	* \param group the new mixing group to assign to. May be NULL.
-	* \returns true on success or false on failure; call SDL_GetError() for more
+	* \returns true on success or false on failure; call sdl_GetError() for more
 	*          information.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_CreateGroup
 	* \sa MIX_SetGroupPostMixCallback
 	*/
-	SetTrackGroup :: proc(track: ^Track, group: ^Group) -> bool ---
+    SetTrackGroup :: proc(track: ^Track, group: ^Group) -> bool ---
 
-	/**
+    /**
 	* Set a callback that fires when a MIX_Track is stopped.
 	*
 	* When a track completes playback, either because it ran out of data to mix
@@ -2488,20 +2483,20 @@ foreign lib {
 	* \param cb the function to call when the track stops. May be NULL.
 	* \param userdata an opaque pointer provided to the callback for its own
 	*                 personal use.
-	* \returns true on success or false on failure; call SDL_GetError() for more
+	* \returns true on success or false on failure; call sdl_GetError() for more
 	*          information.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_TrackStoppedCallback
 	*/
-	SetTrackStoppedCallback :: proc(track: ^Track, cb: TrackStoppedCallback, userdata: rawptr) -> bool ---
+    SetTrackStoppedCallback :: proc(track: ^Track, cb: TrackStoppedCallback, userdata: rawptr) -> bool ---
 
-	/**
+    /**
 	* Set a callback that fires when a MIX_Track has initial decoded audio.
 	*
 	* As a track needs to mix more data, it pulls from its input (a MIX_Audio, an
-	* SDL.AudioStream, etc). This input might be a compressed file format, like
+	* sdl.AudioStream, etc). This input might be a compressed file format, like
 	* MP3, so a little more data is uncompressed from it.
 	*
 	* Once the track has PCM data to start operating on, it can fire a callback
@@ -2519,21 +2514,21 @@ foreign lib {
 	* \param cb the function to call when the track mixes. May be NULL.
 	* \param userdata an opaque pointer provided to the callback for its own
 	*                 personal use.
-	* \returns true on success or false on failure; call SDL_GetError() for more
+	* \returns true on success or false on failure; call sdl_GetError() for more
 	*          information.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_TrackMixCallback
 	* \sa MIX_SetTrackCookedCallback
 	*/
-	SetTrackRawCallback :: proc(track: ^Track, cb: TrackMixCallback, userdata: rawptr) -> bool ---
+    SetTrackRawCallback :: proc(track: ^Track, cb: TrackMixCallback, userdata: rawptr) -> bool ---
 
-	/**
+    /**
 	* Set a callback that fires when the mixer has transformed a track's audio.
 	*
 	* As a track needs to mix more data, it pulls from its input (a MIX_Audio, an
-	* SDL.AudioStream, etc). This input might be a compressed file format, like
+	* sdl.AudioStream, etc). This input might be a compressed file format, like
 	* MP3, so a little more data is uncompressed from it.
 	*
 	* Once the track has PCM data to start operating on, and its raw callback has
@@ -2554,17 +2549,17 @@ foreign lib {
 	* \param cb the function to call when the track mixes. May be NULL.
 	* \param userdata an opaque pointer provided to the callback for its own
 	*                 personal use.
-	* \returns true on success or false on failure; call SDL_GetError() for more
+	* \returns true on success or false on failure; call sdl_GetError() for more
 	*          information.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_TrackMixCallback
 	* \sa MIX_SetTrackRawCallback
 	*/
-	SetTrackCookedCallback :: proc(track: ^Track, cb: TrackMixCallback, userdata: rawptr) -> bool ---
+    SetTrackCookedCallback :: proc(track: ^Track, cb: TrackMixCallback, userdata: rawptr) -> bool ---
 
-	/**
+    /**
 	* Set a callback that fires when a mixer group has completed mixing.
 	*
 	* After all playing tracks in a mixer group have pulled in more data from
@@ -2584,16 +2579,16 @@ foreign lib {
 	* \param cb the function to call when the group mixes. May be NULL.
 	* \param userdata an opaque pointer provided to the callback for its own
 	*                 personal use.
-	* \returns true on success or false on failure; call SDL_GetError() for more
+	* \returns true on success or false on failure; call sdl_GetError() for more
 	*          information.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_GroupMixCallback
 	*/
-	SetGroupPostMixCallback :: proc(group: ^Group, cb: GroupMixCallback, userdata: rawptr) -> bool ---
+    SetGroupPostMixCallback :: proc(group: ^Group, cb: GroupMixCallback, userdata: rawptr) -> bool ---
 
-	/**
+    /**
 	* Set a callback that fires when all mixing has completed.
 	*
 	* After all mixer groups have processed, their buffers are mixed together
@@ -2610,19 +2605,19 @@ foreign lib {
 	* \param cb the function to call when the mixer mixes. May be NULL.
 	* \param userdata an opaque pointer provided to the callback for its own
 	*                 personal use.
-	* \returns true on success or false on failure; call SDL_GetError() for more
+	* \returns true on success or false on failure; call sdl_GetError() for more
 	*          information.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_PostMixCallback
 	*/
-	SetPostMixCallback :: proc(mixer: ^Mixer, cb: PostMixCallback, userdata: rawptr) -> bool ---
+    SetPostMixCallback :: proc(mixer: ^Mixer, cb: PostMixCallback, userdata: rawptr) -> bool ---
 
-	/**
+    /**
 	* Generate mixer output when not driving an audio device.
 	*
-	* SDL_mixer allows the creation of MIX_Mixer objects that are not connected
+	* sdl_mixer allows the creation of MIX_Mixer objects that are not connected
 	* to an audio device, by calling MIX_CreateMixer() instead of
 	* MIX_CreateMixerDevice(). Such mixers will not generate output until
 	* explicitly requested through this function.
@@ -2644,7 +2639,7 @@ foreign lib {
 	* will continue to mix from the point the previous call completed, etc. The
 	* mixer state can be changed between each call in any way desired: tracks can
 	* be added, played, stopped, changed, removed, etc. Effectively this function
-	* does the same thing SDL_mixer does internally when the audio device needs
+	* does the same thing sdl_mixer does internally when the audio device needs
 	* more audio to play.
 	*
 	* This function can not be used with mixers from MIX_CreateMixerDevice();
@@ -2653,21 +2648,21 @@ foreign lib {
 	* \param mixer the mixer for which to generate more audio.
 	* \param buffer a pointer to a buffer to store audio in.
 	* \param buflen the number of bytes to store in buffer.
-	* \returns true on success or false on failure; call SDL_GetError() for more
+	* \returns true on success or false on failure; call sdl_GetError() for more
 	*          information.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_CreateMixer
 	*/
-	Generate :: proc(mixer: ^Mixer, buffer: rawptr, buflen: i32) -> bool ---
+    Generate :: proc(mixer: ^Mixer, buffer: rawptr, buflen: i32) -> bool ---
 
-	/**
+    /**
 	* Create a MIX_AudioDecoder from a path on the filesystem.
 	*
-	* Most apps won't need this, as SDL_mixer's usual interfaces will decode
+	* Most apps won't need this, as sdl_mixer's usual interfaces will decode
 	* audio as needed. However, if one wants to decode an audio file into a
 	* memory buffer without playing it, this interface offers that.
 	*
@@ -2679,7 +2674,7 @@ foreign lib {
 	* When done with the audio decoder, it can be destroyed with
 	* MIX_DestroyAudioDecoder().
 	*
-	* This function requires SDL_mixer to have been initialized with a successful
+	* This function requires sdl_mixer to have been initialized with a successful
 	* call to MIX_Init(), but does not need an actual MIX_Mixer to have been
 	* created.
 	*
@@ -2689,18 +2684,18 @@ foreign lib {
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_CreateAudioDecoder_IO
 	* \sa MIX_DecodeAudio
 	* \sa MIX_DestroyAudioDecoder
 	*/
-	CreateAudioDecoder :: proc(path: cstring, props: SDL.PropertiesID) -> ^AudioDecoder ---
+    CreateAudioDecoder :: proc(path: cstring, props: sdl.PropertiesID) -> ^AudioDecoder ---
 
-	/**
-	* Create a MIX_AudioDecoder from an SDL.IOStream.
+    /**
+	* Create a MIX_AudioDecoder from an sdl.IOStream.
 	*
-	* Most apps won't need this, as SDL_mixer's usual interfaces will decode
+	* Most apps won't need this, as sdl_mixer's usual interfaces will decode
 	* audio as needed. However, if one wants to decode an audio file into a
 	* memory buffer without playing it, this interface offers that.
 	*
@@ -2716,7 +2711,7 @@ foreign lib {
 	* When done with the audio decoder, it can be destroyed with
 	* MIX_DestroyAudioDecoder().
 	*
-	* This function requires SDL_mixer to have been initialized with a successful
+	* This function requires sdl_mixer to have been initialized with a successful
 	* call to MIX_Init(), but does not need an actual MIX_Mixer to have been
 	* created.
 	*
@@ -2727,15 +2722,15 @@ foreign lib {
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_CreateAudioDecoder_IO
 	* \sa MIX_DecodeAudio
 	* \sa MIX_DestroyAudioDecoder
 	*/
-	CreateAudioDecoder_IO :: proc(io: ^SDL.IOStream, closeio: bool, props: SDL.PropertiesID) -> ^AudioDecoder ---
+    CreateAudioDecoder_IO :: proc(io: ^sdl.IOStream, closeio: bool, props: sdl.PropertiesID) -> ^AudioDecoder ---
 
-	/**
+    /**
 	* Destroy the specified audio decoder.
 	*
 	* Destroying a NULL MIX_AudioDecoder is a legal no-op.
@@ -2744,17 +2739,17 @@ foreign lib {
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-	DestroyAudioDecoder :: proc(audiodecoder: ^AudioDecoder) ---
+    DestroyAudioDecoder :: proc(audiodecoder: ^AudioDecoder) ---
 
-	/**
+    /**
 	* Get the properties associated with a MIX_AudioDecoder.
 	*
-	* SDL_mixer offers some properties of its own, but this can also be a
+	* sdl_mixer offers some properties of its own, but this can also be a
 	* convenient place to store app-specific data.
 	*
-	* A SDL.PropertiesID is created the first time this function is called for a
+	* A sdl.PropertiesID is created the first time this function is called for a
 	* given MIX_AudioDecoder, if necessary.
 	*
 	* The file-specific metadata exposed through this function is identical to
@@ -2763,36 +2758,36 @@ foreign lib {
 	*
 	* \param audiodecoder the audio decoder to query.
 	* \returns a valid property ID on success or 0 on failure; call
-	*          SDL_GetError() for more information.
+	*          sdl_GetError() for more information.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*
 	* \sa MIX_GetAudioProperties
 	*/
-	GetAudioDecoderProperties :: proc(audiodecoder: ^AudioDecoder) -> SDL.PropertiesID ---
+    GetAudioDecoderProperties :: proc(audiodecoder: ^AudioDecoder) -> sdl.PropertiesID ---
 
-	/**
+    /**
 	* Query the initial audio format of a MIX_AudioDecoder.
 	*
 	* Note that some audio files can change format in the middle; some explicitly
 	* support this, but a more common example is two MP3 files concatenated
-	* together. In many cases, SDL_mixer will correctly handle these sort of
+	* together. In many cases, sdl_mixer will correctly handle these sort of
 	* files, but this function will only report the initial format a file uses.
 	*
 	* \param audiodecoder the audio decoder to query.
 	* \param spec on success, audio format details will be stored here.
-	* \returns true on success or false on failure; call SDL_GetError() for more
+	* \returns true on success or false on failure; call sdl_GetError() for more
 	*          information.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-	GetAudioDecoderFormat :: proc(audiodecoder: ^AudioDecoder, spec: ^SDL.AudioSpec) -> bool ---
+    GetAudioDecoderFormat :: proc(audiodecoder: ^AudioDecoder, spec: ^sdl.AudioSpec) -> bool ---
 
-	/**
+    /**
 	* Decode more audio from a MIX_AudioDecoder.
 	*
 	* Data is decoded on demand in whatever format is requested. The format is
@@ -2807,12 +2802,12 @@ foreign lib {
 	* \param buffer the memory buffer to store decoded audio.
 	* \param buflen the maximum number of bytes to store to `buffer`.
 	* \param spec the format that audio data will be stored to `buffer`.
-	* \returns number of bytes decoded, or -1 on error; call SDL_GetError() for
+	* \returns number of bytes decoded, or -1 on error; call sdl_GetError() for
 	*          more information.
 	*
 	* \threadsafety It is safe to call this function from any thread.
 	*
-	* \since This function is available since SDL_mixer 3.0.0.
+	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-	DecodeAudio :: proc(audiodecoder: ^AudioDecoder, buffer: rawptr, buflen: i32, spec: ^SDL.AudioSpec) -> i32 ---
+    DecodeAudio :: proc(audiodecoder: ^AudioDecoder, buffer: rawptr, buflen: i32, spec: ^sdl.AudioSpec) -> i32 ---
 }

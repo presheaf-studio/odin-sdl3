@@ -1,7 +1,8 @@
 package sdl3
 
 when ODIN_OS == .Windows {
-	  @(export) foreign import lib { "SDL3.lib" }
+    @(export)
+    foreign import lib "SDL3.lib"
 } else when ODIN_OS == .Darwin {
     @(require) foreign import "system:System"
     @(require) foreign import "system:ObjC"
@@ -26,7 +27,9 @@ when ODIN_OS == .Windows {
     @(require) foreign import "system:Cocoa.framework"
     @(require) foreign import "system:AppKit.framework"
     @(require) foreign import "system:Carbon.framework"
-	  @(export) foreign import lib { "SDL3.a" }
+    @(export)
+    foreign import lib "SDL3.darwin.a"
 } else {
-	  @(export) foreign import lib { "system:SDL3" }
+    @(export)
+    foreign import lib "system:SDL3"
 }
