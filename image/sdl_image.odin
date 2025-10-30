@@ -5,11 +5,13 @@ import "core:c"
 import sdl "../"
 
 when ODIN_OS == .Windows {
-    foreign import lib "sdl3_image.lib"
+    foreign import lib "SDL3_image.lib"
 } else when ODIN_OS == .Darwin {
-    foreign import lib "sdl3_image.darwin.a"
+    // foreign import lib "sdl3_image.darwin.a"
+    // foreign import lib "libSDL3_image.dylib"
+    foreign import lib "system:SDL3_image"
 } else {
-    foreign import lib "system:sdl3_image"
+    foreign import lib "system:SDL3_image"
 }
 
 MAJOR_VERSION :: 3

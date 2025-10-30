@@ -5,11 +5,12 @@ import "core:c"
 import sdl "../"
 
 when ODIN_OS == .Windows {
-    foreign import lib "sdl3_ttf.lib"
+    foreign import lib "SDL3_ttf.lib"
 } else when ODIN_OS == .Darwin {
-    foreign import lib "sdl3_ttf.darwin.a"
+    // foreign import lib "SDL3_ttf.darwin.a"
+    foreign import lib "libSDL3_ttf.dylib"
 } else {
-    foreign import lib "system:sdl3_ttf"
+    foreign import lib "system:SDL3_ttf"
 }
 
 
