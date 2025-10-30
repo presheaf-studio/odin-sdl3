@@ -120,11 +120,12 @@ import "core:c"
 _ :: c
 
 when ODIN_OS == .Windows {
-    foreign import lib "sdl3_mixer.lib"
+    foreign import lib "SDL3_mixer.lib"
 } else when ODIN_OS == .Darwin {
-    foreign import lib "sdl3_mixer.darwin.a"
+    // foreign import lib "SDL3_mixer.darwin.a"
+    foreign import lib "libSDL3_mixer.dylib"
 } else {
-    foreign import lib "system:sdl3_mixer"
+    foreign import lib "system:SDL3_mixer"
 }
 
 import sdl "../"
