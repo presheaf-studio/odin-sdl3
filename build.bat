@@ -15,13 +15,18 @@ if not exist SDL_ttf\NUL (
    git clone https://github.com/libsdl-org/SDL_ttf --revision 6b1114c526ed98d5d03bf504ef06f04c669e2be2 --depth=1 --recurse-submodules -j 10
 )
 
-cmake -S . -B libs -DSDL_SHARED=OFF -DSDL_STATIC=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=Release
-cmake --build libs -j%NUMBER_OF_PROCESSORS% --config Release
+cmake -S . -B build -DSDL_STATIC=OFF -DSDL_SHARED=ON -DBUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE=Release
+cmake --build build -j%NUMBER_OF_PROCESSORS% --config Release
 
-copy /y libs\SDL\Release\SDL3-static.lib             SDL3.lib
-copy /y libs\SDL_image\Release\SDL3_image-static.lib image\SDL3_image.lib
-copy /y libs\SDL_mixer\Release\SDL3_mixer-static.lib mixer\SDL3_mixer.lib
-copy /y libs\SDL_ttf\Release\SDL3_ttf-static.lib     ttf\SDL3_ttf.lib
+copy /y build\SDL\Release\SDL3.lib             SDL3.lib
+copy /y build\SDL_image\Release\SDL3_image.lib image\SDL3_image.lib
+copy /y build\SDL_mixer\Release\SDL3_mixer.lib mixer\SDL3_mixer.lib
+copy /y build\SDL_ttf\Release\SDL3_ttf.lib     ttf\SDL3_ttf.lib
+
+copy /y build\SDL\Release\SDL3.dll             SDL3.dll
+copy /y build\SDL_image\Release\SDL3_image.dll image\SDL3_image.dll
+copy /y build\SDL_mixer\Release\SDL3_mixer.dll mixer\SDL3_mixer.dll
+copy /y build\SDL_ttf\Release\SDL3_ttf.dll     ttf\SDL3_ttf.dll
 
 if not exist include\NUL (
    mkdir include
