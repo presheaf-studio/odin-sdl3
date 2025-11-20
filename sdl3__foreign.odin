@@ -32,7 +32,10 @@ when ODIN_OS == .Windows {
     // foreign import lib "libSDL3.dylib"
     @(export)
     foreign import lib "system:SDL3"
-} else {
+} else when ODIN_OS == .Linux {
     @(export)
     foreign import lib "system:SDL3"
+} else when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
+    @(export)
+    foreign import lib "SDL3.wasm.a"
 }

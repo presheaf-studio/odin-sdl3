@@ -10,8 +10,11 @@ when ODIN_OS == .Windows {
     // foreign import lib "sdl3_image.darwin.a"
     // foreign import lib "libSDL3_image.dylib"
     foreign import lib "system:SDL3_image"
-} else {
+} else when ODIN_OS == .Linux {
     foreign import lib "system:SDL3_image"
+} else when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
+    @(export)
+    foreign import lib "SDL3_image.wasm.a"
 }
 
 MAJOR_VERSION :: 3

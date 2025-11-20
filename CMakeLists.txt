@@ -6,6 +6,8 @@ set(SDL_DIALOG OFF)
 set(SDL_RENDER OFF)
 set(SDL_GPU OFF)
 set(SDL_CAMERA OFF)
+set(SDL_JOYSTICK ON)
+set(SDL_VIRTUAL_JOYSTICK ON)
 # IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 # 	set(SDL_VIDEO ON CACHE BOOL "" FORCE)
 # ENDIF()
@@ -30,7 +32,8 @@ add_subdirectory(SDL_mixer)
 
 set(SDLIMAGE_VENDORED ON)
 # disable formats we don't use to make the build faster and smaller.
-set(SDLIMAGE_AVIF ON)
+# NOTE: avif disabled due to dumb WASM compiler errors
+set(SDLIMAGE_AVIF OFF)
 set(SDLIMAGE_BMP ON)
 set(SDLIMAGE_GIF ON)
 set(SDLIMAGE_JPG ON)

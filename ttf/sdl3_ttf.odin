@@ -9,8 +9,11 @@ when ODIN_OS == .Windows {
 } else when ODIN_OS == .Darwin {
     // foreign import lib "SDL3_ttf.darwin.a"
     foreign import lib "libSDL3_ttf.dylib"
-} else {
+} else when ODIN_OS == .Linux {
     foreign import lib "system:SDL3_ttf"
+} else when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
+    @(export)
+    foreign import lib "SDL3_ttf.wasm.a"
 }
 
 
