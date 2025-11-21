@@ -1,7 +1,7 @@
 package sdl3
 
 when ODIN_OS == .Windows {
-    @(export)
+    // @(export)
     foreign import lib "SDL3.lib"
 } else when ODIN_OS == .Darwin {
     // @(require) foreign import "system:System"
@@ -30,12 +30,12 @@ when ODIN_OS == .Windows {
     // @(export)
     // foreign import lib "SDL3.darwin.a"
     // foreign import lib "libSDL3.dylib"
-    @(export)
+    // @(export)
     foreign import lib "system:SDL3"
 } else when ODIN_OS == .Linux {
-    @(export)
+    // @(export)
     foreign import lib "system:SDL3"
 } else when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
-    @(export)
-    foreign import lib "SDL3.wasm.a"
+    // @(export)
+    foreign import lib "SDL3_wasm.a"
 }

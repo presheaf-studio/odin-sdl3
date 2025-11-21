@@ -13,7 +13,6 @@ when ODIN_OS == .Windows {
 } else when ODIN_OS == .Linux {
     foreign import lib "system:SDL3_image"
 } else when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
-    @(export)
     foreign import lib "SDL3_image.wasm.a"
 }
 
