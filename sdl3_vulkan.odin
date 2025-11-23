@@ -1,3 +1,6 @@
+#+build !js
+#+build !wasi
+#+build !orca
 package sdl3
 
 import vk "vendor:vulkan"
