@@ -1,9 +1,5 @@
 package sdl3
 
-when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
-    foreign import lib "SDL3.wasm.a"
-}
-
 import "core:c"
 
 LogCategory :: enum c.int {
@@ -54,49 +50,52 @@ LogPriority :: enum c.int {
 LogOutputFunction :: #type proc "c" (userdata: rawptr, category: LogCategory, priority: LogPriority, message: cstring)
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
+
+    // odinfmt: disable
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign {
 
-    SetLogPriorities :: proc(priority: LogPriority) ---
-    SetLogPriority :: proc(category: LogCategory, priority: LogPriority) ---
-    GetLogPriority :: proc(category: LogCategory) -> LogPriority ---
-    ResetLogPriorities :: proc() ---
-    SetLogPriorityPrefix :: proc(priority: LogPriority, prefix: cstring) -> bool ---
-    Log :: proc(fmt: cstring, #c_vararg args: ..any) ---
-    LogTrace :: proc(category: c.int, fmt: cstring, #c_vararg args: ..any) ---
-    LogVerbose :: proc(category: c.int, fmt: cstring, #c_vararg args: ..any) ---
-    LogDebug :: proc(category: c.int, fmt: cstring, #c_vararg args: ..any) ---
-    LogInfo :: proc(category: c.int, fmt: cstring, #c_vararg args: ..any) ---
-    LogWarn :: proc(category: c.int, fmt: cstring, #c_vararg args: ..any) ---
-    LogError :: proc(category: c.int, fmt: cstring, #c_vararg args: ..any) ---
-    LogCritical :: proc(category: c.int, fmt: cstring, #c_vararg args: ..any) ---
-    LogMessage :: proc(category: c.int, priority: LogPriority, fmt: cstring, #c_vararg args: ..any) ---
-    LogMessageV :: proc(category: c.int, priority: LogPriority, fmt: cstring, ap: c.va_list) ---
-    GetDefaultLogOutputFunction :: proc() -> LogOutputFunction ---
-    GetLogOutputFunction :: proc(callback: ^LogOutputFunction, userdata: ^rawptr) ---
-    SetLogOutputFunction :: proc(callback: LogOutputFunction, userdata: rawptr) ---
+        SetLogPriorities :: proc(priority: LogPriority) ---
+        SetLogPriority :: proc(category: LogCategory, priority: LogPriority) ---
+        GetLogPriority :: proc(category: LogCategory) -> LogPriority ---
+        ResetLogPriorities :: proc() ---
+        SetLogPriorityPrefix :: proc(priority: LogPriority, prefix: cstring) -> bool ---
+        Log :: proc(fmt: cstring, #c_vararg args: ..any) ---
+        LogTrace :: proc(category: c.int, fmt: cstring, #c_vararg args: ..any) ---
+        LogVerbose :: proc(category: c.int, fmt: cstring, #c_vararg args: ..any) ---
+        LogDebug :: proc(category: c.int, fmt: cstring, #c_vararg args: ..any) ---
+        LogInfo :: proc(category: c.int, fmt: cstring, #c_vararg args: ..any) ---
+        LogWarn :: proc(category: c.int, fmt: cstring, #c_vararg args: ..any) ---
+        LogError :: proc(category: c.int, fmt: cstring, #c_vararg args: ..any) ---
+        LogCritical :: proc(category: c.int, fmt: cstring, #c_vararg args: ..any) ---
+        LogMessage :: proc(category: c.int, priority: LogPriority, fmt: cstring, #c_vararg args: ..any) ---
+        LogMessageV :: proc(category: c.int, priority: LogPriority, fmt: cstring, ap: c.va_list) ---
+        GetDefaultLogOutputFunction :: proc() -> LogOutputFunction ---
+        GetLogOutputFunction :: proc(callback: ^LogOutputFunction, userdata: ^rawptr) ---
+        SetLogOutputFunction :: proc(callback: LogOutputFunction, userdata: rawptr) ---
     }
+    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign lib {
 
-    SetLogPriorities :: proc(priority: LogPriority) ---
-    SetLogPriority :: proc(category: LogCategory, priority: LogPriority) ---
-    GetLogPriority :: proc(category: LogCategory) -> LogPriority ---
-    ResetLogPriorities :: proc() ---
-    SetLogPriorityPrefix :: proc(priority: LogPriority, prefix: cstring) -> bool ---
-    Log :: proc(fmt: cstring, #c_vararg args: ..any) ---
-    LogTrace :: proc(category: c.int, fmt: cstring, #c_vararg args: ..any) ---
-    LogVerbose :: proc(category: c.int, fmt: cstring, #c_vararg args: ..any) ---
-    LogDebug :: proc(category: c.int, fmt: cstring, #c_vararg args: ..any) ---
-    LogInfo :: proc(category: c.int, fmt: cstring, #c_vararg args: ..any) ---
-    LogWarn :: proc(category: c.int, fmt: cstring, #c_vararg args: ..any) ---
-    LogError :: proc(category: c.int, fmt: cstring, #c_vararg args: ..any) ---
-    LogCritical :: proc(category: c.int, fmt: cstring, #c_vararg args: ..any) ---
-    LogMessage :: proc(category: c.int, priority: LogPriority, fmt: cstring, #c_vararg args: ..any) ---
-    LogMessageV :: proc(category: c.int, priority: LogPriority, fmt: cstring, ap: c.va_list) ---
-    GetDefaultLogOutputFunction :: proc() -> LogOutputFunction ---
-    GetLogOutputFunction :: proc(callback: ^LogOutputFunction, userdata: ^rawptr) ---
-    SetLogOutputFunction :: proc(callback: LogOutputFunction, userdata: rawptr) ---
+        SetLogPriorities :: proc(priority: LogPriority) ---
+        SetLogPriority :: proc(category: LogCategory, priority: LogPriority) ---
+        GetLogPriority :: proc(category: LogCategory) -> LogPriority ---
+        ResetLogPriorities :: proc() ---
+        SetLogPriorityPrefix :: proc(priority: LogPriority, prefix: cstring) -> bool ---
+        Log :: proc(fmt: cstring, #c_vararg args: ..any) ---
+        LogTrace :: proc(category: c.int, fmt: cstring, #c_vararg args: ..any) ---
+        LogVerbose :: proc(category: c.int, fmt: cstring, #c_vararg args: ..any) ---
+        LogDebug :: proc(category: c.int, fmt: cstring, #c_vararg args: ..any) ---
+        LogInfo :: proc(category: c.int, fmt: cstring, #c_vararg args: ..any) ---
+        LogWarn :: proc(category: c.int, fmt: cstring, #c_vararg args: ..any) ---
+        LogError :: proc(category: c.int, fmt: cstring, #c_vararg args: ..any) ---
+        LogCritical :: proc(category: c.int, fmt: cstring, #c_vararg args: ..any) ---
+        LogMessage :: proc(category: c.int, priority: LogPriority, fmt: cstring, #c_vararg args: ..any) ---
+        LogMessageV :: proc(category: c.int, priority: LogPriority, fmt: cstring, ap: c.va_list) ---
+        GetDefaultLogOutputFunction :: proc() -> LogOutputFunction ---
+        GetLogOutputFunction :: proc(callback: ^LogOutputFunction, userdata: ^rawptr) ---
+        SetLogOutputFunction :: proc(callback: LogOutputFunction, userdata: rawptr) ---
     }
 }

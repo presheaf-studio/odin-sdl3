@@ -351,10 +351,12 @@ PostMixCallback :: proc "c" (_: rawptr, _: ^Mixer, _: ^sdl.AudioSpec, _: ^f32, _
 AudioDecoder :: struct {}
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
+
+    // odinfmt: disable
     @(default_calling_convention = "c", link_prefix = "MIX_")
     foreign {
 
-    /**
+        /**
 	* Get the version of sdl_mixer that is linked against your program.
 	*
 	* If you are linking to sdl_mixer dynamically, then it is possible that the
@@ -370,9 +372,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa sdl_MIXER_VERSION
 	*/
-    Version :: proc() -> i32 ---
+        Version :: proc() -> i32 ---
 
-    /**
+        /**
 	* Initialize the sdl_mixer library.
 	*
 	* This must be successfully called once before (almost) any other sdl_mixer
@@ -390,9 +392,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_Quit
 	*/
-    Init :: proc() -> bool ---
+        Init :: proc() -> bool ---
 
-    /**
+        /**
 	* Deinitialize the sdl_mixer library.
 	*
 	* This must be called when done with the library, probably at the end of your
@@ -426,9 +428,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_Init
 	*/
-    Quit :: proc() ---
+        Quit :: proc() ---
 
-    /**
+        /**
 	* Report the number of audio decoders available for use.
 	*
 	* An audio decoder is what turns specific audio file formats into usable PCM
@@ -448,9 +450,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_GetAudioDecoder
 	*/
-    GetNumAudioDecoders :: proc() -> i32 ---
+        GetNumAudioDecoders :: proc() -> i32 ---
 
-    /**
+        /**
 	* Report the name of a specific audio decoders.
 	*
 	* An audio decoder is what turns specific audio file formats into usable PCM
@@ -479,9 +481,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_GetNumAudioDecoders
 	*/
-    GetAudioDecoder :: proc(index: i32) -> cstring ---
+        GetAudioDecoder :: proc(index: i32) -> cstring ---
 
-    /**
+        /**
 	* Create a mixer that plays sound directly to an audio device.
 	*
 	* This is usually the function you want, vs MIX_CreateMixer().
@@ -526,9 +528,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_CreateMixer
 	* \sa MIX_DestroyMixer
 	*/
-    CreateMixerDevice :: proc(devid: sdl.AudioDeviceID, spec: ^sdl.AudioSpec) -> ^Mixer ---
+        CreateMixerDevice :: proc(devid: sdl.AudioDeviceID, spec: ^sdl.AudioSpec) -> ^Mixer ---
 
-    /**
+        /**
 	* Create a mixer that generates audio to a memory buffer.
 	*
 	* Usually you want MIX_CreateMixerDevice() instead of this function. The
@@ -555,9 +557,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_CreateMixerDevice
 	* \sa MIX_DestroyMixer
 	*/
-    CreateMixer :: proc(spec: ^sdl.AudioSpec) -> ^Mixer ---
+        CreateMixer :: proc(spec: ^sdl.AudioSpec) -> ^Mixer ---
 
-    /**
+        /**
 	* Free a mixer.
 	*
 	* If this mixer was created with MIX_CreateMixerDevice(), this function will
@@ -577,9 +579,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_CreateMixerDevice
 	* \sa MIX_CreateMixer
 	*/
-    DestroyMixer :: proc(mixer: ^Mixer) ---
+        DestroyMixer :: proc(mixer: ^Mixer) ---
 
-    /**
+        /**
 	* Get the properties associated with a mixer.
 	*
 	* Currently sdl_mixer assigns no properties of its own to a mixer, but this
@@ -596,9 +598,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    GetMixerProperties :: proc(mixer: ^Mixer) -> sdl.PropertiesID ---
+        GetMixerProperties :: proc(mixer: ^Mixer) -> sdl.PropertiesID ---
 
-    /**
+        /**
 	* Get the audio format a mixer is generating.
 	*
 	* Generally you don't need this information, as sdl_mixer will convert data
@@ -627,9 +629,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    GetMixerFormat :: proc(mixer: ^Mixer, spec: ^sdl.AudioSpec) -> bool ---
+        GetMixerFormat :: proc(mixer: ^Mixer, spec: ^sdl.AudioSpec) -> bool ---
 
-    /**
+        /**
 	* Load audio for playback from an sdl.IOStream.
 	*
 	* In normal usage, apps should load audio once, maybe at startup, then play
@@ -686,9 +688,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_LoadAudio_IO
 	* \sa MIX_LoadAudioWithProperties
 	*/
-    LoadAudio_IO :: proc(mixer: ^Mixer, io: ^sdl.IOStream, predecode: bool, closeio: bool) -> ^Audio ---
+        LoadAudio_IO :: proc(mixer: ^Mixer, io: ^sdl.IOStream, predecode: bool, closeio: bool) -> ^Audio ---
 
-    /**
+        /**
 	* Load audio for playback from a file.
 	*
 	* This is equivalent to calling:
@@ -716,9 +718,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_LoadAudio_IO
 	* \sa MIX_LoadAudioWithProperties
 	*/
-    LoadAudio :: proc(mixer: ^Mixer, path: cstring, predecode: bool) -> ^Audio ---
+        LoadAudio :: proc(mixer: ^Mixer, path: cstring, predecode: bool) -> ^Audio ---
 
-    /**
+        /**
 	* Load audio for playback through a collection of properties.
 	*
 	* Please see MIX_LoadAudio_IO() for a description of what the various
@@ -761,9 +763,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_LoadAudio
 	* \sa MIX_LoadAudio_IO
 	*/
-    LoadAudioWithProperties :: proc(props: sdl.PropertiesID) -> ^Audio ---
+        LoadAudioWithProperties :: proc(props: sdl.PropertiesID) -> ^Audio ---
 
-    /**
+        /**
 	* Load raw PCM data from an sdl.IOStream.
 	*
 	* There are other options for _streaming_ raw PCM: an sdl.AudioStream can be
@@ -796,9 +798,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_LoadRawAudioNoCopy
 	* \sa MIX_LoadAudio_IO
 	*/
-    LoadRawAudio_IO :: proc(mixer: ^Mixer, io: ^sdl.IOStream, spec: ^sdl.AudioSpec, closeio: bool) -> ^Audio ---
+        LoadRawAudio_IO :: proc(mixer: ^Mixer, io: ^sdl.IOStream, spec: ^sdl.AudioSpec, closeio: bool) -> ^Audio ---
 
-    /**
+        /**
 	* Load raw PCM data from a memory buffer.
 	*
 	* There are other options for _streaming_ raw PCM: an sdl.AudioStream can be
@@ -832,9 +834,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_LoadRawAudioNoCopy
 	* \sa MIX_LoadAudio_IO
 	*/
-    LoadRawAudio :: proc(mixer: ^Mixer, data: rawptr, datalen: uint, spec: ^sdl.AudioSpec) -> ^Audio ---
+        LoadRawAudio :: proc(mixer: ^Mixer, data: rawptr, datalen: uint, spec: ^sdl.AudioSpec) -> ^Audio ---
 
-    /**
+        /**
 	* Load raw PCM data from a memory buffer without making a copy.
 	*
 	* This buffer must live for the entire time the returned MIX_Audio lives, as
@@ -874,9 +876,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_LoadRawAudio_IO
 	* \sa MIX_LoadAudio_IO
 	*/
-    LoadRawAudioNoCopy :: proc(mixer: ^Mixer, data: rawptr, datalen: uint, spec: ^sdl.AudioSpec, free_when_done: bool) -> ^Audio ---
+        LoadRawAudioNoCopy :: proc(mixer: ^Mixer, data: rawptr, datalen: uint, spec: ^sdl.AudioSpec, free_when_done: bool) -> ^Audio ---
 
-    /**
+        /**
 	* Create a MIX_Audio that generates a sinewave.
 	*
 	* This is useful just to have _something_ to play, perhaps for testing or
@@ -908,9 +910,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_SetTrackAudio
 	* \sa MIX_LoadAudio_IO
 	*/
-    CreateSineWaveAudio :: proc(mixer: ^Mixer, hz: i32, amplitude: f32) -> ^Audio ---
+        CreateSineWaveAudio :: proc(mixer: ^Mixer, hz: i32, amplitude: f32) -> ^Audio ---
 
-    /**
+        /**
 	* Get the properties associated with a MIX_Audio.
 	*
 	* sdl_mixer offers some properties of its own, but this can also be a
@@ -955,9 +957,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    GetAudioProperties :: proc(audio: ^Audio) -> sdl.PropertiesID ---
+        GetAudioProperties :: proc(audio: ^Audio) -> sdl.PropertiesID ---
 
-    /**
+        /**
 	* Get the length of a MIX_Audio's playback in sample frames.
 	*
 	* This information is also available via the
@@ -989,9 +991,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    GetAudioDuration :: proc(audio: ^Audio) -> sdl.Sint64 ---
+        GetAudioDuration :: proc(audio: ^Audio) -> sdl.Sint64 ---
 
-    /**
+        /**
 	* Query the initial audio format of a MIX_Audio.
 	*
 	* Note that some audio files can change format in the middle; some explicitly
@@ -1008,9 +1010,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    GetAudioFormat :: proc(audio: ^Audio, spec: ^sdl.AudioSpec) -> bool ---
+        GetAudioFormat :: proc(audio: ^Audio, spec: ^sdl.AudioSpec) -> bool ---
 
-    /**
+        /**
 	* Destroy the specified audio.
 	*
 	* MIX_Audio is reference-counted internally, so this function only unrefs it.
@@ -1030,9 +1032,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    DestroyAudio :: proc(audio: ^Audio) ---
+        DestroyAudio :: proc(audio: ^Audio) ---
 
-    /**
+        /**
 	* Create a new track on a mixer.
 	*
 	* A track provides a single source of audio. All currently-playing tracks
@@ -1056,9 +1058,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_DestroyTrack
 	*/
-    CreateTrack :: proc(mixer: ^Mixer) -> ^Track ---
+        CreateTrack :: proc(mixer: ^Mixer) -> ^Track ---
 
-    /**
+        /**
 	* Destroy the specified track.
 	*
 	* If the track is currently playing, it will be stopped immediately, without
@@ -1076,9 +1078,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    DestroyTrack :: proc(track: ^Track) ---
+        DestroyTrack :: proc(track: ^Track) ---
 
-    /**
+        /**
 	* Get the properties associated with a track.
 	*
 	* Currently sdl_mixer assigns no properties of its own to a track, but this
@@ -1095,9 +1097,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    GetTrackProperties :: proc(track: ^Track) -> sdl.PropertiesID ---
+        GetTrackProperties :: proc(track: ^Track) -> sdl.PropertiesID ---
 
-    /**
+        /**
 	* Get the MIX_Mixer that owns a MIX_Track.
 	*
 	* This is the mixer pointer that was passed to MIX_CreateTrack().
@@ -1110,9 +1112,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    GetTrackMixer :: proc(track: ^Track) -> ^Mixer ---
+        GetTrackMixer :: proc(track: ^Track) -> ^Mixer ---
 
-    /**
+        /**
 	* Set a MIX_Track's input to a MIX_Audio.
 	*
 	* A MIX_Audio is audio data stored in RAM (possibly still in a compressed
@@ -1143,9 +1145,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    SetTrackAudio :: proc(track: ^Track, audio: ^Audio) -> bool ---
+        SetTrackAudio :: proc(track: ^Track, audio: ^Audio) -> bool ---
 
-    /**
+        /**
 	* Set a MIX_Track's input to an sdl.AudioStream.
 	*
 	* Using an audio stream allows the application to generate any type of audio,
@@ -1185,9 +1187,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    SetTrackAudioStream :: proc(track: ^Track, stream: ^sdl.AudioStream) -> bool ---
+        SetTrackAudioStream :: proc(track: ^Track, stream: ^sdl.AudioStream) -> bool ---
 
-    /**
+        /**
 	* Set a MIX_Track's input to an sdl.IOStream.
 	*
 	* This is not the recommended way to set a track's input, but this can be
@@ -1233,9 +1235,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    SetTrackIOStream :: proc(track: ^Track, io: ^sdl.IOStream, closeio: bool) -> bool ---
+        SetTrackIOStream :: proc(track: ^Track, io: ^sdl.IOStream, closeio: bool) -> bool ---
 
-    /**
+        /**
 	* Assign an arbitrary tag to a track.
 	*
 	* A tag can be any valid C string in UTF-8 encoding. It can be useful to
@@ -1262,9 +1264,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_UntagTrack
 	*/
-    TagTrack :: proc(track: ^Track, tag: cstring) -> bool ---
+        TagTrack :: proc(track: ^Track, tag: cstring) -> bool ---
 
-    /**
+        /**
 	* Remove an arbitrary tag from a track.
 	*
 	* A tag can be any valid C string in UTF-8 encoding. It can be useful to
@@ -1285,9 +1287,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_TagTrack
 	*/
-    UntagTrack :: proc(track: ^Track, tag: cstring) ---
+        UntagTrack :: proc(track: ^Track, tag: cstring) ---
 
-    /**
+        /**
 	* Seek a playing track to a new position in its input.
 	*
 	* (Not to be confused with MIX_SetTrack3DPosition(), which is positioning of
@@ -1322,9 +1324,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_GetTrackPlaybackPosition
 	*/
-    SetTrackPlaybackPosition :: proc(track: ^Track, frames: sdl.Sint64) -> bool ---
+        SetTrackPlaybackPosition :: proc(track: ^Track, frames: sdl.Sint64) -> bool ---
 
-    /**
+        /**
 	* Get the current input position of a playing track.
 	*
 	* (Not to be confused with MIX_GetTrack3DPosition(), which is positioning of
@@ -1349,9 +1351,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_SetTrackPlaybackPosition
 	*/
-    GetTrackPlaybackPosition :: proc(track: ^Track) -> sdl.Sint64 ---
+        GetTrackPlaybackPosition :: proc(track: ^Track) -> sdl.Sint64 ---
 
-    /**
+        /**
 	* Query whether a given track is looping.
 	*
 	* This specifically checks if the track is _not stopped_ (paused or playing),
@@ -1369,9 +1371,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    TrackLooping :: proc(track: ^Track) -> bool ---
+        TrackLooping :: proc(track: ^Track) -> bool ---
 
-    /**
+        /**
 	* Query the MIX_Audio assigned to a track.
 	*
 	* This returns the MIX_Audio object currently assigned to `track` through a
@@ -1392,9 +1394,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_GetTrackAudioStream
 	*/
-    GetTrackAudio :: proc(track: ^Track) -> ^Audio ---
+        GetTrackAudio :: proc(track: ^Track) -> ^Audio ---
 
-    /**
+        /**
 	* Query the sdl.AudioStream assigned to a track.
 	*
 	* This returns the sdl.AudioStream object currently assigned to `track`
@@ -1415,9 +1417,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_GetTrackAudio
 	*/
-    GetTrackAudioStream :: proc(track: ^Track) -> ^sdl.AudioStream ---
+        GetTrackAudioStream :: proc(track: ^Track) -> ^sdl.AudioStream ---
 
-    /**
+        /**
 	* Return the number of sample frames remaining to be mixed in a track.
 	*
 	* If the track is playing or paused, and its total duration is known, this
@@ -1442,9 +1444,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    GetTrackRemaining :: proc(track: ^Track) -> sdl.Sint64 ---
+        GetTrackRemaining :: proc(track: ^Track) -> sdl.Sint64 ---
 
-    /**
+        /**
 	* Convert milliseconds to sample frames for a track's current format.
 	*
 	* This calculates time based on the track's current input format, which can
@@ -1467,9 +1469,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_TrackFramesToMS
 	*/
-    TrackMSToFrames :: proc(track: ^Track, ms: sdl.Sint64) -> sdl.Sint64 ---
+        TrackMSToFrames :: proc(track: ^Track, ms: sdl.Sint64) -> sdl.Sint64 ---
 
-    /**
+        /**
 	* Convert sample frames for a track's current format to milliseconds.
 	*
 	* This calculates time based on the track's current input format, which can
@@ -1495,9 +1497,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_TrackMSToFrames
 	*/
-    TrackFramesToMS :: proc(track: ^Track, frames: sdl.Sint64) -> sdl.Sint64 ---
+        TrackFramesToMS :: proc(track: ^Track, frames: sdl.Sint64) -> sdl.Sint64 ---
 
-    /**
+        /**
 	* Convert milliseconds to sample frames for a MIX_Audio's format.
 	*
 	* This calculates time based on the audio's initial format, even if the
@@ -1516,9 +1518,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_AudioFramesToMS
 	*/
-    AudioMSToFrames :: proc(audio: ^Audio, ms: sdl.Sint64) -> sdl.Sint64 ---
+        AudioMSToFrames :: proc(audio: ^Audio, ms: sdl.Sint64) -> sdl.Sint64 ---
 
-    /**
+        /**
 	* Convert sample frames for a MIX_Audio's format to milliseconds.
 	*
 	* This calculates time based on the audio's initial format, even if the
@@ -1540,9 +1542,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_AudioMSToFrames
 	*/
-    AudioFramesToMS :: proc(audio: ^Audio, frames: sdl.Sint64) -> sdl.Sint64 ---
+        AudioFramesToMS :: proc(audio: ^Audio, frames: sdl.Sint64) -> sdl.Sint64 ---
 
-    /**
+        /**
 	* Convert milliseconds to sample frames at a specific sample rate.
 	*
 	* If `sample_rate` is <= 0, this returns -1. If `ms` is < 0, this returns -1.
@@ -1558,9 +1560,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_FramesToMS
 	*/
-    MSToFrames :: proc(sample_rate: i32, ms: sdl.Sint64) -> sdl.Sint64 ---
+        MSToFrames :: proc(sample_rate: i32, ms: sdl.Sint64) -> sdl.Sint64 ---
 
-    /**
+        /**
 	* Convert sample frames, at a specific sample rate, to milliseconds.
 	*
 	* Sample frames are more precise than milliseconds, so out of necessity, this
@@ -1580,9 +1582,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_MSToFrames
 	*/
-    FramesToMS :: proc(sample_rate: i32, frames: sdl.Sint64) -> sdl.Sint64 ---
+        FramesToMS :: proc(sample_rate: i32, frames: sdl.Sint64) -> sdl.Sint64 ---
 
-    /**
+        /**
 	* Start (or restart) mixing a track for playback.
 	*
 	* The track will use whatever input was last assigned to it when playing; an
@@ -1670,9 +1672,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_PauseTrack
 	* \sa MIX_TrackPlaying
 	*/
-    PlayTrack :: proc(track: ^Track, options: sdl.PropertiesID) -> bool ---
+        PlayTrack :: proc(track: ^Track, options: sdl.PropertiesID) -> bool ---
 
-    /**
+        /**
 	* Start (or restart) mixing all tracks with a specific tag for playback.
 	*
 	* This function follows all the same rules as MIX_PlayTrack(); please refer
@@ -1707,9 +1709,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_PauseTrack
 	* \sa MIX_TrackPlaying
 	*/
-    PlayTag :: proc(mixer: ^Mixer, tag: cstring, options: sdl.PropertiesID) -> bool ---
+        PlayTag :: proc(mixer: ^Mixer, tag: cstring, options: sdl.PropertiesID) -> bool ---
 
-    /**
+        /**
 	* Play a MIX_Audio from start to finish without any management.
 	*
 	* This is what we term a "fire-and-forget" sound. Internally, sdl_mixer will
@@ -1739,9 +1741,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_PlayTrack
 	* \sa MIX_LoadAudio
 	*/
-    PlayAudio :: proc(mixer: ^Mixer, audio: ^Audio) -> bool ---
+        PlayAudio :: proc(mixer: ^Mixer, audio: ^Audio) -> bool ---
 
-    /**
+        /**
 	* Halt a currently-playing track, possibly fading out over time.
 	*
 	* If `fade_out_frames` is > 0, the track does not stop mixing immediately,
@@ -1773,9 +1775,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_PlayTrack
 	*/
-    StopTrack :: proc(track: ^Track, fade_out_frames: sdl.Sint64) -> bool ---
+        StopTrack :: proc(track: ^Track, fade_out_frames: sdl.Sint64) -> bool ---
 
-    /**
+        /**
 	* Halt all currently-playing tracks, possibly fading out over time.
 	*
 	* If `fade_out_ms` is > 0, the tracks do not stop mixing immediately, but
@@ -1804,9 +1806,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_StopTrack
 	*/
-    StopAllTracks :: proc(mixer: ^Mixer, fade_out_ms: sdl.Sint64) -> bool ---
+        StopAllTracks :: proc(mixer: ^Mixer, fade_out_ms: sdl.Sint64) -> bool ---
 
-    /**
+        /**
 	* Halt all tracks with a specific tag, possibly fading out over time.
 	*
 	* If `fade_out_ms` is > 0, the tracks do not stop mixing immediately, but
@@ -1837,9 +1839,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_StopTrack
 	* \sa MIX_TagTrack
 	*/
-    StopTag :: proc(mixer: ^Mixer, tag: cstring, fade_out_ms: sdl.Sint64) -> bool ---
+        StopTag :: proc(mixer: ^Mixer, tag: cstring, fade_out_ms: sdl.Sint64) -> bool ---
 
-    /**
+        /**
 	* Pause a currently-playing track.
 	*
 	* A paused track is not considered "stopped," so its MIX_TrackStoppedCallback
@@ -1861,9 +1863,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_ResumeTrack
 	*/
-    PauseTrack :: proc(track: ^Track) -> bool ---
+        PauseTrack :: proc(track: ^Track) -> bool ---
 
-    /**
+        /**
 	* Pause all currently-playing tracks.
 	*
 	* A paused track is not considered "stopped," so its MIX_TrackStoppedCallback
@@ -1883,9 +1885,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_ResumeTrack
 	* \sa MIX_ResumeAllTracks
 	*/
-    PauseAllTracks :: proc(mixer: ^Mixer) -> bool ---
+        PauseAllTracks :: proc(mixer: ^Mixer) -> bool ---
 
-    /**
+        /**
 	* Pause all tracks with a specific tag.
 	*
 	* A paused track is not considered "stopped," so its MIX_TrackStoppedCallback
@@ -1911,9 +1913,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_ResumeTag
 	* \sa MIX_TagTrack
 	*/
-    PauseTag :: proc(mixer: ^Mixer, tag: cstring) -> bool ---
+        PauseTag :: proc(mixer: ^Mixer, tag: cstring) -> bool ---
 
-    /**
+        /**
 	* Resume a currently-paused track.
 	*
 	* A paused track is not considered "stopped," so its MIX_TrackStoppedCallback
@@ -1935,9 +1937,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_PauseTrack
 	*/
-    ResumeTrack :: proc(track: ^Track) -> bool ---
+        ResumeTrack :: proc(track: ^Track) -> bool ---
 
-    /**
+        /**
 	* Resume all currently-paused tracks.
 	*
 	* A paused track is not considered "stopped," so its MIX_TrackStoppedCallback
@@ -1957,9 +1959,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_PauseTrack
 	* \sa MIX_PauseAllTracks
 	*/
-    ResumeAllTracks :: proc(mixer: ^Mixer) -> bool ---
+        ResumeAllTracks :: proc(mixer: ^Mixer) -> bool ---
 
-    /**
+        /**
 	* Resume all tracks with a specific tag.
 	*
 	* A paused track is not considered "stopped," so its MIX_TrackStoppedCallback
@@ -1985,9 +1987,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_PauseTag
 	* \sa MIX_TagTrack
 	*/
-    ResumeTag :: proc(mixer: ^Mixer, tag: cstring) -> bool ---
+        ResumeTag :: proc(mixer: ^Mixer, tag: cstring) -> bool ---
 
-    /**
+        /**
 	* Query if a track is currently playing.
 	*
 	* If this returns true, the track is currently contributing to the mixer's
@@ -2010,9 +2012,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_StopTrack
 	* \sa MIX_TrackPaused
 	*/
-    TrackPlaying :: proc(track: ^Track) -> bool ---
+        TrackPlaying :: proc(track: ^Track) -> bool ---
 
-    /**
+        /**
 	* Query if a track is currently paused.
 	*
 	* If this returns true, the track is not currently contributing to the
@@ -2036,9 +2038,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_StopTrack
 	* \sa MIX_TrackPlaying
 	*/
-    TrackPaused :: proc(track: ^Track) -> bool ---
+        TrackPaused :: proc(track: ^Track) -> bool ---
 
-    /**
+        /**
 	* Set a mixer's master gain control.
 	*
 	* Each mixer has a master gain, to adjust the volume of the entire mix. Each
@@ -2064,9 +2066,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_GetMasterGain
 	* \sa MIX_SetTrackGain
 	*/
-    SetMasterGain :: proc(mixer: ^Mixer, gain: f32) -> bool ---
+        SetMasterGain :: proc(mixer: ^Mixer, gain: f32) -> bool ---
 
-    /**
+        /**
 	* Get a mixer's master gain control.
 	*
 	* This returns the last value set through MIX_SetMasterGain(), or 1.0f if no
@@ -2082,9 +2084,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_SetMasterGain
 	* \sa MIX_GetTrackGain
 	*/
-    GetMasterGain :: proc(mixer: ^Mixer) -> f32 ---
+        GetMasterGain :: proc(mixer: ^Mixer) -> f32 ---
 
-    /**
+        /**
 	* Set a track's gain control.
 	*
 	* Each track has its own gain, to adjust its overall volume. Each sample from
@@ -2110,9 +2112,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_GetTrackGain
 	* \sa MIX_SetMasterGain
 	*/
-    SetTrackGain :: proc(track: ^Track, gain: f32) -> bool ---
+        SetTrackGain :: proc(track: ^Track, gain: f32) -> bool ---
 
-    /**
+        /**
 	* Get a track's gain control.
 	*
 	* This returns the last value set through MIX_SetTrackGain(), or 1.0f if no
@@ -2128,9 +2130,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_SetTrackGain
 	* \sa MIX_GetMasterGain
 	*/
-    GetTrackGain :: proc(track: ^Track) -> f32 ---
+        GetTrackGain :: proc(track: ^Track) -> f32 ---
 
-    /**
+        /**
 	* Set the gain control of all tracks with a specific tag.
 	*
 	* Each track has its own gain, to adjust its overall volume. Each sample from
@@ -2165,9 +2167,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_SetMasterGain
 	* \sa MIX_TagTrack
 	*/
-    SetTagGain :: proc(mixer: ^Mixer, tag: cstring, gain: f32) -> bool ---
+        SetTagGain :: proc(mixer: ^Mixer, tag: cstring, gain: f32) -> bool ---
 
-    /**
+        /**
 	* Change the frequency ratio of a track.
 	*
 	* The frequency ratio is used to adjust the rate at which audio data is
@@ -2191,9 +2193,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_GetTrackFrequencyRatio
 	*/
-    SetTrackFrequencyRatio :: proc(track: ^Track, ratio: f32) -> bool ---
+        SetTrackFrequencyRatio :: proc(track: ^Track, ratio: f32) -> bool ---
 
-    /**
+        /**
 	* Query the frequency ratio of a track.
 	*
 	* The frequency ratio is used to adjust the rate at which audio data is
@@ -2218,9 +2220,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_GetTrackFrequencyRatio
 	*/
-    GetTrackFrequencyRatio :: proc(track: ^Track) -> f32 ---
+        GetTrackFrequencyRatio :: proc(track: ^Track) -> f32 ---
 
-    /**
+        /**
 	* Set the current output channel map of a track.
 	*
 	* Channel maps are optional; most things do not need them, instead passing
@@ -2257,9 +2259,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    SetTrackOutputChannelMap :: proc(track: ^Track, chmap: ^i32, count: i32) -> bool ---
+        SetTrackOutputChannelMap :: proc(track: ^Track, chmap: ^i32, count: i32) -> bool ---
 
-    /**
+        /**
 	* Force a track to stereo output, with optionally left/right panning.
 	*
 	* This will cause the output of the track to convert to stereo, and then mix
@@ -2290,9 +2292,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_SetTrack3DPosition
 	*/
-    SetTrackStereo :: proc(track: ^Track, gains: ^StereoGains) -> bool ---
+        SetTrackStereo :: proc(track: ^Track, gains: ^StereoGains) -> bool ---
 
-    /**
+        /**
 	* Set a track's position in 3D space.
 	*
 	* (Please note that sdl_mixer is not intended to be a extremely powerful 3D
@@ -2336,9 +2338,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_GetTrack3DPosition
 	* \sa MIX_SetTrackStereo
 	*/
-    SetTrack3DPosition :: proc(track: ^Track, position: ^Point3D) -> bool ---
+        SetTrack3DPosition :: proc(track: ^Track, position: ^Point3D) -> bool ---
 
-    /**
+        /**
 	* Get a track's current position in 3D space.
 	*
 	* If 3D positioning isn't enabled for this track, through a call to
@@ -2355,9 +2357,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_SetTrack3DPosition
 	*/
-    GetTrack3DPosition :: proc(track: ^Track, position: ^Point3D) -> bool ---
+        GetTrack3DPosition :: proc(track: ^Track, position: ^Point3D) -> bool ---
 
-    /**
+        /**
 	* Create a mixing group.
 	*
 	* Tracks are assigned to a mixing group (or if unassigned, they live in a
@@ -2387,9 +2389,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_SetTrackGroup
 	* \sa MIX_SetGroupPostMixCallback
 	*/
-    CreateGroup :: proc(mixer: ^Mixer) -> ^Group ---
+        CreateGroup :: proc(mixer: ^Mixer) -> ^Group ---
 
-    /**
+        /**
 	* Destroy a mixing group.
 	*
 	* Any tracks currently assigned to this group will be reassigned to the
@@ -2403,9 +2405,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_CreateGroup
 	*/
-    DestroyGroup :: proc(group: ^Group) ---
+        DestroyGroup :: proc(group: ^Group) ---
 
-    /**
+        /**
 	* Get the properties associated with a group.
 	*
 	* Currently sdl_mixer assigns no properties of its own to a group, but this
@@ -2422,9 +2424,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    GetGroupProperties :: proc(group: ^Group) -> sdl.PropertiesID ---
+        GetGroupProperties :: proc(group: ^Group) -> sdl.PropertiesID ---
 
-    /**
+        /**
 	* Get the MIX_Mixer that owns a MIX_Group.
 	*
 	* This is the mixer pointer that was passed to MIX_CreateGroup().
@@ -2437,9 +2439,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    GetGroupMixer :: proc(group: ^Group) -> ^Mixer ---
+        GetGroupMixer :: proc(group: ^Group) -> ^Mixer ---
 
-    /**
+        /**
 	* Assign a track to a mixing group.
 	*
 	* All tracks in a group are mixed together, and that output is made available
@@ -2463,9 +2465,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_CreateGroup
 	* \sa MIX_SetGroupPostMixCallback
 	*/
-    SetTrackGroup :: proc(track: ^Track, group: ^Group) -> bool ---
+        SetTrackGroup :: proc(track: ^Track, group: ^Group) -> bool ---
 
-    /**
+        /**
 	* Set a callback that fires when a MIX_Track is stopped.
 	*
 	* When a track completes playback, either because it ran out of data to mix
@@ -2495,9 +2497,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_TrackStoppedCallback
 	*/
-    SetTrackStoppedCallback :: proc(track: ^Track, cb: TrackStoppedCallback, userdata: rawptr) -> bool ---
+        SetTrackStoppedCallback :: proc(track: ^Track, cb: TrackStoppedCallback, userdata: rawptr) -> bool ---
 
-    /**
+        /**
 	* Set a callback that fires when a MIX_Track has initial decoded audio.
 	*
 	* As a track needs to mix more data, it pulls from its input (a MIX_Audio, an
@@ -2527,9 +2529,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_TrackMixCallback
 	* \sa MIX_SetTrackCookedCallback
 	*/
-    SetTrackRawCallback :: proc(track: ^Track, cb: TrackMixCallback, userdata: rawptr) -> bool ---
+        SetTrackRawCallback :: proc(track: ^Track, cb: TrackMixCallback, userdata: rawptr) -> bool ---
 
-    /**
+        /**
 	* Set a callback that fires when the mixer has transformed a track's audio.
 	*
 	* As a track needs to mix more data, it pulls from its input (a MIX_Audio, an
@@ -2562,9 +2564,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_TrackMixCallback
 	* \sa MIX_SetTrackRawCallback
 	*/
-    SetTrackCookedCallback :: proc(track: ^Track, cb: TrackMixCallback, userdata: rawptr) -> bool ---
+        SetTrackCookedCallback :: proc(track: ^Track, cb: TrackMixCallback, userdata: rawptr) -> bool ---
 
-    /**
+        /**
 	* Set a callback that fires when a mixer group has completed mixing.
 	*
 	* After all playing tracks in a mixer group have pulled in more data from
@@ -2591,9 +2593,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_GroupMixCallback
 	*/
-    SetGroupPostMixCallback :: proc(group: ^Group, cb: GroupMixCallback, userdata: rawptr) -> bool ---
+        SetGroupPostMixCallback :: proc(group: ^Group, cb: GroupMixCallback, userdata: rawptr) -> bool ---
 
-    /**
+        /**
 	* Set a callback that fires when all mixing has completed.
 	*
 	* After all mixer groups have processed, their buffers are mixed together
@@ -2617,9 +2619,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_PostMixCallback
 	*/
-    SetPostMixCallback :: proc(mixer: ^Mixer, cb: PostMixCallback, userdata: rawptr) -> bool ---
+        SetPostMixCallback :: proc(mixer: ^Mixer, cb: PostMixCallback, userdata: rawptr) -> bool ---
 
-    /**
+        /**
 	* Generate mixer output when not driving an audio device.
 	*
 	* sdl_mixer allows the creation of MIX_Mixer objects that are not connected
@@ -2662,9 +2664,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_CreateMixer
 	*/
-    Generate :: proc(mixer: ^Mixer, buffer: rawptr, buflen: i32) -> bool ---
+        Generate :: proc(mixer: ^Mixer, buffer: rawptr, buflen: i32) -> bool ---
 
-    /**
+        /**
 	* Create a MIX_AudioDecoder from a path on the filesystem.
 	*
 	* Most apps won't need this, as sdl_mixer's usual interfaces will decode
@@ -2695,9 +2697,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_DecodeAudio
 	* \sa MIX_DestroyAudioDecoder
 	*/
-    CreateAudioDecoder :: proc(path: cstring, props: sdl.PropertiesID) -> ^AudioDecoder ---
+        CreateAudioDecoder :: proc(path: cstring, props: sdl.PropertiesID) -> ^AudioDecoder ---
 
-    /**
+        /**
 	* Create a MIX_AudioDecoder from an sdl.IOStream.
 	*
 	* Most apps won't need this, as sdl_mixer's usual interfaces will decode
@@ -2733,9 +2735,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_DecodeAudio
 	* \sa MIX_DestroyAudioDecoder
 	*/
-    CreateAudioDecoder_IO :: proc(io: ^sdl.IOStream, closeio: bool, props: sdl.PropertiesID) -> ^AudioDecoder ---
+        CreateAudioDecoder_IO :: proc(io: ^sdl.IOStream, closeio: bool, props: sdl.PropertiesID) -> ^AudioDecoder ---
 
-    /**
+        /**
 	* Destroy the specified audio decoder.
 	*
 	* Destroying a NULL MIX_AudioDecoder is a legal no-op.
@@ -2746,9 +2748,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    DestroyAudioDecoder :: proc(audiodecoder: ^AudioDecoder) ---
+        DestroyAudioDecoder :: proc(audiodecoder: ^AudioDecoder) ---
 
-    /**
+        /**
 	* Get the properties associated with a MIX_AudioDecoder.
 	*
 	* sdl_mixer offers some properties of its own, but this can also be a
@@ -2771,9 +2773,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_GetAudioProperties
 	*/
-    GetAudioDecoderProperties :: proc(audiodecoder: ^AudioDecoder) -> sdl.PropertiesID ---
+        GetAudioDecoderProperties :: proc(audiodecoder: ^AudioDecoder) -> sdl.PropertiesID ---
 
-    /**
+        /**
 	* Query the initial audio format of a MIX_AudioDecoder.
 	*
 	* Note that some audio files can change format in the middle; some explicitly
@@ -2790,9 +2792,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    GetAudioDecoderFormat :: proc(audiodecoder: ^AudioDecoder, spec: ^sdl.AudioSpec) -> bool ---
+        GetAudioDecoderFormat :: proc(audiodecoder: ^AudioDecoder, spec: ^sdl.AudioSpec) -> bool ---
 
-    /**
+        /**
 	* Decode more audio from a MIX_AudioDecoder.
 	*
 	* Data is decoded on demand in whatever format is requested. The format is
@@ -2814,13 +2816,14 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    DecodeAudio :: proc(audiodecoder: ^AudioDecoder, buffer: rawptr, buflen: i32, spec: ^sdl.AudioSpec) -> i32 ---
+        DecodeAudio :: proc(audiodecoder: ^AudioDecoder, buffer: rawptr, buflen: i32, spec: ^sdl.AudioSpec) -> i32 ---
     }
+    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "MIX_")
     foreign lib {
 
-    /**
+        /**
 	* Get the version of sdl_mixer that is linked against your program.
 	*
 	* If you are linking to sdl_mixer dynamically, then it is possible that the
@@ -2836,9 +2839,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa sdl_MIXER_VERSION
 	*/
-    Version :: proc() -> i32 ---
+        Version :: proc() -> i32 ---
 
-    /**
+        /**
 	* Initialize the sdl_mixer library.
 	*
 	* This must be successfully called once before (almost) any other sdl_mixer
@@ -2856,9 +2859,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_Quit
 	*/
-    Init :: proc() -> bool ---
+        Init :: proc() -> bool ---
 
-    /**
+        /**
 	* Deinitialize the sdl_mixer library.
 	*
 	* This must be called when done with the library, probably at the end of your
@@ -2892,9 +2895,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_Init
 	*/
-    Quit :: proc() ---
+        Quit :: proc() ---
 
-    /**
+        /**
 	* Report the number of audio decoders available for use.
 	*
 	* An audio decoder is what turns specific audio file formats into usable PCM
@@ -2914,9 +2917,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_GetAudioDecoder
 	*/
-    GetNumAudioDecoders :: proc() -> i32 ---
+        GetNumAudioDecoders :: proc() -> i32 ---
 
-    /**
+        /**
 	* Report the name of a specific audio decoders.
 	*
 	* An audio decoder is what turns specific audio file formats into usable PCM
@@ -2945,9 +2948,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_GetNumAudioDecoders
 	*/
-    GetAudioDecoder :: proc(index: i32) -> cstring ---
+        GetAudioDecoder :: proc(index: i32) -> cstring ---
 
-    /**
+        /**
 	* Create a mixer that plays sound directly to an audio device.
 	*
 	* This is usually the function you want, vs MIX_CreateMixer().
@@ -2992,9 +2995,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_CreateMixer
 	* \sa MIX_DestroyMixer
 	*/
-    CreateMixerDevice :: proc(devid: sdl.AudioDeviceID, spec: ^sdl.AudioSpec) -> ^Mixer ---
+        CreateMixerDevice :: proc(devid: sdl.AudioDeviceID, spec: ^sdl.AudioSpec) -> ^Mixer ---
 
-    /**
+        /**
 	* Create a mixer that generates audio to a memory buffer.
 	*
 	* Usually you want MIX_CreateMixerDevice() instead of this function. The
@@ -3021,9 +3024,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_CreateMixerDevice
 	* \sa MIX_DestroyMixer
 	*/
-    CreateMixer :: proc(spec: ^sdl.AudioSpec) -> ^Mixer ---
+        CreateMixer :: proc(spec: ^sdl.AudioSpec) -> ^Mixer ---
 
-    /**
+        /**
 	* Free a mixer.
 	*
 	* If this mixer was created with MIX_CreateMixerDevice(), this function will
@@ -3043,9 +3046,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_CreateMixerDevice
 	* \sa MIX_CreateMixer
 	*/
-    DestroyMixer :: proc(mixer: ^Mixer) ---
+        DestroyMixer :: proc(mixer: ^Mixer) ---
 
-    /**
+        /**
 	* Get the properties associated with a mixer.
 	*
 	* Currently sdl_mixer assigns no properties of its own to a mixer, but this
@@ -3062,9 +3065,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    GetMixerProperties :: proc(mixer: ^Mixer) -> sdl.PropertiesID ---
+        GetMixerProperties :: proc(mixer: ^Mixer) -> sdl.PropertiesID ---
 
-    /**
+        /**
 	* Get the audio format a mixer is generating.
 	*
 	* Generally you don't need this information, as sdl_mixer will convert data
@@ -3093,9 +3096,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    GetMixerFormat :: proc(mixer: ^Mixer, spec: ^sdl.AudioSpec) -> bool ---
+        GetMixerFormat :: proc(mixer: ^Mixer, spec: ^sdl.AudioSpec) -> bool ---
 
-    /**
+        /**
 	* Load audio for playback from an sdl.IOStream.
 	*
 	* In normal usage, apps should load audio once, maybe at startup, then play
@@ -3152,9 +3155,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_LoadAudio_IO
 	* \sa MIX_LoadAudioWithProperties
 	*/
-    LoadAudio_IO :: proc(mixer: ^Mixer, io: ^sdl.IOStream, predecode: bool, closeio: bool) -> ^Audio ---
+        LoadAudio_IO :: proc(mixer: ^Mixer, io: ^sdl.IOStream, predecode: bool, closeio: bool) -> ^Audio ---
 
-    /**
+        /**
 	* Load audio for playback from a file.
 	*
 	* This is equivalent to calling:
@@ -3182,9 +3185,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_LoadAudio_IO
 	* \sa MIX_LoadAudioWithProperties
 	*/
-    LoadAudio :: proc(mixer: ^Mixer, path: cstring, predecode: bool) -> ^Audio ---
+        LoadAudio :: proc(mixer: ^Mixer, path: cstring, predecode: bool) -> ^Audio ---
 
-    /**
+        /**
 	* Load audio for playback through a collection of properties.
 	*
 	* Please see MIX_LoadAudio_IO() for a description of what the various
@@ -3227,9 +3230,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_LoadAudio
 	* \sa MIX_LoadAudio_IO
 	*/
-    LoadAudioWithProperties :: proc(props: sdl.PropertiesID) -> ^Audio ---
+        LoadAudioWithProperties :: proc(props: sdl.PropertiesID) -> ^Audio ---
 
-    /**
+        /**
 	* Load raw PCM data from an sdl.IOStream.
 	*
 	* There are other options for _streaming_ raw PCM: an sdl.AudioStream can be
@@ -3262,9 +3265,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_LoadRawAudioNoCopy
 	* \sa MIX_LoadAudio_IO
 	*/
-    LoadRawAudio_IO :: proc(mixer: ^Mixer, io: ^sdl.IOStream, spec: ^sdl.AudioSpec, closeio: bool) -> ^Audio ---
+        LoadRawAudio_IO :: proc(mixer: ^Mixer, io: ^sdl.IOStream, spec: ^sdl.AudioSpec, closeio: bool) -> ^Audio ---
 
-    /**
+        /**
 	* Load raw PCM data from a memory buffer.
 	*
 	* There are other options for _streaming_ raw PCM: an sdl.AudioStream can be
@@ -3298,9 +3301,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_LoadRawAudioNoCopy
 	* \sa MIX_LoadAudio_IO
 	*/
-    LoadRawAudio :: proc(mixer: ^Mixer, data: rawptr, datalen: uint, spec: ^sdl.AudioSpec) -> ^Audio ---
+        LoadRawAudio :: proc(mixer: ^Mixer, data: rawptr, datalen: uint, spec: ^sdl.AudioSpec) -> ^Audio ---
 
-    /**
+        /**
 	* Load raw PCM data from a memory buffer without making a copy.
 	*
 	* This buffer must live for the entire time the returned MIX_Audio lives, as
@@ -3340,9 +3343,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_LoadRawAudio_IO
 	* \sa MIX_LoadAudio_IO
 	*/
-    LoadRawAudioNoCopy :: proc(mixer: ^Mixer, data: rawptr, datalen: uint, spec: ^sdl.AudioSpec, free_when_done: bool) -> ^Audio ---
+        LoadRawAudioNoCopy :: proc(mixer: ^Mixer, data: rawptr, datalen: uint, spec: ^sdl.AudioSpec, free_when_done: bool) -> ^Audio ---
 
-    /**
+        /**
 	* Create a MIX_Audio that generates a sinewave.
 	*
 	* This is useful just to have _something_ to play, perhaps for testing or
@@ -3374,9 +3377,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_SetTrackAudio
 	* \sa MIX_LoadAudio_IO
 	*/
-    CreateSineWaveAudio :: proc(mixer: ^Mixer, hz: i32, amplitude: f32) -> ^Audio ---
+        CreateSineWaveAudio :: proc(mixer: ^Mixer, hz: i32, amplitude: f32) -> ^Audio ---
 
-    /**
+        /**
 	* Get the properties associated with a MIX_Audio.
 	*
 	* sdl_mixer offers some properties of its own, but this can also be a
@@ -3421,9 +3424,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    GetAudioProperties :: proc(audio: ^Audio) -> sdl.PropertiesID ---
+        GetAudioProperties :: proc(audio: ^Audio) -> sdl.PropertiesID ---
 
-    /**
+        /**
 	* Get the length of a MIX_Audio's playback in sample frames.
 	*
 	* This information is also available via the
@@ -3455,9 +3458,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    GetAudioDuration :: proc(audio: ^Audio) -> sdl.Sint64 ---
+        GetAudioDuration :: proc(audio: ^Audio) -> sdl.Sint64 ---
 
-    /**
+        /**
 	* Query the initial audio format of a MIX_Audio.
 	*
 	* Note that some audio files can change format in the middle; some explicitly
@@ -3474,9 +3477,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    GetAudioFormat :: proc(audio: ^Audio, spec: ^sdl.AudioSpec) -> bool ---
+        GetAudioFormat :: proc(audio: ^Audio, spec: ^sdl.AudioSpec) -> bool ---
 
-    /**
+        /**
 	* Destroy the specified audio.
 	*
 	* MIX_Audio is reference-counted internally, so this function only unrefs it.
@@ -3496,9 +3499,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    DestroyAudio :: proc(audio: ^Audio) ---
+        DestroyAudio :: proc(audio: ^Audio) ---
 
-    /**
+        /**
 	* Create a new track on a mixer.
 	*
 	* A track provides a single source of audio. All currently-playing tracks
@@ -3522,9 +3525,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_DestroyTrack
 	*/
-    CreateTrack :: proc(mixer: ^Mixer) -> ^Track ---
+        CreateTrack :: proc(mixer: ^Mixer) -> ^Track ---
 
-    /**
+        /**
 	* Destroy the specified track.
 	*
 	* If the track is currently playing, it will be stopped immediately, without
@@ -3542,9 +3545,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    DestroyTrack :: proc(track: ^Track) ---
+        DestroyTrack :: proc(track: ^Track) ---
 
-    /**
+        /**
 	* Get the properties associated with a track.
 	*
 	* Currently sdl_mixer assigns no properties of its own to a track, but this
@@ -3561,9 +3564,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    GetTrackProperties :: proc(track: ^Track) -> sdl.PropertiesID ---
+        GetTrackProperties :: proc(track: ^Track) -> sdl.PropertiesID ---
 
-    /**
+        /**
 	* Get the MIX_Mixer that owns a MIX_Track.
 	*
 	* This is the mixer pointer that was passed to MIX_CreateTrack().
@@ -3576,9 +3579,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    GetTrackMixer :: proc(track: ^Track) -> ^Mixer ---
+        GetTrackMixer :: proc(track: ^Track) -> ^Mixer ---
 
-    /**
+        /**
 	* Set a MIX_Track's input to a MIX_Audio.
 	*
 	* A MIX_Audio is audio data stored in RAM (possibly still in a compressed
@@ -3609,9 +3612,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    SetTrackAudio :: proc(track: ^Track, audio: ^Audio) -> bool ---
+        SetTrackAudio :: proc(track: ^Track, audio: ^Audio) -> bool ---
 
-    /**
+        /**
 	* Set a MIX_Track's input to an sdl.AudioStream.
 	*
 	* Using an audio stream allows the application to generate any type of audio,
@@ -3651,9 +3654,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    SetTrackAudioStream :: proc(track: ^Track, stream: ^sdl.AudioStream) -> bool ---
+        SetTrackAudioStream :: proc(track: ^Track, stream: ^sdl.AudioStream) -> bool ---
 
-    /**
+        /**
 	* Set a MIX_Track's input to an sdl.IOStream.
 	*
 	* This is not the recommended way to set a track's input, but this can be
@@ -3699,9 +3702,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    SetTrackIOStream :: proc(track: ^Track, io: ^sdl.IOStream, closeio: bool) -> bool ---
+        SetTrackIOStream :: proc(track: ^Track, io: ^sdl.IOStream, closeio: bool) -> bool ---
 
-    /**
+        /**
 	* Assign an arbitrary tag to a track.
 	*
 	* A tag can be any valid C string in UTF-8 encoding. It can be useful to
@@ -3728,9 +3731,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_UntagTrack
 	*/
-    TagTrack :: proc(track: ^Track, tag: cstring) -> bool ---
+        TagTrack :: proc(track: ^Track, tag: cstring) -> bool ---
 
-    /**
+        /**
 	* Remove an arbitrary tag from a track.
 	*
 	* A tag can be any valid C string in UTF-8 encoding. It can be useful to
@@ -3751,9 +3754,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_TagTrack
 	*/
-    UntagTrack :: proc(track: ^Track, tag: cstring) ---
+        UntagTrack :: proc(track: ^Track, tag: cstring) ---
 
-    /**
+        /**
 	* Seek a playing track to a new position in its input.
 	*
 	* (Not to be confused with MIX_SetTrack3DPosition(), which is positioning of
@@ -3788,9 +3791,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_GetTrackPlaybackPosition
 	*/
-    SetTrackPlaybackPosition :: proc(track: ^Track, frames: sdl.Sint64) -> bool ---
+        SetTrackPlaybackPosition :: proc(track: ^Track, frames: sdl.Sint64) -> bool ---
 
-    /**
+        /**
 	* Get the current input position of a playing track.
 	*
 	* (Not to be confused with MIX_GetTrack3DPosition(), which is positioning of
@@ -3815,9 +3818,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_SetTrackPlaybackPosition
 	*/
-    GetTrackPlaybackPosition :: proc(track: ^Track) -> sdl.Sint64 ---
+        GetTrackPlaybackPosition :: proc(track: ^Track) -> sdl.Sint64 ---
 
-    /**
+        /**
 	* Query whether a given track is looping.
 	*
 	* This specifically checks if the track is _not stopped_ (paused or playing),
@@ -3835,9 +3838,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    TrackLooping :: proc(track: ^Track) -> bool ---
+        TrackLooping :: proc(track: ^Track) -> bool ---
 
-    /**
+        /**
 	* Query the MIX_Audio assigned to a track.
 	*
 	* This returns the MIX_Audio object currently assigned to `track` through a
@@ -3858,9 +3861,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_GetTrackAudioStream
 	*/
-    GetTrackAudio :: proc(track: ^Track) -> ^Audio ---
+        GetTrackAudio :: proc(track: ^Track) -> ^Audio ---
 
-    /**
+        /**
 	* Query the sdl.AudioStream assigned to a track.
 	*
 	* This returns the sdl.AudioStream object currently assigned to `track`
@@ -3881,9 +3884,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_GetTrackAudio
 	*/
-    GetTrackAudioStream :: proc(track: ^Track) -> ^sdl.AudioStream ---
+        GetTrackAudioStream :: proc(track: ^Track) -> ^sdl.AudioStream ---
 
-    /**
+        /**
 	* Return the number of sample frames remaining to be mixed in a track.
 	*
 	* If the track is playing or paused, and its total duration is known, this
@@ -3908,9 +3911,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    GetTrackRemaining :: proc(track: ^Track) -> sdl.Sint64 ---
+        GetTrackRemaining :: proc(track: ^Track) -> sdl.Sint64 ---
 
-    /**
+        /**
 	* Convert milliseconds to sample frames for a track's current format.
 	*
 	* This calculates time based on the track's current input format, which can
@@ -3933,9 +3936,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_TrackFramesToMS
 	*/
-    TrackMSToFrames :: proc(track: ^Track, ms: sdl.Sint64) -> sdl.Sint64 ---
+        TrackMSToFrames :: proc(track: ^Track, ms: sdl.Sint64) -> sdl.Sint64 ---
 
-    /**
+        /**
 	* Convert sample frames for a track's current format to milliseconds.
 	*
 	* This calculates time based on the track's current input format, which can
@@ -3961,9 +3964,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_TrackMSToFrames
 	*/
-    TrackFramesToMS :: proc(track: ^Track, frames: sdl.Sint64) -> sdl.Sint64 ---
+        TrackFramesToMS :: proc(track: ^Track, frames: sdl.Sint64) -> sdl.Sint64 ---
 
-    /**
+        /**
 	* Convert milliseconds to sample frames for a MIX_Audio's format.
 	*
 	* This calculates time based on the audio's initial format, even if the
@@ -3982,9 +3985,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_AudioFramesToMS
 	*/
-    AudioMSToFrames :: proc(audio: ^Audio, ms: sdl.Sint64) -> sdl.Sint64 ---
+        AudioMSToFrames :: proc(audio: ^Audio, ms: sdl.Sint64) -> sdl.Sint64 ---
 
-    /**
+        /**
 	* Convert sample frames for a MIX_Audio's format to milliseconds.
 	*
 	* This calculates time based on the audio's initial format, even if the
@@ -4006,9 +4009,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_AudioMSToFrames
 	*/
-    AudioFramesToMS :: proc(audio: ^Audio, frames: sdl.Sint64) -> sdl.Sint64 ---
+        AudioFramesToMS :: proc(audio: ^Audio, frames: sdl.Sint64) -> sdl.Sint64 ---
 
-    /**
+        /**
 	* Convert milliseconds to sample frames at a specific sample rate.
 	*
 	* If `sample_rate` is <= 0, this returns -1. If `ms` is < 0, this returns -1.
@@ -4024,9 +4027,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_FramesToMS
 	*/
-    MSToFrames :: proc(sample_rate: i32, ms: sdl.Sint64) -> sdl.Sint64 ---
+        MSToFrames :: proc(sample_rate: i32, ms: sdl.Sint64) -> sdl.Sint64 ---
 
-    /**
+        /**
 	* Convert sample frames, at a specific sample rate, to milliseconds.
 	*
 	* Sample frames are more precise than milliseconds, so out of necessity, this
@@ -4046,9 +4049,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_MSToFrames
 	*/
-    FramesToMS :: proc(sample_rate: i32, frames: sdl.Sint64) -> sdl.Sint64 ---
+        FramesToMS :: proc(sample_rate: i32, frames: sdl.Sint64) -> sdl.Sint64 ---
 
-    /**
+        /**
 	* Start (or restart) mixing a track for playback.
 	*
 	* The track will use whatever input was last assigned to it when playing; an
@@ -4136,9 +4139,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_PauseTrack
 	* \sa MIX_TrackPlaying
 	*/
-    PlayTrack :: proc(track: ^Track, options: sdl.PropertiesID) -> bool ---
+        PlayTrack :: proc(track: ^Track, options: sdl.PropertiesID) -> bool ---
 
-    /**
+        /**
 	* Start (or restart) mixing all tracks with a specific tag for playback.
 	*
 	* This function follows all the same rules as MIX_PlayTrack(); please refer
@@ -4173,9 +4176,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_PauseTrack
 	* \sa MIX_TrackPlaying
 	*/
-    PlayTag :: proc(mixer: ^Mixer, tag: cstring, options: sdl.PropertiesID) -> bool ---
+        PlayTag :: proc(mixer: ^Mixer, tag: cstring, options: sdl.PropertiesID) -> bool ---
 
-    /**
+        /**
 	* Play a MIX_Audio from start to finish without any management.
 	*
 	* This is what we term a "fire-and-forget" sound. Internally, sdl_mixer will
@@ -4205,9 +4208,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_PlayTrack
 	* \sa MIX_LoadAudio
 	*/
-    PlayAudio :: proc(mixer: ^Mixer, audio: ^Audio) -> bool ---
+        PlayAudio :: proc(mixer: ^Mixer, audio: ^Audio) -> bool ---
 
-    /**
+        /**
 	* Halt a currently-playing track, possibly fading out over time.
 	*
 	* If `fade_out_frames` is > 0, the track does not stop mixing immediately,
@@ -4239,9 +4242,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_PlayTrack
 	*/
-    StopTrack :: proc(track: ^Track, fade_out_frames: sdl.Sint64) -> bool ---
+        StopTrack :: proc(track: ^Track, fade_out_frames: sdl.Sint64) -> bool ---
 
-    /**
+        /**
 	* Halt all currently-playing tracks, possibly fading out over time.
 	*
 	* If `fade_out_ms` is > 0, the tracks do not stop mixing immediately, but
@@ -4270,9 +4273,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_StopTrack
 	*/
-    StopAllTracks :: proc(mixer: ^Mixer, fade_out_ms: sdl.Sint64) -> bool ---
+        StopAllTracks :: proc(mixer: ^Mixer, fade_out_ms: sdl.Sint64) -> bool ---
 
-    /**
+        /**
 	* Halt all tracks with a specific tag, possibly fading out over time.
 	*
 	* If `fade_out_ms` is > 0, the tracks do not stop mixing immediately, but
@@ -4303,9 +4306,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_StopTrack
 	* \sa MIX_TagTrack
 	*/
-    StopTag :: proc(mixer: ^Mixer, tag: cstring, fade_out_ms: sdl.Sint64) -> bool ---
+        StopTag :: proc(mixer: ^Mixer, tag: cstring, fade_out_ms: sdl.Sint64) -> bool ---
 
-    /**
+        /**
 	* Pause a currently-playing track.
 	*
 	* A paused track is not considered "stopped," so its MIX_TrackStoppedCallback
@@ -4327,9 +4330,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_ResumeTrack
 	*/
-    PauseTrack :: proc(track: ^Track) -> bool ---
+        PauseTrack :: proc(track: ^Track) -> bool ---
 
-    /**
+        /**
 	* Pause all currently-playing tracks.
 	*
 	* A paused track is not considered "stopped," so its MIX_TrackStoppedCallback
@@ -4349,9 +4352,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_ResumeTrack
 	* \sa MIX_ResumeAllTracks
 	*/
-    PauseAllTracks :: proc(mixer: ^Mixer) -> bool ---
+        PauseAllTracks :: proc(mixer: ^Mixer) -> bool ---
 
-    /**
+        /**
 	* Pause all tracks with a specific tag.
 	*
 	* A paused track is not considered "stopped," so its MIX_TrackStoppedCallback
@@ -4377,9 +4380,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_ResumeTag
 	* \sa MIX_TagTrack
 	*/
-    PauseTag :: proc(mixer: ^Mixer, tag: cstring) -> bool ---
+        PauseTag :: proc(mixer: ^Mixer, tag: cstring) -> bool ---
 
-    /**
+        /**
 	* Resume a currently-paused track.
 	*
 	* A paused track is not considered "stopped," so its MIX_TrackStoppedCallback
@@ -4401,9 +4404,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_PauseTrack
 	*/
-    ResumeTrack :: proc(track: ^Track) -> bool ---
+        ResumeTrack :: proc(track: ^Track) -> bool ---
 
-    /**
+        /**
 	* Resume all currently-paused tracks.
 	*
 	* A paused track is not considered "stopped," so its MIX_TrackStoppedCallback
@@ -4423,9 +4426,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_PauseTrack
 	* \sa MIX_PauseAllTracks
 	*/
-    ResumeAllTracks :: proc(mixer: ^Mixer) -> bool ---
+        ResumeAllTracks :: proc(mixer: ^Mixer) -> bool ---
 
-    /**
+        /**
 	* Resume all tracks with a specific tag.
 	*
 	* A paused track is not considered "stopped," so its MIX_TrackStoppedCallback
@@ -4451,9 +4454,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_PauseTag
 	* \sa MIX_TagTrack
 	*/
-    ResumeTag :: proc(mixer: ^Mixer, tag: cstring) -> bool ---
+        ResumeTag :: proc(mixer: ^Mixer, tag: cstring) -> bool ---
 
-    /**
+        /**
 	* Query if a track is currently playing.
 	*
 	* If this returns true, the track is currently contributing to the mixer's
@@ -4476,9 +4479,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_StopTrack
 	* \sa MIX_TrackPaused
 	*/
-    TrackPlaying :: proc(track: ^Track) -> bool ---
+        TrackPlaying :: proc(track: ^Track) -> bool ---
 
-    /**
+        /**
 	* Query if a track is currently paused.
 	*
 	* If this returns true, the track is not currently contributing to the
@@ -4502,9 +4505,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_StopTrack
 	* \sa MIX_TrackPlaying
 	*/
-    TrackPaused :: proc(track: ^Track) -> bool ---
+        TrackPaused :: proc(track: ^Track) -> bool ---
 
-    /**
+        /**
 	* Set a mixer's master gain control.
 	*
 	* Each mixer has a master gain, to adjust the volume of the entire mix. Each
@@ -4530,9 +4533,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_GetMasterGain
 	* \sa MIX_SetTrackGain
 	*/
-    SetMasterGain :: proc(mixer: ^Mixer, gain: f32) -> bool ---
+        SetMasterGain :: proc(mixer: ^Mixer, gain: f32) -> bool ---
 
-    /**
+        /**
 	* Get a mixer's master gain control.
 	*
 	* This returns the last value set through MIX_SetMasterGain(), or 1.0f if no
@@ -4548,9 +4551,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_SetMasterGain
 	* \sa MIX_GetTrackGain
 	*/
-    GetMasterGain :: proc(mixer: ^Mixer) -> f32 ---
+        GetMasterGain :: proc(mixer: ^Mixer) -> f32 ---
 
-    /**
+        /**
 	* Set a track's gain control.
 	*
 	* Each track has its own gain, to adjust its overall volume. Each sample from
@@ -4576,9 +4579,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_GetTrackGain
 	* \sa MIX_SetMasterGain
 	*/
-    SetTrackGain :: proc(track: ^Track, gain: f32) -> bool ---
+        SetTrackGain :: proc(track: ^Track, gain: f32) -> bool ---
 
-    /**
+        /**
 	* Get a track's gain control.
 	*
 	* This returns the last value set through MIX_SetTrackGain(), or 1.0f if no
@@ -4594,9 +4597,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_SetTrackGain
 	* \sa MIX_GetMasterGain
 	*/
-    GetTrackGain :: proc(track: ^Track) -> f32 ---
+        GetTrackGain :: proc(track: ^Track) -> f32 ---
 
-    /**
+        /**
 	* Set the gain control of all tracks with a specific tag.
 	*
 	* Each track has its own gain, to adjust its overall volume. Each sample from
@@ -4631,9 +4634,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_SetMasterGain
 	* \sa MIX_TagTrack
 	*/
-    SetTagGain :: proc(mixer: ^Mixer, tag: cstring, gain: f32) -> bool ---
+        SetTagGain :: proc(mixer: ^Mixer, tag: cstring, gain: f32) -> bool ---
 
-    /**
+        /**
 	* Change the frequency ratio of a track.
 	*
 	* The frequency ratio is used to adjust the rate at which audio data is
@@ -4657,9 +4660,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_GetTrackFrequencyRatio
 	*/
-    SetTrackFrequencyRatio :: proc(track: ^Track, ratio: f32) -> bool ---
+        SetTrackFrequencyRatio :: proc(track: ^Track, ratio: f32) -> bool ---
 
-    /**
+        /**
 	* Query the frequency ratio of a track.
 	*
 	* The frequency ratio is used to adjust the rate at which audio data is
@@ -4684,9 +4687,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_GetTrackFrequencyRatio
 	*/
-    GetTrackFrequencyRatio :: proc(track: ^Track) -> f32 ---
+        GetTrackFrequencyRatio :: proc(track: ^Track) -> f32 ---
 
-    /**
+        /**
 	* Set the current output channel map of a track.
 	*
 	* Channel maps are optional; most things do not need them, instead passing
@@ -4723,9 +4726,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    SetTrackOutputChannelMap :: proc(track: ^Track, chmap: ^i32, count: i32) -> bool ---
+        SetTrackOutputChannelMap :: proc(track: ^Track, chmap: ^i32, count: i32) -> bool ---
 
-    /**
+        /**
 	* Force a track to stereo output, with optionally left/right panning.
 	*
 	* This will cause the output of the track to convert to stereo, and then mix
@@ -4756,9 +4759,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_SetTrack3DPosition
 	*/
-    SetTrackStereo :: proc(track: ^Track, gains: ^StereoGains) -> bool ---
+        SetTrackStereo :: proc(track: ^Track, gains: ^StereoGains) -> bool ---
 
-    /**
+        /**
 	* Set a track's position in 3D space.
 	*
 	* (Please note that sdl_mixer is not intended to be a extremely powerful 3D
@@ -4802,9 +4805,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_GetTrack3DPosition
 	* \sa MIX_SetTrackStereo
 	*/
-    SetTrack3DPosition :: proc(track: ^Track, position: ^Point3D) -> bool ---
+        SetTrack3DPosition :: proc(track: ^Track, position: ^Point3D) -> bool ---
 
-    /**
+        /**
 	* Get a track's current position in 3D space.
 	*
 	* If 3D positioning isn't enabled for this track, through a call to
@@ -4821,9 +4824,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_SetTrack3DPosition
 	*/
-    GetTrack3DPosition :: proc(track: ^Track, position: ^Point3D) -> bool ---
+        GetTrack3DPosition :: proc(track: ^Track, position: ^Point3D) -> bool ---
 
-    /**
+        /**
 	* Create a mixing group.
 	*
 	* Tracks are assigned to a mixing group (or if unassigned, they live in a
@@ -4853,9 +4856,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_SetTrackGroup
 	* \sa MIX_SetGroupPostMixCallback
 	*/
-    CreateGroup :: proc(mixer: ^Mixer) -> ^Group ---
+        CreateGroup :: proc(mixer: ^Mixer) -> ^Group ---
 
-    /**
+        /**
 	* Destroy a mixing group.
 	*
 	* Any tracks currently assigned to this group will be reassigned to the
@@ -4869,9 +4872,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_CreateGroup
 	*/
-    DestroyGroup :: proc(group: ^Group) ---
+        DestroyGroup :: proc(group: ^Group) ---
 
-    /**
+        /**
 	* Get the properties associated with a group.
 	*
 	* Currently sdl_mixer assigns no properties of its own to a group, but this
@@ -4888,9 +4891,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    GetGroupProperties :: proc(group: ^Group) -> sdl.PropertiesID ---
+        GetGroupProperties :: proc(group: ^Group) -> sdl.PropertiesID ---
 
-    /**
+        /**
 	* Get the MIX_Mixer that owns a MIX_Group.
 	*
 	* This is the mixer pointer that was passed to MIX_CreateGroup().
@@ -4903,9 +4906,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    GetGroupMixer :: proc(group: ^Group) -> ^Mixer ---
+        GetGroupMixer :: proc(group: ^Group) -> ^Mixer ---
 
-    /**
+        /**
 	* Assign a track to a mixing group.
 	*
 	* All tracks in a group are mixed together, and that output is made available
@@ -4929,9 +4932,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_CreateGroup
 	* \sa MIX_SetGroupPostMixCallback
 	*/
-    SetTrackGroup :: proc(track: ^Track, group: ^Group) -> bool ---
+        SetTrackGroup :: proc(track: ^Track, group: ^Group) -> bool ---
 
-    /**
+        /**
 	* Set a callback that fires when a MIX_Track is stopped.
 	*
 	* When a track completes playback, either because it ran out of data to mix
@@ -4961,9 +4964,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_TrackStoppedCallback
 	*/
-    SetTrackStoppedCallback :: proc(track: ^Track, cb: TrackStoppedCallback, userdata: rawptr) -> bool ---
+        SetTrackStoppedCallback :: proc(track: ^Track, cb: TrackStoppedCallback, userdata: rawptr) -> bool ---
 
-    /**
+        /**
 	* Set a callback that fires when a MIX_Track has initial decoded audio.
 	*
 	* As a track needs to mix more data, it pulls from its input (a MIX_Audio, an
@@ -4993,9 +4996,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_TrackMixCallback
 	* \sa MIX_SetTrackCookedCallback
 	*/
-    SetTrackRawCallback :: proc(track: ^Track, cb: TrackMixCallback, userdata: rawptr) -> bool ---
+        SetTrackRawCallback :: proc(track: ^Track, cb: TrackMixCallback, userdata: rawptr) -> bool ---
 
-    /**
+        /**
 	* Set a callback that fires when the mixer has transformed a track's audio.
 	*
 	* As a track needs to mix more data, it pulls from its input (a MIX_Audio, an
@@ -5028,9 +5031,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_TrackMixCallback
 	* \sa MIX_SetTrackRawCallback
 	*/
-    SetTrackCookedCallback :: proc(track: ^Track, cb: TrackMixCallback, userdata: rawptr) -> bool ---
+        SetTrackCookedCallback :: proc(track: ^Track, cb: TrackMixCallback, userdata: rawptr) -> bool ---
 
-    /**
+        /**
 	* Set a callback that fires when a mixer group has completed mixing.
 	*
 	* After all playing tracks in a mixer group have pulled in more data from
@@ -5057,9 +5060,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_GroupMixCallback
 	*/
-    SetGroupPostMixCallback :: proc(group: ^Group, cb: GroupMixCallback, userdata: rawptr) -> bool ---
+        SetGroupPostMixCallback :: proc(group: ^Group, cb: GroupMixCallback, userdata: rawptr) -> bool ---
 
-    /**
+        /**
 	* Set a callback that fires when all mixing has completed.
 	*
 	* After all mixer groups have processed, their buffers are mixed together
@@ -5083,9 +5086,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_PostMixCallback
 	*/
-    SetPostMixCallback :: proc(mixer: ^Mixer, cb: PostMixCallback, userdata: rawptr) -> bool ---
+        SetPostMixCallback :: proc(mixer: ^Mixer, cb: PostMixCallback, userdata: rawptr) -> bool ---
 
-    /**
+        /**
 	* Generate mixer output when not driving an audio device.
 	*
 	* sdl_mixer allows the creation of MIX_Mixer objects that are not connected
@@ -5128,9 +5131,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_CreateMixer
 	*/
-    Generate :: proc(mixer: ^Mixer, buffer: rawptr, buflen: i32) -> bool ---
+        Generate :: proc(mixer: ^Mixer, buffer: rawptr, buflen: i32) -> bool ---
 
-    /**
+        /**
 	* Create a MIX_AudioDecoder from a path on the filesystem.
 	*
 	* Most apps won't need this, as sdl_mixer's usual interfaces will decode
@@ -5161,9 +5164,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_DecodeAudio
 	* \sa MIX_DestroyAudioDecoder
 	*/
-    CreateAudioDecoder :: proc(path: cstring, props: sdl.PropertiesID) -> ^AudioDecoder ---
+        CreateAudioDecoder :: proc(path: cstring, props: sdl.PropertiesID) -> ^AudioDecoder ---
 
-    /**
+        /**
 	* Create a MIX_AudioDecoder from an sdl.IOStream.
 	*
 	* Most apps won't need this, as sdl_mixer's usual interfaces will decode
@@ -5199,9 +5202,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	* \sa MIX_DecodeAudio
 	* \sa MIX_DestroyAudioDecoder
 	*/
-    CreateAudioDecoder_IO :: proc(io: ^sdl.IOStream, closeio: bool, props: sdl.PropertiesID) -> ^AudioDecoder ---
+        CreateAudioDecoder_IO :: proc(io: ^sdl.IOStream, closeio: bool, props: sdl.PropertiesID) -> ^AudioDecoder ---
 
-    /**
+        /**
 	* Destroy the specified audio decoder.
 	*
 	* Destroying a NULL MIX_AudioDecoder is a legal no-op.
@@ -5212,9 +5215,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    DestroyAudioDecoder :: proc(audiodecoder: ^AudioDecoder) ---
+        DestroyAudioDecoder :: proc(audiodecoder: ^AudioDecoder) ---
 
-    /**
+        /**
 	* Get the properties associated with a MIX_AudioDecoder.
 	*
 	* sdl_mixer offers some properties of its own, but this can also be a
@@ -5237,9 +5240,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \sa MIX_GetAudioProperties
 	*/
-    GetAudioDecoderProperties :: proc(audiodecoder: ^AudioDecoder) -> sdl.PropertiesID ---
+        GetAudioDecoderProperties :: proc(audiodecoder: ^AudioDecoder) -> sdl.PropertiesID ---
 
-    /**
+        /**
 	* Query the initial audio format of a MIX_AudioDecoder.
 	*
 	* Note that some audio files can change format in the middle; some explicitly
@@ -5256,9 +5259,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    GetAudioDecoderFormat :: proc(audiodecoder: ^AudioDecoder, spec: ^sdl.AudioSpec) -> bool ---
+        GetAudioDecoderFormat :: proc(audiodecoder: ^AudioDecoder, spec: ^sdl.AudioSpec) -> bool ---
 
-    /**
+        /**
 	* Decode more audio from a MIX_AudioDecoder.
 	*
 	* Data is decoded on demand in whatever format is requested. The format is
@@ -5280,6 +5283,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 	*
 	* \since This function is available since sdl_mixer 3.0.0.
 	*/
-    DecodeAudio :: proc(audiodecoder: ^AudioDecoder, buffer: rawptr, buflen: i32, spec: ^sdl.AudioSpec) -> i32 ---
+        DecodeAudio :: proc(audiodecoder: ^AudioDecoder, buffer: rawptr, buflen: i32, spec: ^sdl.AudioSpec) -> i32 ---
     }
 }

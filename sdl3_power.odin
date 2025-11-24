@@ -1,9 +1,5 @@
 package sdl3
 
-when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
-    foreign import lib "SDL3.wasm.a"
-}
-
 import "core:c"
 
 PowerState :: enum c.int {
@@ -16,15 +12,18 @@ PowerState :: enum c.int {
 }
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
+
+    // odinfmt: disable
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign {
 
-    GetPowerInfo :: proc(seconds: ^c.int, percent: ^c.int) -> PowerState ---
+        GetPowerInfo :: proc(seconds: ^c.int, percent: ^c.int) -> PowerState ---
     }
+    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign lib {
 
-    GetPowerInfo :: proc(seconds: ^c.int, percent: ^c.int) -> PowerState ---
+        GetPowerInfo :: proc(seconds: ^c.int, percent: ^c.int) -> PowerState ---
     }
 }

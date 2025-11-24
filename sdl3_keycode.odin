@@ -1,9 +1,5 @@
 package sdl3
 
-when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
-    foreign import lib "SDL3.wasm.a"
-}
-
 Keycode :: distinct Uint32
 
 @(require_results)

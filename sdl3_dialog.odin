@@ -1,9 +1,5 @@
 package sdl3
 
-when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
-    foreign import lib "SDL3.wasm.a"
-}
-
 import "core:c"
 
 DialogFileFilter :: struct {
@@ -20,22 +16,25 @@ FileDialogType :: enum c.int {
 DialogFileCallback :: #type proc "c" (userdata: rawptr, filelist: [^]cstring, filter: c.int)
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
+
+    // odinfmt: disable
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign {
 
-    ShowOpenFileDialog :: proc(callback: DialogFileCallback, userdata: rawptr, window: ^Window, filters: [^]DialogFileFilter, nfilters: c.int, default_location: cstring, allow_many: bool) ---
-    ShowSaveFileDialog :: proc(callback: DialogFileCallback, userdata: rawptr, window: ^Window, filters: [^]DialogFileFilter, nfilters: c.int, default_location: cstring) ---
-    ShowOpenFolderDialog :: proc(callback: DialogFileCallback, userdata: rawptr, window: ^Window, default_location: cstring, allow_many: bool) ---
-    ShowFileDialogWithProperties :: proc(type: FileDialogType, callback: DialogFileCallback, userdata: rawptr, props: PropertiesID) ---
+        ShowOpenFileDialog :: proc(callback: DialogFileCallback, userdata: rawptr, window: ^Window, filters: [^]DialogFileFilter, nfilters: c.int, default_location: cstring, allow_many: bool) ---
+        ShowSaveFileDialog :: proc(callback: DialogFileCallback, userdata: rawptr, window: ^Window, filters: [^]DialogFileFilter, nfilters: c.int, default_location: cstring) ---
+        ShowOpenFolderDialog :: proc(callback: DialogFileCallback, userdata: rawptr, window: ^Window, default_location: cstring, allow_many: bool) ---
+        ShowFileDialogWithProperties :: proc(type: FileDialogType, callback: DialogFileCallback, userdata: rawptr, props: PropertiesID) ---
     }
+    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign lib {
 
-    ShowOpenFileDialog :: proc(callback: DialogFileCallback, userdata: rawptr, window: ^Window, filters: [^]DialogFileFilter, nfilters: c.int, default_location: cstring, allow_many: bool) ---
-    ShowSaveFileDialog :: proc(callback: DialogFileCallback, userdata: rawptr, window: ^Window, filters: [^]DialogFileFilter, nfilters: c.int, default_location: cstring) ---
-    ShowOpenFolderDialog :: proc(callback: DialogFileCallback, userdata: rawptr, window: ^Window, default_location: cstring, allow_many: bool) ---
-    ShowFileDialogWithProperties :: proc(type: FileDialogType, callback: DialogFileCallback, userdata: rawptr, props: PropertiesID) ---
+        ShowOpenFileDialog :: proc(callback: DialogFileCallback, userdata: rawptr, window: ^Window, filters: [^]DialogFileFilter, nfilters: c.int, default_location: cstring, allow_many: bool) ---
+        ShowSaveFileDialog :: proc(callback: DialogFileCallback, userdata: rawptr, window: ^Window, filters: [^]DialogFileFilter, nfilters: c.int, default_location: cstring) ---
+        ShowOpenFolderDialog :: proc(callback: DialogFileCallback, userdata: rawptr, window: ^Window, default_location: cstring, allow_many: bool) ---
+        ShowFileDialogWithProperties :: proc(type: FileDialogType, callback: DialogFileCallback, userdata: rawptr, props: PropertiesID) ---
     }
 }
 

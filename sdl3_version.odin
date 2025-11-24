@@ -1,9 +1,5 @@
 package sdl3
 
-when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
-    foreign import lib "SDL3.wasm.a"
-}
-
 import "core:c"
 
 MAJOR_VERSION :: 3
@@ -30,17 +26,20 @@ VERSION_ATLEAST :: proc "c" (X, Y, Z: c.int) -> bool {return VERSION >= VERSIONN
 
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
+
+    // odinfmt: disable
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
     foreign {
 
-    GetVersion :: proc() -> c.int ---
-    GetRevision :: proc() -> cstring ---
+        GetVersion :: proc() -> c.int ---
+        GetRevision :: proc() -> cstring ---
     }
+    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
     foreign lib {
 
-    GetVersion :: proc() -> c.int ---
-    GetRevision :: proc() -> cstring ---
+        GetVersion :: proc() -> c.int ---
+        GetRevision :: proc() -> cstring ---
     }
 }

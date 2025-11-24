@@ -1,9 +1,5 @@
 package sdl3
 
-when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
-    foreign import lib "SDL3.wasm.a"
-}
-
 import "core:c"
 
 Locale :: struct {
@@ -12,15 +8,18 @@ Locale :: struct {
 }
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
+
+    // odinfmt: disable
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
     foreign {
 
-    GetPreferredLocales :: proc(count: ^c.int) -> [^]^Locale ---
+        GetPreferredLocales :: proc(count: ^c.int) -> [^]^Locale ---
     }
+    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
     foreign lib {
 
-    GetPreferredLocales :: proc(count: ^c.int) -> [^]^Locale ---
+        GetPreferredLocales :: proc(count: ^c.int) -> [^]^Locale ---
     }
 }

@@ -1,9 +1,5 @@
 package sdl3
 
-when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
-    foreign import lib "SDL3.wasm.a"
-}
-
 import "core:c"
 
 Sensor :: struct {}
@@ -24,41 +20,44 @@ SensorType :: enum c.int {
 }
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
+
+    // odinfmt: disable
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
     foreign {
 
-    GetSensors :: proc(count: ^c.int) -> [^]SensorID ---
-    GetSensorNameForID :: proc(instance_id: SensorID) -> cstring ---
-    GetSensorTypeForID :: proc(instance_id: SensorID) -> SensorType ---
-    GetSensorNonPortableTypeForID :: proc(instance_id: SensorID) -> c.int ---
-    OpenSensor :: proc(instance_id: SensorID) -> ^Sensor ---
-    GetSensorFromID :: proc(instance_id: SensorID) -> ^Sensor ---
-    GetSensorProperties :: proc(sensor: ^Sensor) -> PropertiesID ---
-    GetSensorName :: proc(sensor: ^Sensor) -> cstring ---
-    GetSensorType :: proc(sensor: ^Sensor) -> SensorType ---
-    GetSensorNonPortableType :: proc(sensor: ^Sensor) -> c.int ---
-    GetSensorID :: proc(sensor: ^Sensor) -> SensorID ---
-    GetSensorData :: proc(sensor: ^Sensor, data: [^]f32, num_values: c.int) -> bool ---
-    CloseSensor :: proc(sensor: ^Sensor) ---
-    UpdateSensors :: proc() ---
+        GetSensors :: proc(count: ^c.int) -> [^]SensorID ---
+        GetSensorNameForID :: proc(instance_id: SensorID) -> cstring ---
+        GetSensorTypeForID :: proc(instance_id: SensorID) -> SensorType ---
+        GetSensorNonPortableTypeForID :: proc(instance_id: SensorID) -> c.int ---
+        OpenSensor :: proc(instance_id: SensorID) -> ^Sensor ---
+        GetSensorFromID :: proc(instance_id: SensorID) -> ^Sensor ---
+        GetSensorProperties :: proc(sensor: ^Sensor) -> PropertiesID ---
+        GetSensorName :: proc(sensor: ^Sensor) -> cstring ---
+        GetSensorType :: proc(sensor: ^Sensor) -> SensorType ---
+        GetSensorNonPortableType :: proc(sensor: ^Sensor) -> c.int ---
+        GetSensorID :: proc(sensor: ^Sensor) -> SensorID ---
+        GetSensorData :: proc(sensor: ^Sensor, data: [^]f32, num_values: c.int) -> bool ---
+        CloseSensor :: proc(sensor: ^Sensor) ---
+        UpdateSensors :: proc() ---
     }
+    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
     foreign lib {
 
-    GetSensors :: proc(count: ^c.int) -> [^]SensorID ---
-    GetSensorNameForID :: proc(instance_id: SensorID) -> cstring ---
-    GetSensorTypeForID :: proc(instance_id: SensorID) -> SensorType ---
-    GetSensorNonPortableTypeForID :: proc(instance_id: SensorID) -> c.int ---
-    OpenSensor :: proc(instance_id: SensorID) -> ^Sensor ---
-    GetSensorFromID :: proc(instance_id: SensorID) -> ^Sensor ---
-    GetSensorProperties :: proc(sensor: ^Sensor) -> PropertiesID ---
-    GetSensorName :: proc(sensor: ^Sensor) -> cstring ---
-    GetSensorType :: proc(sensor: ^Sensor) -> SensorType ---
-    GetSensorNonPortableType :: proc(sensor: ^Sensor) -> c.int ---
-    GetSensorID :: proc(sensor: ^Sensor) -> SensorID ---
-    GetSensorData :: proc(sensor: ^Sensor, data: [^]f32, num_values: c.int) -> bool ---
-    CloseSensor :: proc(sensor: ^Sensor) ---
-    UpdateSensors :: proc() ---
+        GetSensors :: proc(count: ^c.int) -> [^]SensorID ---
+        GetSensorNameForID :: proc(instance_id: SensorID) -> cstring ---
+        GetSensorTypeForID :: proc(instance_id: SensorID) -> SensorType ---
+        GetSensorNonPortableTypeForID :: proc(instance_id: SensorID) -> c.int ---
+        OpenSensor :: proc(instance_id: SensorID) -> ^Sensor ---
+        GetSensorFromID :: proc(instance_id: SensorID) -> ^Sensor ---
+        GetSensorProperties :: proc(sensor: ^Sensor) -> PropertiesID ---
+        GetSensorName :: proc(sensor: ^Sensor) -> cstring ---
+        GetSensorType :: proc(sensor: ^Sensor) -> SensorType ---
+        GetSensorNonPortableType :: proc(sensor: ^Sensor) -> c.int ---
+        GetSensorID :: proc(sensor: ^Sensor) -> SensorID ---
+        GetSensorData :: proc(sensor: ^Sensor, data: [^]f32, num_values: c.int) -> bool ---
+        CloseSensor :: proc(sensor: ^Sensor) ---
+        UpdateSensors :: proc() ---
     }
 }

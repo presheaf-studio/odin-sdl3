@@ -1,9 +1,5 @@
 package sdl3
 
-when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
-    foreign import lib "SDL3.wasm.a"
-}
-
 import "core:c"
 
 DateTime :: struct {
@@ -31,31 +27,34 @@ TimeFormat :: enum c.int {
 
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
+
+    // odinfmt: disable
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
     foreign {
 
-    GetDateTimeLocalePreferences :: proc(dateFormat: ^DateFormat, timeFormat: ^TimeFormat) -> bool ---
-    GetCurrentTime :: proc(ticks: ^Time) -> bool ---
-    TimeToDateTime :: proc(ticks: Time, dt: ^DateTime, localTime: bool) -> bool ---
-    DateTimeToTime :: proc(#by_ptr dt: DateTime, ticks: ^Time) -> bool ---
-    TimeToWindows :: proc(ticks: Time, dwLowDateTime, dwHighDateTime: ^Uint32) ---
-    TimeFromWindows :: proc(dwLowDateTime, dwHighDateTime: Uint32) -> Time ---
-    GetDaysInMonth :: proc(year, month: c.int) -> c.int ---
-    GetDayOfYear :: proc(year, month, day: c.int) -> c.int ---
-    GetDayOfWeek :: proc(year, month, day: c.int) -> c.int ---
+        GetDateTimeLocalePreferences :: proc(dateFormat: ^DateFormat, timeFormat: ^TimeFormat) -> bool ---
+        GetCurrentTime :: proc(ticks: ^Time) -> bool ---
+        TimeToDateTime :: proc(ticks: Time, dt: ^DateTime, localTime: bool) -> bool ---
+        DateTimeToTime :: proc(#by_ptr dt: DateTime, ticks: ^Time) -> bool ---
+        TimeToWindows :: proc(ticks: Time, dwLowDateTime, dwHighDateTime: ^Uint32) ---
+        TimeFromWindows :: proc(dwLowDateTime, dwHighDateTime: Uint32) -> Time ---
+        GetDaysInMonth :: proc(year, month: c.int) -> c.int ---
+        GetDayOfYear :: proc(year, month, day: c.int) -> c.int ---
+        GetDayOfWeek :: proc(year, month, day: c.int) -> c.int ---
     }
+    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
     foreign lib {
 
-    GetDateTimeLocalePreferences :: proc(dateFormat: ^DateFormat, timeFormat: ^TimeFormat) -> bool ---
-    GetCurrentTime :: proc(ticks: ^Time) -> bool ---
-    TimeToDateTime :: proc(ticks: Time, dt: ^DateTime, localTime: bool) -> bool ---
-    DateTimeToTime :: proc(#by_ptr dt: DateTime, ticks: ^Time) -> bool ---
-    TimeToWindows :: proc(ticks: Time, dwLowDateTime, dwHighDateTime: ^Uint32) ---
-    TimeFromWindows :: proc(dwLowDateTime, dwHighDateTime: Uint32) -> Time ---
-    GetDaysInMonth :: proc(year, month: c.int) -> c.int ---
-    GetDayOfYear :: proc(year, month, day: c.int) -> c.int ---
-    GetDayOfWeek :: proc(year, month, day: c.int) -> c.int ---
+        GetDateTimeLocalePreferences :: proc(dateFormat: ^DateFormat, timeFormat: ^TimeFormat) -> bool ---
+        GetCurrentTime :: proc(ticks: ^Time) -> bool ---
+        TimeToDateTime :: proc(ticks: Time, dt: ^DateTime, localTime: bool) -> bool ---
+        DateTimeToTime :: proc(#by_ptr dt: DateTime, ticks: ^Time) -> bool ---
+        TimeToWindows :: proc(ticks: Time, dwLowDateTime, dwHighDateTime: ^Uint32) ---
+        TimeFromWindows :: proc(dwLowDateTime, dwHighDateTime: Uint32) -> Time ---
+        GetDaysInMonth :: proc(year, month: c.int) -> c.int ---
+        GetDayOfYear :: proc(year, month, day: c.int) -> c.int ---
+        GetDayOfWeek :: proc(year, month, day: c.int) -> c.int ---
     }
 }

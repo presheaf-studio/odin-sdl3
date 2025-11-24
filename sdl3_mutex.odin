@@ -1,63 +1,62 @@
 package sdl3
 
-when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
-    foreign import lib "SDL3.wasm.a"
-}
-
 Mutex :: struct {}
 RWLock :: struct {}
 Semaphore :: struct {}
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
+
+    // odinfmt: disable
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
     foreign {
 
-    CreateMutex :: proc() -> ^Mutex ---
-    LockMutex :: proc(mutex: ^Mutex) ---
-    TryLockMutex :: proc(mutex: ^Mutex) -> bool ---
-    UnlockMutex :: proc(mutex: ^Mutex) ---
-    DestroyMutex :: proc(mutex: ^Mutex) ---
+        CreateMutex :: proc() -> ^Mutex ---
+        LockMutex :: proc(mutex: ^Mutex) ---
+        TryLockMutex :: proc(mutex: ^Mutex) -> bool ---
+        UnlockMutex :: proc(mutex: ^Mutex) ---
+        DestroyMutex :: proc(mutex: ^Mutex) ---
 
-    CreateRWLock :: proc() -> ^RWLock ---
-    LockRWLockForReading :: proc(rwlock: ^RWLock) ---
-    LockRWLockForWriting :: proc(rwlock: ^RWLock) ---
-    TryLockRWLockForReading :: proc(rwlock: ^RWLock) -> bool ---
-    TryLockRWLockForWriting :: proc(rwlock: ^RWLock) -> bool ---
-    UnlockRWLock :: proc(rwlock: ^RWLock) ---
-    DestroyRWLock :: proc(rwlock: ^RWLock) ---
+        CreateRWLock :: proc() -> ^RWLock ---
+        LockRWLockForReading :: proc(rwlock: ^RWLock) ---
+        LockRWLockForWriting :: proc(rwlock: ^RWLock) ---
+        TryLockRWLockForReading :: proc(rwlock: ^RWLock) -> bool ---
+        TryLockRWLockForWriting :: proc(rwlock: ^RWLock) -> bool ---
+        UnlockRWLock :: proc(rwlock: ^RWLock) ---
+        DestroyRWLock :: proc(rwlock: ^RWLock) ---
 
-    CreateSemaphore :: proc(initial_value: Uint32) -> ^Semaphore ---
-    DestroySemaphore :: proc(sem: ^Semaphore) ---
-    GetSemaphoreValue :: proc(sem: ^Semaphore) -> Uint32 ---
-    SignalSemaphore :: proc(sem: ^Semaphore) ---
-    TryWaitSemaphore :: proc(sem: ^Semaphore) -> bool ---
-    WaitSemaphore :: proc(sem: ^Semaphore) ---
-    WaitSemaphoreTimeout :: proc(sem: ^Semaphore, timeout_ms: Sint32) ---
+        CreateSemaphore :: proc(initial_value: Uint32) -> ^Semaphore ---
+        DestroySemaphore :: proc(sem: ^Semaphore) ---
+        GetSemaphoreValue :: proc(sem: ^Semaphore) -> Uint32 ---
+        SignalSemaphore :: proc(sem: ^Semaphore) ---
+        TryWaitSemaphore :: proc(sem: ^Semaphore) -> bool ---
+        WaitSemaphore :: proc(sem: ^Semaphore) ---
+        WaitSemaphoreTimeout :: proc(sem: ^Semaphore, timeout_ms: Sint32) ---
     }
+    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
     foreign lib {
 
-    CreateMutex :: proc() -> ^Mutex ---
-    LockMutex :: proc(mutex: ^Mutex) ---
-    TryLockMutex :: proc(mutex: ^Mutex) -> bool ---
-    UnlockMutex :: proc(mutex: ^Mutex) ---
-    DestroyMutex :: proc(mutex: ^Mutex) ---
+        CreateMutex :: proc() -> ^Mutex ---
+        LockMutex :: proc(mutex: ^Mutex) ---
+        TryLockMutex :: proc(mutex: ^Mutex) -> bool ---
+        UnlockMutex :: proc(mutex: ^Mutex) ---
+        DestroyMutex :: proc(mutex: ^Mutex) ---
 
-    CreateRWLock :: proc() -> ^RWLock ---
-    LockRWLockForReading :: proc(rwlock: ^RWLock) ---
-    LockRWLockForWriting :: proc(rwlock: ^RWLock) ---
-    TryLockRWLockForReading :: proc(rwlock: ^RWLock) -> bool ---
-    TryLockRWLockForWriting :: proc(rwlock: ^RWLock) -> bool ---
-    UnlockRWLock :: proc(rwlock: ^RWLock) ---
-    DestroyRWLock :: proc(rwlock: ^RWLock) ---
+        CreateRWLock :: proc() -> ^RWLock ---
+        LockRWLockForReading :: proc(rwlock: ^RWLock) ---
+        LockRWLockForWriting :: proc(rwlock: ^RWLock) ---
+        TryLockRWLockForReading :: proc(rwlock: ^RWLock) -> bool ---
+        TryLockRWLockForWriting :: proc(rwlock: ^RWLock) -> bool ---
+        UnlockRWLock :: proc(rwlock: ^RWLock) ---
+        DestroyRWLock :: proc(rwlock: ^RWLock) ---
 
-    CreateSemaphore :: proc(initial_value: Uint32) -> ^Semaphore ---
-    DestroySemaphore :: proc(sem: ^Semaphore) ---
-    GetSemaphoreValue :: proc(sem: ^Semaphore) -> Uint32 ---
-    SignalSemaphore :: proc(sem: ^Semaphore) ---
-    TryWaitSemaphore :: proc(sem: ^Semaphore) -> bool ---
-    WaitSemaphore :: proc(sem: ^Semaphore) ---
-    WaitSemaphoreTimeout :: proc(sem: ^Semaphore, timeout_ms: Sint32) ---
+        CreateSemaphore :: proc(initial_value: Uint32) -> ^Semaphore ---
+        DestroySemaphore :: proc(sem: ^Semaphore) ---
+        GetSemaphoreValue :: proc(sem: ^Semaphore) -> Uint32 ---
+        SignalSemaphore :: proc(sem: ^Semaphore) ---
+        TryWaitSemaphore :: proc(sem: ^Semaphore) -> bool ---
+        WaitSemaphore :: proc(sem: ^Semaphore) ---
+        WaitSemaphoreTimeout :: proc(sem: ^Semaphore, timeout_ms: Sint32) ---
     }
 }

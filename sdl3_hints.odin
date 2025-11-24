@@ -1,9 +1,5 @@
 package sdl3
 
-when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
-    foreign import lib "SDL3.wasm.a"
-}
-
 import "core:c"
 
 HINT_ALLOW_ALT_TAB_WHILE_GRABBED :: "SDL_ALLOW_ALT_TAB_WHILE_GRABBED"
@@ -254,41 +250,47 @@ HintPriority :: enum c.int {
 HintCallback :: #type proc "c" (userdata: rawptr, name: cstring, oldValue, newValue: cstring)
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
+
+    // odinfmt: disable
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
     foreign {
 
-    GetHint :: proc(name: cstring) -> cstring ---
-    GetHintBoolean :: proc(name: cstring, default_value: bool) -> bool ---
+        GetHint :: proc(name: cstring) -> cstring ---
+        GetHintBoolean :: proc(name: cstring, default_value: bool) -> bool ---
     }
+    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
     foreign lib {
 
-    GetHint :: proc(name: cstring) -> cstring ---
-    GetHintBoolean :: proc(name: cstring, default_value: bool) -> bool ---
+        GetHint :: proc(name: cstring) -> cstring ---
+        GetHintBoolean :: proc(name: cstring, default_value: bool) -> bool ---
     }
 }
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
+
+    // odinfmt: disable
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign {
 
-    SetHintWithPriority :: proc(name: cstring, value: cstring, priority: HintPriority) -> bool ---
-    SetHint :: proc(name: cstring, value: cstring) -> bool ---
-    ResetHint :: proc(name: cstring) -> bool ---
-    ResetHints :: proc() ---
-    AddHintCallback :: proc(name: cstring, callback: HintCallback, userdata: rawptr) -> bool ---
-    RemoveHintCallback :: proc(name: cstring, callback: HintCallback, userdata: rawptr) ---
+        SetHintWithPriority :: proc(name: cstring, value: cstring, priority: HintPriority) -> bool ---
+        SetHint :: proc(name: cstring, value: cstring) -> bool ---
+        ResetHint :: proc(name: cstring) -> bool ---
+        ResetHints :: proc() ---
+        AddHintCallback :: proc(name: cstring, callback: HintCallback, userdata: rawptr) -> bool ---
+        RemoveHintCallback :: proc(name: cstring, callback: HintCallback, userdata: rawptr) ---
     }
+    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign lib {
 
-    SetHintWithPriority :: proc(name: cstring, value: cstring, priority: HintPriority) -> bool ---
-    SetHint :: proc(name: cstring, value: cstring) -> bool ---
-    ResetHint :: proc(name: cstring) -> bool ---
-    ResetHints :: proc() ---
-    AddHintCallback :: proc(name: cstring, callback: HintCallback, userdata: rawptr) -> bool ---
-    RemoveHintCallback :: proc(name: cstring, callback: HintCallback, userdata: rawptr) ---
+        SetHintWithPriority :: proc(name: cstring, value: cstring, priority: HintPriority) -> bool ---
+        SetHint :: proc(name: cstring, value: cstring) -> bool ---
+        ResetHint :: proc(name: cstring) -> bool ---
+        ResetHints :: proc() ---
+        AddHintCallback :: proc(name: cstring, callback: HintCallback, userdata: rawptr) -> bool ---
+        RemoveHintCallback :: proc(name: cstring, callback: HintCallback, userdata: rawptr) ---
     }
 }

@@ -1,9 +1,5 @@
 package sdl3
 
-when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
-    foreign import lib "SDL3.wasm.a"
-}
-
 import "core:c"
 
 MessageBoxFlags :: distinct bit_set[MessageBoxFlag;Uint32]
@@ -56,17 +52,20 @@ MessageBoxData :: struct {
 
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
+
+    // odinfmt: disable
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign {
 
-    ShowMessageBox :: proc(#by_ptr messageboxdata: MessageBoxData, buttonid: ^c.int) -> bool ---
-    ShowSimpleMessageBox :: proc(flags: MessageBoxFlags, title, message: cstring, window: ^Window) -> bool ---
+        ShowMessageBox :: proc(#by_ptr messageboxdata: MessageBoxData, buttonid: ^c.int) -> bool ---
+        ShowSimpleMessageBox :: proc(flags: MessageBoxFlags, title, message: cstring, window: ^Window) -> bool ---
     }
+    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign lib {
 
-    ShowMessageBox :: proc(#by_ptr messageboxdata: MessageBoxData, buttonid: ^c.int) -> bool ---
-    ShowSimpleMessageBox :: proc(flags: MessageBoxFlags, title, message: cstring, window: ^Window) -> bool ---
+        ShowMessageBox :: proc(#by_ptr messageboxdata: MessageBoxData, buttonid: ^c.int) -> bool ---
+        ShowSimpleMessageBox :: proc(flags: MessageBoxFlags, title, message: cstring, window: ^Window) -> bool ---
     }
 }

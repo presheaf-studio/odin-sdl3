@@ -1,9 +1,5 @@
 package sdl3
 
-when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
-    foreign import lib "SDL3.wasm.a"
-}
-
 import "core:c"
 
 EventType :: enum Uint32 {
@@ -664,51 +660,54 @@ EventFilter :: proc "c" (userdata: rawptr, event: ^Event) -> bool
 
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
+
+    // odinfmt: disable
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
     foreign {
 
-    PumpEvents :: proc() ---
-    PeepEvents :: proc(events: [^]Event, numevents: c.int, action: EventAction, minType, maxType: EventType) -> int ---
-    HasEvent :: proc(type: EventType) -> bool ---
-    HasEvents :: proc(minType, maxType: EventType) -> bool ---
-    FlushEvent :: proc(type: EventType) ---
-    FlushEvents :: proc(minType, maxType: EventType) ---
-    PollEvent :: proc(event: ^Event) -> bool ---
-    WaitEvent :: proc(event: ^Event) -> bool ---
-    WaitEventTimeout :: proc(event: ^Event, timeoutMS: Sint32) -> bool ---
-    PushEvent :: proc(event: ^Event) -> bool ---
-    SetEventFilter :: proc(filter: EventFilter, userdata: rawptr) ---
-    GetEventFilter :: proc(filter: ^EventFilter, userdata: ^rawptr) -> bool ---
-    AddEventWatch :: proc(filter: EventFilter, userdata: rawptr) -> bool ---
-    RemoveEventWatch :: proc(filter: EventFilter, userdata: rawptr) ---
-    FilterEvents :: proc(filter: EventFilter, userdata: rawptr) ---
-    SetEventEnabled :: proc(type: EventType, enabled: bool) ---
-    EventEnabled :: proc(type: EventType) -> bool ---
-    RegisterEvents :: proc(numevents: c.int) -> Uint32 ---
-    GetWindowFromEvent :: proc(#by_ptr event: Event) -> ^Window ---
+        PumpEvents :: proc() ---
+        PeepEvents :: proc(events: [^]Event, numevents: c.int, action: EventAction, minType, maxType: EventType) -> int ---
+        HasEvent :: proc(type: EventType) -> bool ---
+        HasEvents :: proc(minType, maxType: EventType) -> bool ---
+        FlushEvent :: proc(type: EventType) ---
+        FlushEvents :: proc(minType, maxType: EventType) ---
+        PollEvent :: proc(event: ^Event) -> bool ---
+        WaitEvent :: proc(event: ^Event) -> bool ---
+        WaitEventTimeout :: proc(event: ^Event, timeoutMS: Sint32) -> bool ---
+        PushEvent :: proc(event: ^Event) -> bool ---
+        SetEventFilter :: proc(filter: EventFilter, userdata: rawptr) ---
+        GetEventFilter :: proc(filter: ^EventFilter, userdata: ^rawptr) -> bool ---
+        AddEventWatch :: proc(filter: EventFilter, userdata: rawptr) -> bool ---
+        RemoveEventWatch :: proc(filter: EventFilter, userdata: rawptr) ---
+        FilterEvents :: proc(filter: EventFilter, userdata: rawptr) ---
+        SetEventEnabled :: proc(type: EventType, enabled: bool) ---
+        EventEnabled :: proc(type: EventType) -> bool ---
+        RegisterEvents :: proc(numevents: c.int) -> Uint32 ---
+        GetWindowFromEvent :: proc(#by_ptr event: Event) -> ^Window ---
     }
+    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
     foreign lib {
 
-    PumpEvents :: proc() ---
-    PeepEvents :: proc(events: [^]Event, numevents: c.int, action: EventAction, minType, maxType: EventType) -> int ---
-    HasEvent :: proc(type: EventType) -> bool ---
-    HasEvents :: proc(minType, maxType: EventType) -> bool ---
-    FlushEvent :: proc(type: EventType) ---
-    FlushEvents :: proc(minType, maxType: EventType) ---
-    PollEvent :: proc(event: ^Event) -> bool ---
-    WaitEvent :: proc(event: ^Event) -> bool ---
-    WaitEventTimeout :: proc(event: ^Event, timeoutMS: Sint32) -> bool ---
-    PushEvent :: proc(event: ^Event) -> bool ---
-    SetEventFilter :: proc(filter: EventFilter, userdata: rawptr) ---
-    GetEventFilter :: proc(filter: ^EventFilter, userdata: ^rawptr) -> bool ---
-    AddEventWatch :: proc(filter: EventFilter, userdata: rawptr) -> bool ---
-    RemoveEventWatch :: proc(filter: EventFilter, userdata: rawptr) ---
-    FilterEvents :: proc(filter: EventFilter, userdata: rawptr) ---
-    SetEventEnabled :: proc(type: EventType, enabled: bool) ---
-    EventEnabled :: proc(type: EventType) -> bool ---
-    RegisterEvents :: proc(numevents: c.int) -> Uint32 ---
-    GetWindowFromEvent :: proc(#by_ptr event: Event) -> ^Window ---
+        PumpEvents :: proc() ---
+        PeepEvents :: proc(events: [^]Event, numevents: c.int, action: EventAction, minType, maxType: EventType) -> int ---
+        HasEvent :: proc(type: EventType) -> bool ---
+        HasEvents :: proc(minType, maxType: EventType) -> bool ---
+        FlushEvent :: proc(type: EventType) ---
+        FlushEvents :: proc(minType, maxType: EventType) ---
+        PollEvent :: proc(event: ^Event) -> bool ---
+        WaitEvent :: proc(event: ^Event) -> bool ---
+        WaitEventTimeout :: proc(event: ^Event, timeoutMS: Sint32) -> bool ---
+        PushEvent :: proc(event: ^Event) -> bool ---
+        SetEventFilter :: proc(filter: EventFilter, userdata: rawptr) ---
+        GetEventFilter :: proc(filter: ^EventFilter, userdata: ^rawptr) -> bool ---
+        AddEventWatch :: proc(filter: EventFilter, userdata: rawptr) -> bool ---
+        RemoveEventWatch :: proc(filter: EventFilter, userdata: rawptr) ---
+        FilterEvents :: proc(filter: EventFilter, userdata: rawptr) ---
+        SetEventEnabled :: proc(type: EventType, enabled: bool) ---
+        EventEnabled :: proc(type: EventType) -> bool ---
+        RegisterEvents :: proc(numevents: c.int) -> Uint32 ---
+        GetWindowFromEvent :: proc(#by_ptr event: Event) -> ^Window ---
     }
 }

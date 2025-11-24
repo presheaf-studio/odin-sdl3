@@ -1,9 +1,5 @@
 package sdl3
 
-when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
-    foreign import lib "SDL3.wasm.a"
-}
-
 import "base:intrinsics"
 import "core:c"
 
@@ -53,26 +49,30 @@ AssertData :: struct {
 AssertionHandler :: #type proc "c" (data: ^AssertData, userdata: rawptr) -> AssertState
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
+
+
+    // odinfmt: disable
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign {
 
-    ReportAssertion :: proc(data: ^AssertData, func, file: cstring, line: c.int) -> AssertState ---
+        ReportAssertion :: proc(data: ^AssertData, func, file: cstring, line: c.int) -> AssertState ---
 
-    SetAssertionHandler :: proc(handler: AssertionHandler, userdata: rawptr) ---
-    GetDefaultAssertionHandler :: proc() -> AssertionHandler ---
-    GetAssertionReport :: proc() -> AssertData ---
-    ResetAssertionReport :: proc() ---
+        SetAssertionHandler :: proc(handler: AssertionHandler, userdata: rawptr) ---
+        GetDefaultAssertionHandler :: proc() -> AssertionHandler ---
+        GetAssertionReport :: proc() -> AssertData ---
+        ResetAssertionReport :: proc() ---
     }
+    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign lib {
 
-    ReportAssertion :: proc(data: ^AssertData, func, file: cstring, line: c.int) -> AssertState ---
+        ReportAssertion :: proc(data: ^AssertData, func, file: cstring, line: c.int) -> AssertState ---
 
-    SetAssertionHandler :: proc(handler: AssertionHandler, userdata: rawptr) ---
-    GetDefaultAssertionHandler :: proc() -> AssertionHandler ---
-    GetAssertionReport :: proc() -> AssertData ---
-    ResetAssertionReport :: proc() ---
+        SetAssertionHandler :: proc(handler: AssertionHandler, userdata: rawptr) ---
+        GetDefaultAssertionHandler :: proc() -> AssertionHandler ---
+        GetAssertionReport :: proc() -> AssertData ---
+        ResetAssertionReport :: proc() ---
     }
 }
 
