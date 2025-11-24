@@ -2,10 +2,10 @@ cmake_minimum_required(VERSION 3.16)
 
 project(sdl-build)
 
-set(SDL_DIALOG OFF)
 set(SDL_RENDER OFF)
 set(SDL_GPU OFF)
 set(SDL_CAMERA OFF)
+set(SDL_DIALOG ON)
 set(SDL_JOYSTICK ON)
 set(SDL_VIRTUAL_JOYSTICK ON)
 # IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
