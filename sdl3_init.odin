@@ -1,5 +1,9 @@
 package sdl3
 
+when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
+    foreign import lib "SDL3.wasm.a"
+}
+
 import "core:c"
 
 InitFlags :: distinct bit_set[InitFlag;Uint32]

@@ -1,5 +1,9 @@
 package sdl3
 
+when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
+    foreign import lib "SDL3.wasm.a"
+}
+
 import "core:c"
 
 HINT_ALLOW_ALT_TAB_WHILE_GRABBED :: "SDL_ALLOW_ALT_TAB_WHILE_GRABBED"

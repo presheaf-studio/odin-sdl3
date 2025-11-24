@@ -1,5 +1,9 @@
 package sdl3
 
+when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
+    foreign import lib "SDL3.wasm.a"
+}
+
 ClipboardDataCallback :: #type proc "c" (userdata: rawptr, mime_type: cstring, size: ^uint) -> rawptr
 ClipboardCleanupCallback :: #type proc "c" (userdata: rawptr)
 

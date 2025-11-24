@@ -1,6 +1,10 @@
 #+build windows
 package sdl3
 
+when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
+    foreign import lib "SDL3.wasm.a"
+}
+
 // Windows
 
 import win32 "core:sys/windows"
