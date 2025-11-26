@@ -12,10 +12,8 @@ wait
 emcmake cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DDAV1D_ASM=OFF -DEMSCRIPTEN=ON -DSDLIMAGE_AVIF=OFF
 if [ $(uname -s) = 'Darwin' ]; then
     emmake make -C build -j$(sysctl -n hw.ncpu)
-    # LIB_EXT=darwin
 else
     emmake make -C build -j$(nproc)
-    # LIB_EXT=linux
 fi
 
 cp build/SDL/libSDL3.a SDL3.wasm.a

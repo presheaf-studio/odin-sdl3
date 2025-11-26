@@ -9,27 +9,21 @@ set -e
 
 wait
 
-cmake -S . -B libs -DSDL_SHARED=ON -DSDL_STATIC=OFF -DBUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE=Release
+cmake -S . -B libs -DSDL_SHARED=ON -DSDL_STATIC=OFF -DBUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE=Release -DSDLIMAGE_AVIF=ON
 if [ $(uname -s) = 'Darwin' ]; then
     cmake --build libs -j$(sysctl -n hw.ncpu) --config Release
-    # LIB_EXT=darwin
-    cp libs/SDL/*.dylib .
-    cp libs/SDL_image/*.dylib image/
-    cp libs/SDL_ttf/*.dylib ttf/
-    cp libs/SDL_mixer/*.dylib mixer/
+    LIB_EXT=dylib
 else
     cmake --build libs -j$(nproc) --config Release
-    # LIB_EXT=linux
-    cp libs/SDL/*.so .
-    cp libs/SDL_image/*.so image/
-    cp libs/SDL_ttf/*.so ttf/
-    cp libs/SDL_mixer/*.so mixer/
+    LIB_EXT=so
 fi
 
-# cp libs/SDL/libSDL3.a SDL3.$LIB_EXT.a
-# cp libs/SDL_image/libSDL3_image.a image/SDL3_image.$LIB_EXT.a
-# cp libs/SDL_ttf/libSDL3_ttf.a ttf/SDL3_ttf.$LIB_EXT.a
-# cp libs/SDL_mixer/libSDL3_mixer.a mixer/SDL3_mixer.$LIB_EXT.a
+cp libs/SDL/*.$LIB_EXT .
+cp libs/SDL_image/*.$LIB_EXT image/
+# NOTE: do we actually need aom?
+cp libs/SDL_image/external/**/*.$LIB_EXT image/
+cp libs/SDL_ttf/*.$LIB_EXT ttf/
+cp libs/SDL_mixer/*.$LIB_EXT mixer/
 
 cp -r SDL/include/SDL3/* include
 cp -r SDL_image/include/SDL3_image/* image/include

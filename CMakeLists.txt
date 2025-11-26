@@ -32,8 +32,6 @@ add_subdirectory(SDL_mixer)
 
 set(SDLIMAGE_VENDORED ON)
 # disable formats we don't use to make the build faster and smaller.
-# NOTE: avif disabled due to dumb WASM compiler errors
-set(SDLIMAGE_AVIF OFF)
 set(SDLIMAGE_BMP ON)
 set(SDLIMAGE_GIF ON)
 set(SDLIMAGE_JPG ON)
