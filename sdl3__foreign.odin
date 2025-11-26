@@ -1,6 +1,6 @@
 package sdl3
 
-SDL3_MIXER :: #config(SDL3_MIXER, true)
+SDL3_MIXER :: #config(SDL3_MIXER, false)
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
     SYSTEM_SUPPORT :: false
     SDL3_SYSTEM :: false
