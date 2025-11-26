@@ -23,8 +23,10 @@ SensorType :: enum c.int {
     GYRO_R, /**< Gyroscope for right Joy-Con controller */
 }
 
-@(default_calling_convention = "c", link_prefix = "SDL_", require_results)
-foreign lib {
+when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
+    @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
+    foreign {
+
     GetSensors :: proc(count: ^c.int) -> [^]SensorID ---
     GetSensorNameForID :: proc(instance_id: SensorID) -> cstring ---
     GetSensorTypeForID :: proc(instance_id: SensorID) -> SensorType ---
@@ -39,4 +41,24 @@ foreign lib {
     GetSensorData :: proc(sensor: ^Sensor, data: [^]f32, num_values: c.int) -> bool ---
     CloseSensor :: proc(sensor: ^Sensor) ---
     UpdateSensors :: proc() ---
+    }
+} else {
+    @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
+    foreign lib {
+
+    GetSensors :: proc(count: ^c.int) -> [^]SensorID ---
+    GetSensorNameForID :: proc(instance_id: SensorID) -> cstring ---
+    GetSensorTypeForID :: proc(instance_id: SensorID) -> SensorType ---
+    GetSensorNonPortableTypeForID :: proc(instance_id: SensorID) -> c.int ---
+    OpenSensor :: proc(instance_id: SensorID) -> ^Sensor ---
+    GetSensorFromID :: proc(instance_id: SensorID) -> ^Sensor ---
+    GetSensorProperties :: proc(sensor: ^Sensor) -> PropertiesID ---
+    GetSensorName :: proc(sensor: ^Sensor) -> cstring ---
+    GetSensorType :: proc(sensor: ^Sensor) -> SensorType ---
+    GetSensorNonPortableType :: proc(sensor: ^Sensor) -> c.int ---
+    GetSensorID :: proc(sensor: ^Sensor) -> SensorID ---
+    GetSensorData :: proc(sensor: ^Sensor, data: [^]f32, num_values: c.int) -> bool ---
+    CloseSensor :: proc(sensor: ^Sensor) ---
+    UpdateSensors :: proc() ---
+    }
 }

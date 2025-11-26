@@ -29,8 +29,18 @@ VERSION :: MAJOR_VERSION * 1000000 + MINOR_VERSION * 1000 + MICRO_VERSION
 VERSION_ATLEAST :: proc "c" (X, Y, Z: c.int) -> bool {return VERSION >= VERSIONNUM(X, Y, Z)}
 
 
-@(default_calling_convention = "c", link_prefix = "SDL_", require_results)
-foreign lib {
+when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
+    @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
+    foreign {
+
     GetVersion :: proc() -> c.int ---
     GetRevision :: proc() -> cstring ---
+    }
+} else {
+    @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
+    foreign lib {
+
+    GetVersion :: proc() -> c.int ---
+    GetRevision :: proc() -> cstring ---
+    }
 }

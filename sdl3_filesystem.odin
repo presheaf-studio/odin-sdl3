@@ -63,8 +63,10 @@ EnumerationResult :: enum c.int {
 EnumerateDirectoryCallback :: #type proc "c" (userdata: rawptr, dirname, fname: cstring) -> EnumerationResult
 
 
-@(default_calling_convention = "c", link_prefix = "SDL_", require_results)
-foreign lib {
+when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
+    @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
+    foreign {
+
     GetBasePath :: proc() -> cstring ---
     GetPrefPath :: proc(org, app: cstring) -> [^]c.char ---
     GetUserFolder :: proc(folder: Folder) -> cstring ---
@@ -76,4 +78,21 @@ foreign lib {
     GetPathInfo :: proc(path: cstring, info: ^PathInfo) -> bool ---
     GlobDirectory :: proc(path: cstring, pattern: cstring, flags: GlobFlags, count: ^c.int) -> [^][^]c.char ---
     GetCurrentDirectory :: proc() -> [^]c.char ---
+    }
+} else {
+    @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
+    foreign lib {
+
+    GetBasePath :: proc() -> cstring ---
+    GetPrefPath :: proc(org, app: cstring) -> [^]c.char ---
+    GetUserFolder :: proc(folder: Folder) -> cstring ---
+    CreateDirectory :: proc(path: cstring) -> bool ---
+    EnumerateDirectory :: proc(path: cstring, callback: EnumerateDirectoryCallback, userdata: rawptr) -> bool ---
+    RemovePath :: proc(path: cstring) -> bool ---
+    RenamePath :: proc(oldpath, newpath: cstring) -> bool ---
+    CopyFile :: proc(oldpath, newpath: cstring) -> bool ---
+    GetPathInfo :: proc(path: cstring, info: ^PathInfo) -> bool ---
+    GlobDirectory :: proc(path: cstring, pattern: cstring, flags: GlobFlags, count: ^c.int) -> [^][^]c.char ---
+    GetCurrentDirectory :: proc() -> [^]c.char ---
+    }
 }

@@ -48,8 +48,10 @@ PROP_APP_METADATA_COPYRIGHT_STRING :: "SDL.app.metadata.copyright"
 PROP_APP_METADATA_URL_STRING :: "SDL.app.metadata.url"
 PROP_APP_METADATA_TYPE_STRING :: "SDL.app.metadata.type"
 
-@(default_calling_convention = "c", link_prefix = "SDL_", require_results)
-foreign lib {
+when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
+    @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
+    foreign {
+
     Init :: proc(flags: InitFlags) -> bool ---
     InitSubSystem :: proc(flags: InitFlags) -> bool ---
     QuitSubSystem :: proc(flags: InitFlags) ---
@@ -60,4 +62,20 @@ foreign lib {
     SetAppMetadata :: proc(appname, appversion, appidentifier: cstring) -> bool ---
     SetAppMetadataProperty :: proc(name: cstring, value: cstring) -> bool ---
     GetAppMetadataProperty :: proc(name: cstring) -> cstring ---
+    }
+} else {
+    @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
+    foreign lib {
+
+    Init :: proc(flags: InitFlags) -> bool ---
+    InitSubSystem :: proc(flags: InitFlags) -> bool ---
+    QuitSubSystem :: proc(flags: InitFlags) ---
+    WasInit :: proc(flags: InitFlags) -> InitFlags ---
+    Quit :: proc() ---
+    IsMainThread :: proc() -> bool ---
+    RunOnMainThread :: proc(callback: MainThreadCallback, userdata: rawptr, wait_complete: bool) -> bool ---
+    SetAppMetadata :: proc(appname, appversion, appidentifier: cstring) -> bool ---
+    SetAppMetadataProperty :: proc(name: cstring, value: cstring) -> bool ---
+    GetAppMetadataProperty :: proc(name: cstring) -> cstring ---
+    }
 }

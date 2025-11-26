@@ -15,7 +15,16 @@ PowerState :: enum c.int {
     CHARGED, /**< Plugged in, battery charged */
 }
 
-@(default_calling_convention = "c", link_prefix = "SDL_")
-foreign lib {
+when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
+    @(default_calling_convention = "c", link_prefix = "SDL_")
+    foreign {
+
     GetPowerInfo :: proc(seconds: ^c.int, percent: ^c.int) -> PowerState ---
+    }
+} else {
+    @(default_calling_convention = "c", link_prefix = "SDL_")
+    foreign lib {
+
+    GetPowerInfo :: proc(seconds: ^c.int, percent: ^c.int) -> PowerState ---
+    }
 }
