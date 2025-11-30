@@ -51,9 +51,9 @@ LogOutputFunction :: #type proc "c" (userdata: rawptr, category: LogCategory, pr
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_")
-    foreign {
+    foreign _ {
 
         SetLogPriorities :: proc(priority: LogPriority) ---
         SetLogPriority :: proc(category: LogCategory, priority: LogPriority) ---
@@ -74,7 +74,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         GetLogOutputFunction :: proc(callback: ^LogOutputFunction, userdata: ^rawptr) ---
         SetLogOutputFunction :: proc(callback: LogOutputFunction, userdata: rawptr) ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign lib {

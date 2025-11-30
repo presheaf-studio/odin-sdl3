@@ -31,9 +31,9 @@ AsyncIOQueue :: struct {}
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
-    foreign {
+    foreign _ {
 
         AsyncIOFromFile :: proc(file: cstring, mode: cstring) -> ^AsyncIO ---
         GetAsyncIOSize :: proc(asyncio: ^AsyncIO) -> Sint64 ---
@@ -47,7 +47,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         SignalAsyncIOQueue :: proc(queue: ^AsyncIOQueue) ---
         LoadFileAsync :: proc(file: cstring, queue: ^AsyncIOQueue, userdata: rawptr) -> bool ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
     foreign lib {

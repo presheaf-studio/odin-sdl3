@@ -63,9 +63,9 @@ free_func :: #type proc "c" (mem: rawptr)
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_")
-    foreign {
+    foreign _ {
 
         @(require_results)
         malloc :: proc(size: uint) -> rawptr ---
@@ -92,7 +92,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         GetNumAllocations :: proc() -> c.int ---
 
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign lib {
@@ -128,9 +127,9 @@ Environment :: struct {}
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_")
-    foreign {
+    foreign _ {
 
         @(require_results)
         GetEnvironment :: proc() -> ^Environment ---
@@ -144,7 +143,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         UnsetEnvironmentVariable :: proc(env: ^Environment, name: cstring) -> bool ---
         DestroyEnvironment :: proc(env: ^Environment) ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign lib {
@@ -165,9 +163,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_")
-    foreign {
+    foreign _ {
 
         @(require_results)
         getenv :: proc(name: cstring) -> cstring ---
@@ -177,7 +175,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         unsetenv_unsafe :: proc(name: cstring) -> c.int ---
 
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign lib {
@@ -197,9 +194,9 @@ CompareCallback_r :: #type proc "c" (userdata: rawptr, a, b: rawptr) -> c.int
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_")
-    foreign {
+    foreign _ {
 
         qsort :: proc(base: rawptr, nmemb: uint, size: uint, compare: CompareCallback) ---
         bsearch :: proc(key: rawptr, base: rawptr, nmemb: uint, size: uint, compare: CompareCallback) -> rawptr ---
@@ -207,7 +204,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         qsort_r :: proc(base: rawptr, nmemb: uint, size: uint, compare: CompareCallback_r, userdata: rawptr) ---
         bsearch_r :: proc(key: rawptr, base: rawptr, nmemb: uint, size: uint, compare: CompareCallback_r, userdata: rawptr) -> rawptr ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign lib {
@@ -229,9 +225,9 @@ clamp :: builtin.clamp
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
-    foreign {
+    foreign _ {
 
         isalpha :: proc(x: rune) -> b32 ---
         isalnum :: proc(x: rune) -> b32 ---
@@ -253,7 +249,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         crc32 :: proc(crc: Uint32, data: rawptr, len: uint) -> Uint32 ---
         murmur3_32 :: proc(data: rawptr, len: uint, seed: Uint32) -> Uint32 ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
     foreign lib {
@@ -294,9 +289,9 @@ zeroa :: #force_inline proc "contextless" (x: []$T) {
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_")
-    foreign {
+    foreign _ {
 
         memcpy :: proc(dst, src: rawptr, len: uint) -> rawptr ---
         memmove :: proc(dst, src: rawptr, len: uint) -> rawptr ---
@@ -304,7 +299,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         @(require_results)
         memcmp :: proc(s1, s2: rawptr, len: c.int) -> c.int ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign lib {
@@ -319,9 +313,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
-    foreign {
+    foreign _ {
 
         wcslen :: proc(wstr: [^]wchar_t) -> uint ---
         wcsnlen :: proc(wstr: [^]wchar_t, maxlen: uint) -> uint ---
@@ -336,7 +330,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         wcsncasecmp :: proc(str1, str2: [^]wchar_t, maxlen: uint) -> int ---
         wcstol :: proc(str: [^]wchar_t, endp: ^[^]wchar_t, base: c.int) -> c.long ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
     foreign lib {
@@ -358,9 +351,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
-    foreign {
+    foreign _ {
 
         strlen :: proc(str: cstring) -> uint ---
         strnlen :: proc(str: cstring, maxlen: uint) -> uint ---
@@ -404,7 +397,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         StepBackUTF8 :: proc(start: cstring, pstr: ^cstring) -> Uint32 ---
         UCS4ToUTF8 :: proc(codepoint: rune, dst: [^]u8) -> [^]u8 ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
     foreign lib {
@@ -455,9 +447,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_")
-    foreign {
+    foreign _ {
 
         sscanf :: proc(text: cstring, fmt: cstring, #c_vararg args: ..any) -> c.int ---
         vsscanf :: proc(text: cstring, fmt: cstring, ap: c.va_list) -> c.int ---
@@ -468,7 +460,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         asprintf :: proc(strp: ^[^]u8, fmt: cstring, #c_vararg args: ..any) -> c.int ---
         vasprintf :: proc(strp: ^[^]u8, fmt: cstring, ap: c.va_list) -> c.int ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign lib {
@@ -486,9 +477,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
-    foreign {
+    foreign _ {
 
         srand :: proc(seed: Uint64) ---
         rand :: proc(n: Sint32) -> Sint32 ---
@@ -498,7 +489,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         randf_r :: proc(state: ^Uint64) -> f32 ---
         rand_bits_r :: proc(state: ^Uint64) -> Uint32 ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
     foreign lib {
@@ -515,9 +505,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
-    foreign {
+    foreign _ {
 
         acos :: proc(x: f64) -> f64 ---
         acosf :: proc(x: f32) -> f32 ---
@@ -568,7 +558,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         tan :: proc(x: f64) -> f64 ---
         tanf :: proc(x: f32) -> f32 ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
     foreign lib {
@@ -630,16 +619,15 @@ iconv_t :: ^iconv_data_t
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_")
-    foreign {
+    foreign _ {
 
         iconv_open :: proc(tocode: cstring) -> iconv_t ---
         iconv_close :: proc(cd: iconv_t) -> c.int ---
         iconv :: proc(cd: iconv_t, inbuf: ^cstring, inbytesleft: ^uint, outbuf: ^[^]u8, outbytesleft: ^uint) -> uint ---
         iconv_string :: proc(tocode: cstring, fromcode: cstring, inbuf: cstring, inbytesleft: uint) -> [^]byte ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign lib {

@@ -21,9 +21,9 @@ SensorType :: enum c.int {
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
-    foreign {
+    foreign _ {
 
         GetSensors :: proc(count: ^c.int) -> [^]SensorID ---
         GetSensorNameForID :: proc(instance_id: SensorID) -> cstring ---
@@ -40,7 +40,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         CloseSensor :: proc(sensor: ^Sensor) ---
         UpdateSensors :: proc() ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
     foreign lib {

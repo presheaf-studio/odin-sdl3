@@ -19,9 +19,9 @@ EnumeratePropertiesCallback :: #type proc "c" (userdata: rawptr, props: Properti
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_")
-    foreign {
+    foreign _ {
 
         @(require_results)
         GetGlobalProperties :: proc() -> PropertiesID ---
@@ -55,7 +55,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         EnumerateProperties :: proc(props: PropertiesID, callback: EnumeratePropertiesCallback, userdata: rawptr) -> bool ---
         DestroyProperties :: proc(props: PropertiesID) ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign lib {

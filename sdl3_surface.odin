@@ -52,9 +52,9 @@ PROP_SURFACE_HOTSPOT_Y_NUMBER :: "SDL.surface.hotspot.y"
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_")
-    foreign {
+    foreign _ {
 
         CreateSurface :: proc(width, height: c.int, format: PixelFormat) -> ^Surface ---
         CreateSurfaceFrom :: proc(width, height: c.int, format: PixelFormat, pixels: rawptr, pitch: c.int) -> ^Surface ---
@@ -115,7 +115,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         WriteSurfacePixel :: proc(surface: ^Surface, x, y: c.int, r, g, b, a: Uint8) -> bool ---
         WriteSurfacePixelFloat :: proc(surface: ^Surface, x, y: c.int, r, g, b, a: f32) -> bool ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign lib {

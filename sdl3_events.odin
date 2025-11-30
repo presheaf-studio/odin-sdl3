@@ -661,9 +661,9 @@ EventFilter :: proc "c" (userdata: rawptr, event: ^Event) -> bool
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
-    foreign {
+    foreign _ {
 
         PumpEvents :: proc() ---
         PeepEvents :: proc(events: [^]Event, numevents: c.int, action: EventAction, minType, maxType: EventType) -> int ---
@@ -685,7 +685,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         RegisterEvents :: proc(numevents: c.int) -> Uint32 ---
         GetWindowFromEvent :: proc(#by_ptr event: Event) -> ^Window ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
     foreign lib {

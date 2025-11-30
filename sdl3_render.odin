@@ -129,9 +129,9 @@ DEBUG_TEXT_FONT_CHARACTER_SIZE :: 8
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
-    foreign {
+    foreign _ {
 
         GetNumRenderDrivers :: proc() -> c.int ---
         GetRenderDriver :: proc(index: c.int) -> cstring ---
@@ -154,7 +154,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         GetRenderMetalLayer :: proc(renderer: ^Renderer) -> rawptr ---
         GetRenderMetalCommandEncoder :: proc(renderer: ^Renderer) -> rawptr ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
     foreign lib {
@@ -184,9 +183,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_")
-    foreign {
+    foreign _ {
 
         CreateWindowAndRenderer :: proc(title: cstring, width, height: c.int, window_flags: WindowFlags, window: ^^Window, renderer: ^^Renderer) -> bool ---
         GetRenderOutputSize :: proc(renderer: ^Renderer, w, h: ^c.int) -> bool ---
@@ -258,7 +257,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         RenderDebugText :: proc(renderer: ^Renderer, x, y: f32, str: cstring) -> bool ---
         RenderDebugTextFormat :: proc(renderer: ^Renderer, x, y: f32, fmt: cstring, #c_vararg args: ..any) -> bool ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign lib {

@@ -85,9 +85,8 @@ AudioPostmixCallback :: #type proc "c" (userdata: rawptr, spec: ^AudioSpec, buff
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
     @(default_calling_convention = "c", link_prefix = "SDL_")
-    foreign {
+    foreign _ {
 
         GetNumAudioDrivers :: proc() -> c.int ---
         GetAudioDriver :: proc(index: c.int) -> cstring ---
@@ -146,7 +145,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         GetAudioFormatName :: proc(format: AudioFormat) -> cstring ---
         GetSilenceValueForFormat :: proc(format: AudioFormat) -> c.int ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign lib {

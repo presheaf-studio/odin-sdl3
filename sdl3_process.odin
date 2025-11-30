@@ -30,9 +30,9 @@ PROP_PROCESS_BACKGROUND_BOOLEAN :: "SDL.process.background"
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
-    foreign {
+    foreign _ {
 
         CreateProcess :: proc(args: [^]cstring, pipe_stdio: bool) -> ^Process ---
         CreateProcessWithProperties :: proc(props: PropertiesID) -> ^Process ---
@@ -44,7 +44,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         WaitProcess :: proc(process: ^Process, block: bool, exitcode: ^c.int) -> bool ---
         DestroyProcess :: proc(process: ^Process) ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
     foreign lib {

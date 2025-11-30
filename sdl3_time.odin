@@ -28,9 +28,9 @@ TimeFormat :: enum c.int {
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
-    foreign {
+    foreign _ {
 
         GetDateTimeLocalePreferences :: proc(dateFormat: ^DateFormat, timeFormat: ^TimeFormat) -> bool ---
         GetCurrentTime :: proc(ticks: ^Time) -> bool ---
@@ -42,7 +42,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         GetDayOfYear :: proc(year, month, day: c.int) -> c.int ---
         GetDayOfWeek :: proc(year, month, day: c.int) -> c.int ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
     foreign lib {

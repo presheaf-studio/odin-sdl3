@@ -26,9 +26,9 @@ NSTimerCallback :: #type proc "c" (userdata: rawptr, timerID: TimerID, interval:
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
-    foreign {
+    foreign _ {
 
         GetTicks :: proc() -> Uint64 ---
         GetTicksNS :: proc() -> Uint64 ---
@@ -41,7 +41,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         AddTimerNS :: proc(interval: Uint64, callback: NSTimerCallback, userdata: rawptr) -> TimerID ---
         RemoveTimer :: proc(id: TimerID) -> bool ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
     foreign lib {

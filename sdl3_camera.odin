@@ -23,9 +23,9 @@ CameraPosition :: enum c.int {
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_")
-    foreign {
+    foreign _ {
 
         GetNumCameraDrivers :: proc() -> c.int ---
         GetCameraDriver :: proc(index: c.int) -> cstring ---
@@ -43,7 +43,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         ReleaseCameraFrame :: proc(camera: ^Camera, frame: ^Surface) ---
         CloseCamera :: proc(camera: ^Camera) ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign lib {

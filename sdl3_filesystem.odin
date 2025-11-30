@@ -61,9 +61,9 @@ EnumerateDirectoryCallback :: #type proc "c" (userdata: rawptr, dirname, fname: 
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
-    foreign {
+    foreign _ {
 
         GetBasePath :: proc() -> cstring ---
         GetPrefPath :: proc(org, app: cstring) -> [^]c.char ---
@@ -77,7 +77,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         GlobDirectory :: proc(path: cstring, pattern: cstring, flags: GlobFlags, count: ^c.int) -> [^][^]c.char ---
         GetCurrentDirectory :: proc() -> [^]c.char ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
     foreign lib {

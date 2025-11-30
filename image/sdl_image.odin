@@ -8,9 +8,9 @@ SDL3_SHARED :: sdl.SDL3_SHARED
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "IMG_")
-    foreign {
+    foreign _ {
         Version :: proc() -> c.int ---
 
         /* Load an image from an sdl data source.
@@ -94,7 +94,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         LoadGIFAnimation_IO :: proc(src: ^sdl.IOStream) -> ^Animation ---
         LoadWEBPAnimation_IO :: proc(src: ^sdl.IOStream) -> ^Animation ---
     }
-    // odinfmt: enable
 } else {
     when ODIN_OS == .Windows {
         foreign import lib {"SDL3_image.dll" when SDL3_SHARED else "SDL3_image.lib"}

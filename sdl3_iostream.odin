@@ -49,9 +49,9 @@ PROP_IOSTREAM_DYNAMIC_CHUNKSIZE_NUMBER :: "SDL.iostream.dynamic.chunksize"
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_")
-    foreign {
+    foreign _ {
 
         @(require_results)
         IOFromFile :: proc(file: cstring, mode: cstring) -> ^IOStream ---
@@ -117,7 +117,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         WriteU64BE :: proc(dst: ^IOStream, value: Uint64) -> bool ---
         WriteS64BE :: proc(dst: ^IOStream, value: Sint64) -> bool ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign lib {

@@ -7,9 +7,9 @@ SpinLock :: distinct c.int
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_")
-    foreign {
+    foreign _ {
 
         @(require_results)
         TryLockSpinlock :: proc(lock: ^SpinLock) -> bool ---
@@ -20,7 +20,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         MemoryBarrierReleaseFunction :: proc() ---
         MemoryBarrierAcquireFunction :: proc() ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign lib {
@@ -47,9 +46,9 @@ AtomicU32 :: distinct Uint32
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
-    foreign {
+    foreign _ {
 
         CompareAndSwapAtomicInt :: proc(a: ^AtomicInt, oldval, newval: c.int) -> bool ---
         SetAtomicInt :: proc(a: ^AtomicInt, v: c.int) -> int ---
@@ -63,7 +62,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         SetAtomicPointer :: proc(a: ^rawptr, v: rawptr) -> rawptr ---
         GetAtomicPointer :: proc(a: ^rawptr) -> rawptr ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
     foreign lib {

@@ -42,9 +42,9 @@ JOYSTICK_AXIS_MIN :: -32768
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_")
-    foreign {
+    foreign _ {
 
         LockJoysticks :: proc() ---
         UnlockJoysticks :: proc() ---
@@ -62,7 +62,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         GetJoystickFromID :: proc(instance_id: JoystickID) -> ^Joystick ---
         GetJoystickFromPlayerIndex :: proc(player_index: c.int) -> ^Joystick ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign lib {
@@ -167,9 +166,9 @@ HAT_LEFTDOWN :: HAT_LEFT | HAT_DOWN
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_")
-    foreign {
+    foreign _ {
 
         AttachVirtualJoystick :: proc(#by_ptr desc: VirtualJoystickDesc) -> JoystickID ---
         DetachVirtualJoystick :: proc(instance_id: JoystickID) -> bool ---
@@ -215,7 +214,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         GetJoystickConnectionState :: proc(joystick: ^Joystick) -> JoystickConnectionState ---
         GetJoystickPowerInfo :: proc(joystick: ^Joystick, percent: c.int) -> PowerState ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign lib {

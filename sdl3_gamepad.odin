@@ -113,9 +113,9 @@ PROP_GAMEPAD_CAP_TRIGGER_RUMBLE_BOOLEAN :: PROP_JOYSTICK_CAP_TRIGGER_RUMBLE_BOOL
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_")
-    foreign {
+    foreign _ {
 
         AddGamepadMapping :: proc(mapping: cstring) -> c.int ---
         AddGamepadMappingsFromIO :: proc(src: ^IOStream, closeio: bool) -> c.int ---
@@ -191,7 +191,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         GetGamepadAppleSFSymbolsNameForButton :: proc(gamepad: ^Gamepad, button: GamepadButton) -> cstring ---
         GetGamepadAppleSFSymbolsNameForAxis :: proc(gamepad: ^Gamepad, axis: GamepadAxis) -> cstring ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign lib {

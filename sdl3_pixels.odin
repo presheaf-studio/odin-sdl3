@@ -578,9 +578,9 @@ PixelFormatDetails :: struct {
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_")
-    foreign {
+    foreign _ {
 
         GetPixelFormatName :: proc(format: PixelFormat) -> cstring ---
         GetMasksForPixelFormat :: proc(format: PixelFormat, bpp: ^c.int, Rmask, Gmask, Bmask, Amask: ^Uint32) -> bool ---
@@ -594,7 +594,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         GetRGB :: proc(pixel: Uint32, format: ^PixelFormatDetails, palette: ^Palette, r, g, b: ^Uint8) ---
         GetRGBA :: proc(pixel: Uint32, format: ^PixelFormatDetails, palette: ^Palette, r, g, b, a: ^Uint8) ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign lib {

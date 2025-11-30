@@ -6,9 +6,9 @@ main_func :: #type proc(argc: c.int, argv: [^]cstring)
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_")
-    foreign {
+    foreign _ {
 
         AppInit :: proc(appstate: ^rawptr, argc: c.int, argv: [^]cstring) -> AppResult ---
         AppIterate :: proc(appstate: rawptr) -> AppResult ---
@@ -21,7 +21,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         UnregisterApp :: proc() ---
         GDKSuspendComplete :: proc() ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign lib {
@@ -41,13 +40,12 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c")
-    foreign {
+    foreign _ {
 
         SDL_main :: proc(argc: c.int, argv: [^]cstring) -> c.int ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c")
     foreign lib {

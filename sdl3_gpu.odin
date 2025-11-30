@@ -807,9 +807,9 @@ PROP_GPU_TRANSFERBUFFER_CREATE_NAME_STRING :: "SDL.gpu.transferbuffer.create.nam
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
-    foreign {
+    foreign _ {
 
         GPUSupportsShaderFormats :: proc(format_flags: GPUShaderFormat, name: cstring) -> bool ---
         GPUSupportsProperties :: proc(props: PropertiesID) -> bool ---
@@ -904,7 +904,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         GPUTextureSupportsSampleCount :: proc(device: ^GPUDevice, format: GPUTextureFormat, sample_count: GPUSampleCount) -> bool ---
         CalculateGPUTextureFormatSize :: proc(format: GPUTextureFormat, width, height: Uint32, depth_or_layer_count: Uint32) -> Uint32 ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
     foreign lib {
@@ -1008,14 +1007,13 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 // GDK
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_")
-    foreign {
+    foreign _ {
 
         GDKSuspendGPU :: proc(device: ^GPUDevice) ---
         GDKResumeGPU :: proc(device: ^GPUDevice) ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign lib {

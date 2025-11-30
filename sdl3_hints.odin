@@ -251,14 +251,13 @@ HintCallback :: #type proc "c" (userdata: rawptr, name: cstring, oldValue, newVa
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
-    foreign {
+    foreign _ {
 
         GetHint :: proc(name: cstring) -> cstring ---
         GetHintBoolean :: proc(name: cstring, default_value: bool) -> bool ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
     foreign lib {
@@ -270,9 +269,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_")
-    foreign {
+    foreign _ {
 
         SetHintWithPriority :: proc(name: cstring, value: cstring, priority: HintPriority) -> bool ---
         SetHint :: proc(name: cstring, value: cstring) -> bool ---
@@ -281,7 +280,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         AddHintCallback :: proc(name: cstring, callback: HintCallback, userdata: rawptr) -> bool ---
         RemoveHintCallback :: proc(name: cstring, callback: HintCallback, userdata: rawptr) ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign lib {

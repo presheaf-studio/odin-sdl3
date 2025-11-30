@@ -331,9 +331,9 @@ WINDOW_SURFACE_VSYNC_ADAPTIVE :: -1
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_")
-    foreign {
+    foreign _ {
 
         GetNumVideoDrivers :: proc() -> c.int ---
         GetVideoDriver :: proc(index: c.int) -> cstring ---
@@ -418,7 +418,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         SetWindowFocusable :: proc(window: ^Window, focusable: bool) -> bool ---
         ShowWindowSystemMenu :: proc(window: ^Window, x, y: c.int) -> bool ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign lib {
@@ -525,9 +524,9 @@ HitTest :: #type proc "c" (win: ^Window, area: ^Point, data: rawptr) -> HitTestR
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_")
-    foreign {
+    foreign _ {
 
         SetWindowHitTest :: proc(window: ^Window, callback: HitTest, callback_data: rawptr) -> bool ---
         SetWindowShape :: proc(window: ^Window, shape: ^Surface) -> bool ---
@@ -537,7 +536,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         EnableScreenSaver :: proc() -> bool ---
         DisableScreenSaver :: proc() -> bool ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign lib {
@@ -554,9 +552,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_")
-    foreign {
+    foreign _ {
 
         GL_LoadLibrary :: proc(path: cstring) -> bool ---
         GL_GetProcAddress :: proc(procName: cstring) -> FunctionPointer ---
@@ -579,7 +577,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         GL_SwapWindow :: proc(window: ^Window) -> bool ---
         GL_DestroyContext :: proc(ctx: GLContext) -> bool ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign lib {

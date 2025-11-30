@@ -27,14 +27,13 @@ TLSDestructorCallback :: #type proc "c" (value: rawptr)
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_")
-    foreign {
+    foreign _ {
 
         CreateThreadRuntime :: proc(fn: ThreadFunction, name: cstring, data: rawptr, pfnBeginThread: FunctionPointer, pfnEndThread: FunctionPointer) -> ^Thread ---
         CreateThreadWithPropertiesRuntime :: proc(props: PropertiesID, pfnBeginThread: FunctionPointer, pfnEndThread: FunctionPointer) -> ^Thread ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign lib {
@@ -61,11 +60,9 @@ PROP_THREAD_CREATE_STACKSIZE_NUMBER :: "SDL.thread.create.stacksize"
 
 BeginThreadFunction :: proc "c" () -> FunctionPointer {
     when ODIN_OS == .Windows {
-            // odinfmt: disable
-        foreign {
+        foreign _ {
             _beginthreadex :: proc "c" (security: rawptr, stack_size: c.uint, start_address: proc "c" (_: rawptr), arglist: rawptr, initflag: c.uint, thraddr: ^c.uint) -> uintptr ---
         }
-        // odinfmt: enable
         return FunctionPointer(_beginthreadex)
     } else {
         return nil
@@ -74,11 +71,9 @@ BeginThreadFunction :: proc "c" () -> FunctionPointer {
 
 EndThreadFunction :: proc "c" () -> FunctionPointer {
     when ODIN_OS == .Windows {
-            // odinfmt: disable
-        foreign {
+        foreign _ {
             _endthreadex :: proc "c" (retval: c.uint) ---
         }
-        // odinfmt: enable
         return FunctionPointer(_endthreadex)
     } else {
         return nil
@@ -88,9 +83,8 @@ EndThreadFunction :: proc "c" () -> FunctionPointer {
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
 
-    // odinfmt: disable
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
-    foreign {
+    foreign _ {
 
         GetThreadName :: proc(thread: ^Thread) -> cstring ---
         GetCurrentThreadID :: proc() -> ThreadID ---
@@ -99,7 +93,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         GetTLS :: proc(id: ^TLSID) -> rawptr ---
         SetTLS :: proc(id: ^TLSID, value: rawptr, destructor: TLSDestructorCallback) -> bool ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
     foreign lib {
@@ -115,16 +108,15 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_")
-    foreign {
+    foreign _ {
 
         SetCurrentThreadPriority :: proc(priority: ThreadPriority) -> bool ---
         WaitThread :: proc(thread: ^Thread, status: ^c.int) ---
         DetachThread :: proc(thread: ^Thread) ---
         CleanupTLS :: proc() ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign lib {

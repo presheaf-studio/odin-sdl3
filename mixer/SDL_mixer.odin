@@ -122,9 +122,9 @@ SDL3_SHARED :: sdl.SDL3_SHARED
 when sdl.SDL3_MIXER {
     when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-            // odinfmt: disable
+
         @(default_calling_convention = "c", link_prefix = "MIX_")
-        foreign {
+        foreign _ {
             /**
 	* Get the version of sdl_mixer that is linked against your program.
 	*
@@ -2587,7 +2587,6 @@ when sdl.SDL3_MIXER {
 	*/
             DecodeAudio :: proc(audiodecoder: ^AudioDecoder, buffer: rawptr, buflen: i32, spec: ^sdl.AudioSpec) -> i32 ---
         }
-        // odinfmt: enable
     } else {
         when ODIN_OS == .Windows {
             foreign import lib {"SDL3_mixer.dll" when SDL3_SHARED else "SDL3_mixer.lib"}

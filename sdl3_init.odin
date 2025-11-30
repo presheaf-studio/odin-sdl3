@@ -46,9 +46,9 @@ PROP_APP_METADATA_TYPE_STRING :: "SDL.app.metadata.type"
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
-    foreign {
+    foreign _ {
 
         Init :: proc(flags: InitFlags) -> bool ---
         InitSubSystem :: proc(flags: InitFlags) -> bool ---
@@ -61,7 +61,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         SetAppMetadataProperty :: proc(name: cstring, value: cstring) -> bool ---
         GetAppMetadataProperty :: proc(name: cstring) -> cstring ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
     foreign lib {

@@ -28,9 +28,9 @@ TrayCallback :: #type proc "c" (userdata: rawptr, entry: ^TrayEntry)
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
-    foreign {
+    foreign _ {
 
         CreateTray :: proc(icon: ^Surface, tooltip: cstring) -> ^Tray ---
         SetTrayIcon :: proc(tray: ^Tray, icon: ^Surface) ---
@@ -56,7 +56,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         GetTrayMenuParentTray :: proc(menu: ^TrayMenu) -> ^Tray ---
         UpdateTrays :: proc() ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
     foreign lib {

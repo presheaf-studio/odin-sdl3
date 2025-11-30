@@ -55,9 +55,9 @@ Storage :: struct {}
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
-    foreign {
+    foreign _ {
 
         OpenTitleStorage :: proc(override: cstring, props: PropertiesID) -> ^Storage ---
         OpenUserStorage :: proc(org, app: cstring, props: PropertiesID) -> ^Storage ---
@@ -71,7 +71,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         GetStorageSpaceRemaining :: proc(storage: ^Storage) -> Uint64 ---
         GlobStorageDirectory :: proc(storage: ^Storage, path: cstring, pattern: cstring, flags: GlobFlags, count: ^c.int) -> [^][^]c.char ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_", require_results)
     foreign lib {
@@ -92,9 +91,9 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
 when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
-    // odinfmt: disable
+
     @(default_calling_convention = "c", link_prefix = "SDL_")
-    foreign {
+    foreign _ {
 
         ReadStorageFile :: proc(storage: ^Storage, path: cstring, destination: rawptr, length: Uint64) -> bool ---
         WriteStorageFile :: proc(storage: ^Storage, path: cstring, source: rawptr, length: Uint64) -> bool ---
@@ -105,7 +104,6 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         CopyStorageFile :: proc(storage: ^Storage, oldpath, newpath: cstring) -> bool ---
         GetStoragePathInfo :: proc(storage: ^Storage, path: cstring, info: ^PathInfo) -> bool ---
     }
-    // odinfmt: enable
 } else {
     @(default_calling_convention = "c", link_prefix = "SDL_")
     foreign lib {
