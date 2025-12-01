@@ -7,17 +7,17 @@ NS_PER_MS :: 1000000
 NS_PER_US :: 1000
 
 @(require_results)
-SECONDS_TO_NS :: #force_inline proc "c" (S: Uint64) -> Uint64 {return S * NS_PER_SECOND}
+SECONDS_TO_NS :: #force_inline proc "c" (S: Uint64) -> Uint64 { return S * NS_PER_SECOND }
 @(require_results)
-NS_TO_SECONDS :: #force_inline proc "c" (NS: Uint64) -> Uint64 {return NS / NS_PER_SECOND}
+NS_TO_SECONDS :: #force_inline proc "c" (NS: Uint64) -> Uint64 { return NS / NS_PER_SECOND }
 @(require_results)
-MS_TO_NS :: #force_inline proc "c" (MS: Uint64) -> Uint64 {return MS * NS_PER_MS}
+MS_TO_NS :: #force_inline proc "c" (MS: Uint64) -> Uint64 { return MS * NS_PER_MS }
 @(require_results)
-NS_TO_MS :: #force_inline proc "c" (NS: Uint64) -> Uint64 {return NS / NS_PER_MS}
+NS_TO_MS :: #force_inline proc "c" (NS: Uint64) -> Uint64 { return NS / NS_PER_MS }
 @(require_results)
-US_TO_NS :: #force_inline proc "c" (US: Uint64) -> Uint64 {return US * NS_PER_US}
+US_TO_NS :: #force_inline proc "c" (US: Uint64) -> Uint64 { return US * NS_PER_US }
 @(require_results)
-NS_TO_US :: #force_inline proc "c" (NS: Uint64) -> Uint64 {return NS / NS_PER_US}
+NS_TO_US :: #force_inline proc "c" (NS: Uint64) -> Uint64 { return NS / NS_PER_US }
 
 TimerID :: distinct Uint32
 

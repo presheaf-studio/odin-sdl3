@@ -89,15 +89,15 @@ DEFINE_PIXELFORMAT :: #force_inline proc "c" (
 }
 
 @(require_results)
-PIXELFLAG :: proc "c" (format: PixelFormat) -> Uint32 {return (Uint32(format) >> 28) & 0x0F}
+PIXELFLAG :: proc "c" (format: PixelFormat) -> Uint32 { return (Uint32(format) >> 28) & 0x0F }
 @(require_results)
-PIXELTYPE :: proc "c" (format: PixelFormat) -> PixelType {return PixelType((Uint32(format) >> 24) & 0x0F)}
+PIXELTYPE :: proc "c" (format: PixelFormat) -> PixelType { return PixelType((Uint32(format) >> 24) & 0x0F) }
 @(require_results)
-PIXELORDER :: proc "c" (format: PixelFormat) -> PackedOrder {return PackedOrder((Uint32(format) >> 20) & 0x0F)}
+PIXELORDER :: proc "c" (format: PixelFormat) -> PackedOrder { return PackedOrder((Uint32(format) >> 20) & 0x0F) }
 @(require_results)
-PIXELLAYOUT :: proc "c" (format: PixelFormat) -> PackedLayout {return PackedLayout((Uint32(format) >> 16) & 0x0F)}
+PIXELLAYOUT :: proc "c" (format: PixelFormat) -> PackedLayout { return PackedLayout((Uint32(format) >> 16) & 0x0F) }
 @(require_results)
-PIXELARRAYORDER :: proc "c" (format: PixelFormat) -> ArrayOrder {return ArrayOrder((Uint32(format) >> 20) & 0x0F)}
+PIXELARRAYORDER :: proc "c" (format: PixelFormat) -> ArrayOrder { return ArrayOrder((Uint32(format) >> 20) & 0x0F) }
 
 
 @(require_results)

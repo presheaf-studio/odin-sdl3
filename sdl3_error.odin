@@ -30,5 +30,5 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
     }
 }
 
-Unsupported :: proc "c" () -> bool {return SetError("That operation is not supported")}
-InvalidParamError :: proc "c" (param: cstring) -> bool {return SetError("Parameter '%s' is invalid", param)}
+Unsupported :: proc "c" () -> bool { return SetError("That operation is not supported") }
+InvalidParamError :: proc "c" (param: cstring) -> bool { return SetError("Parameter '%s' is invalid", param) }

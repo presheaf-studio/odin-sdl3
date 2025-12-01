@@ -1,8 +1,6 @@
 #+build darwin,linux
 package sdl3
 
-import "core:c"
-
 // UNIX
 
 X11EventHook :: #type proc "c" (

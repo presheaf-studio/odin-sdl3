@@ -1,7 +1,7 @@
 #+build darwin
 package sdl3
 
-import "core:c"
+@(require) import "core:c"
 
 // iOS
 
