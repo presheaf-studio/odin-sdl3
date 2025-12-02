@@ -25,7 +25,7 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
 
     when ODIN_OS == .Windows {
         @(export)
-        foreign import lib {"SDL3.dll" when SDL3_SHARED else "SDL3.lib"}
+        foreign import lib {"SDL3.lib" when SDL3_SHARED else "SDL3_static.lib"}
     } else when ODIN_OS == .Darwin {
         when !SDL3_SHARED {
             @(require) foreign import "system:System"
@@ -67,3 +67,4 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
         }
     }
 }
+

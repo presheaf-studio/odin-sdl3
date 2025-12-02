@@ -2589,7 +2589,7 @@ when sdl.SDL3_MIXER {
         }
     } else {
         when ODIN_OS == .Windows {
-            foreign import lib {"SDL3_mixer.dll" when SDL3_SHARED else "SDL3_mixer.lib"}
+            foreign import lib {"SDL3_mixer.lib" when SDL3_SHARED else "SDL3_mixer_static.lib"}
         } else when ODIN_OS == .Darwin {
             when !SDL3_SHARED {
                 foreign import lib "SDL3_mixer.darwin.a"
@@ -5290,3 +5290,4 @@ when sdl.SDL3_MIXER {
     AudioDecoder :: struct {}
 
 }
+

@@ -96,7 +96,7 @@ when ODIN_ARCH == .wasm32 || ODIN_ARCH == .wasm64p32 {
     }
 } else {
     when ODIN_OS == .Windows {
-        foreign import lib {"SDL3_image.dll" when SDL3_SHARED else "SDL3_image.lib"}
+        foreign import lib {"SDL3_image.lib" when SDL3_SHARED else "SDL3_image_static.lib"}
     } else when ODIN_OS == .Darwin {
         when !SDL3_SHARED {
             foreign import lib "SDL3_image.darwin.a"
@@ -208,3 +208,4 @@ Animation :: struct {
     frames: [^]^sdl.Surface,
     delays: [^]c.int,
 }
+
